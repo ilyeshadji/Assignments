@@ -60,8 +60,6 @@ public class DatabaseInitializationDao {
 
 		}
 
-		System.out.println(response);
-
 		return result;
 	}
 }
