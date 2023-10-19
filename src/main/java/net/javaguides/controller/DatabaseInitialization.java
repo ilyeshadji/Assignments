@@ -23,7 +23,6 @@ public class DatabaseInitialization extends HttpServlet {
 	 */
 	public DatabaseInitialization() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

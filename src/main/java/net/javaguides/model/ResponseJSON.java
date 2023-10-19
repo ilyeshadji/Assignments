@@ -16,8 +16,12 @@ public class ResponseJSON {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonData = objectMapper.writeValueAsString(data);
 
-		// Write the JSON data to the response's output stream
-		PrintWriter out = response.getWriter();
-		out.print(jsonData);
+		if (jsonData.equals("null")) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().write("Ressource not found");
+		} else {
+			PrintWriter out = response.getWriter();
+			out.print(jsonData);
+		}
 	}
 }
