@@ -34,7 +34,7 @@ public class CartServlet extends HttpServlet {
 		ArrayList<Product> cart = new ArrayList<>();
 
 		try {
-			cart = cartDao.getCart(response, user_id);
+			cart = cartDao.getCart(user_id);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");
@@ -67,7 +67,7 @@ public class CartServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			result = cartDao.addProductToCart(response, user_id, product_id, quantity);
+			result = cartDao.addProductToCart(user_id, product_id, quantity);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");
@@ -99,7 +99,7 @@ public class CartServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			result = cartDao.deleteProductFromCart(response, user_id, product_id);
+			result = cartDao.deleteProductFromCart(user_id, product_id);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");

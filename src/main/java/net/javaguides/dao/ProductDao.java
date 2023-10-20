@@ -1,6 +1,5 @@
 package net.javaguides.dao;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.javaguides.model.Product;
 
@@ -29,8 +27,8 @@ public class ProductDao {
 		conn = DriverManager.getConnection(url, username, password);
 	}
 
-	public int createProduct(HttpServletResponse response, String name, String description, String vendor, String url,
-			String sku, double price) throws ClassNotFoundException, SQLException, IOException {
+	public int createProduct(String name, String description, String vendor, String url, String sku, double price)
+			throws ClassNotFoundException, SQLException {
 		String CREATE_PRODUCT = "INSERT INTO product (name, description, vendor, url, sku, price)\n" + "VALUES ('"
 				+ name + "', '" + description + "', '" + vendor + "', '" + url + "', '" + sku + "', " + price + ");";
 
@@ -47,16 +45,12 @@ public class ProductDao {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
-
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Could not create product.");
 		}
 
 		return result;
 	}
 
-	public int updateProduct(HttpServletResponse response, HttpServletRequest request, String sku)
-			throws ClassNotFoundException, SQLException, IOException {
+	public int updateProduct(HttpServletRequest request, String sku) throws ClassNotFoundException, SQLException {
 		String CREATE_PRODUCT = "UPDATE product \nSET ";
 
 		Enumeration<String> updates = request.getParameterNames();
@@ -88,16 +82,12 @@ public class ProductDao {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
-
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Could not update product.");
 		}
 
 		return result;
 	}
 
-	public Product getProduct(HttpServletResponse response, String sku)
-			throws ClassNotFoundException, SQLException, IOException {
+	public Product getProduct(String sku) throws ClassNotFoundException, SQLException {
 		String GET_PRODUCT = "SELECT * FROM product \nWHERE `sku` = '" + sku + "';";
 
 		Product product = null;
@@ -122,16 +112,12 @@ public class ProductDao {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
-
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.getWriter().write("Could not find product.");
 		}
 
 		return product;
 	}
 
-	public Product getProductBySlug(HttpServletResponse response, String slug)
-			throws ClassNotFoundException, SQLException, IOException {
+	public Product getProductBySlug(String slug) throws ClassNotFoundException, SQLException {
 		String GET_PRODUCT = "SELECT * FROM product \nWHERE `slug` = '" + slug + "';";
 
 		Product product = null;
@@ -156,16 +142,12 @@ public class ProductDao {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
-
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.getWriter().write("Could not find product.");
 		}
 
 		return product;
 	}
 
-	public ArrayList<Product> getProductList(HttpServletResponse response)
-			throws ClassNotFoundException, SQLException, IOException {
+	public ArrayList<Product> getProductList() throws ClassNotFoundException, SQLException {
 		String GET_PRODUCT = "SELECT * FROM product;";
 
 		ArrayList<Product> productList = new ArrayList<>();
@@ -193,9 +175,6 @@ public class ProductDao {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
-
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.getWriter().write("Could not find product list.");
 		}
 
 		return productList;

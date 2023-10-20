@@ -54,7 +54,7 @@ public class ProductServlet extends HttpServlet {
 
 			if (productList == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter().write("Could not find the products");
+				response.getWriter().write("Could not find the products.");
 
 				return;
 			}
@@ -68,7 +68,7 @@ public class ProductServlet extends HttpServlet {
 
 			if (product == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter().write("Could not find the products");
+				response.getWriter().write("Could not find the product.");
 
 				return;
 			}
@@ -82,7 +82,7 @@ public class ProductServlet extends HttpServlet {
 
 			if (product == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter().write("Could not find the products");
+				response.getWriter().write("Could not find the product.");
 
 				return;
 			}
@@ -148,7 +148,7 @@ public class ProductServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			productDao.createProduct(response, name, description, vendor, url, sku, price);
+			productDao.createProduct(name, description, vendor, url, sku, price);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -173,7 +173,7 @@ public class ProductServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			result = productDao.updateProduct(response, request, sku);
+			result = productDao.updateProduct(request, sku);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -198,7 +198,7 @@ public class ProductServlet extends HttpServlet {
 		Product product = null;
 
 		try {
-			product = productDao.getProduct(response, sku);
+			product = productDao.getProduct(sku);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -216,7 +216,7 @@ public class ProductServlet extends HttpServlet {
 		Product product = null;
 
 		try {
-			productDao.getProductBySlug(response, slug);
+			productDao.getProductBySlug(slug);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -234,7 +234,7 @@ public class ProductServlet extends HttpServlet {
 		ArrayList<Product> productList = null;
 
 		try {
-			productList = productDao.getProductList(response);
+			productList = productDao.getProductList();
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");

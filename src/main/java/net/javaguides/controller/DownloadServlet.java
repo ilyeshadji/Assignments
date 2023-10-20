@@ -40,7 +40,7 @@ public class DownloadServlet extends HttpServlet {
 			String filePath = "products-list.txt";
 
 			try {
-				productList = productDao.getProductList(response);
+				productList = productDao.getProductList();
 
 				DownloadServlet.createProductsFile(response, productList, filePath);
 
@@ -104,11 +104,11 @@ public class DownloadServlet extends HttpServlet {
 				}
 			} catch (IOException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.getWriter().write("Something went wrong with the download of the file.");
+				response.getWriter().write("Something went wrong with the creation of the file.");
 			}
 		} else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.getWriter().write("File was not found.");
+			response.getWriter().write("Something went wrong with the download of the file.");
 		}
 	}
 
