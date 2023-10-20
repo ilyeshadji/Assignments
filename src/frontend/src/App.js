@@ -22,6 +22,7 @@ function App() {
 
     return (
         <BrowserRouter>
+
             <NavBar/>
             <GlobalStyles/>
             <ToastContainer/>
@@ -43,4 +44,8 @@ export default App;
 const RoutesWrapper = styled(Routes)`
   display: flex;
   flex: 1;
+`;
+
+const PageContainer = styled.div`
+  display: flex;
 `;

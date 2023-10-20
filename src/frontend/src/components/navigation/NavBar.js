@@ -4,22 +4,18 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import {useScrollInfo} from '../../hooks/useScrollInfo';
 import Scrolling from '../../enum/Scrolling';
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserRole} from "../../store/selectors";
+import {authUserSet} from "../../store/user/authUserSlice";
 
 const NavBar = ({showShadow}) => {
     const navigate = useNavigate();
-    const [showCart, setShowCart] = useState(false);
+    const dispatch = useDispatch();
+    const role = useSelector(selectUserRole);
 
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    const isCustomer = user.role === 'customer';
-
-    useEffect(() => {
-        if (isCustomer) {
-            setShowCart(true)
-        } else {
-            setShowCart(false)
-        }
-    }, [user]);
+    const isCustomer = useMemo(() => {
+        return role === 'customer'
+    }, [role]);
 
     const [direction, y] = useScrollInfo();
 
@@ -35,16 +31,12 @@ const NavBar = ({showShadow}) => {
         });
     }
 
-    function changeRole() {
-        if (user.role === 'customer') {
-            localStorage.setItem("user", JSON.stringify({role: 'staff'}))
-            setShowCart(false);
-        }
-        if (user.role === 'staff') {
-            localStorage.setItem("user", JSON.stringify({role: 'customer'}))
-            setShowCart(true);
-        }
+    function authenticationAction() {
+        const updatedRole = role === 'customer' ? 'staff' : 'customer';
+        dispatch(authUserSet(updatedRole));
     }
+
+    console.log(role);
 
     return (
         <NavContainer out={hideNavBar}>
@@ -59,21 +51,23 @@ const NavBar = ({showShadow}) => {
                             <StyledLink>Products</StyledLink>
                         </ListItems>
 
-                        {!showCart && <ListItems onClick={() => redirect('/product/create')}>
+                        {!isCustomer && <ListItems onClick={() => redirect('/product/create')}>
                             <StyledLink>Create product</StyledLink>
                         </ListItems>}
 
                     </LeftSection>
 
                     <RightSection>
-                        {showCart && <ListItems onClick={() => redirect('/')}>
-                            <StyledLink>Cart</StyledLink>
+                        {isCustomer && (
+                            <ListItems onClick={() => redirect('/cart')}>
+                                <StyledLink>Cart</StyledLink>
+                            </ListItems>
+                        )}
+
+
+                        {!isCustomer && <ListItems onClick={authenticationAction}>
+                            <StyledLink>LOGOUT</StyledLink>
                         </ListItems>}
-
-
-                        <ListItems onClick={changeRole}>
-                            <StyledLink>{user.role}</StyledLink>
-                        </ListItems>
                     </RightSection>
                 </>
             </ShadowContainer>
