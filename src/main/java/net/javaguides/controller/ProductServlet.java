@@ -52,19 +52,43 @@ public class ProductServlet extends HttpServlet {
 			// Get products list
 			productList = ProductServlet.getProductList(response);
 
+			if (productList == null) {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				response.getWriter().write("Could not find the products");
+
+				return;
+			}
+
 			ResponseJSON.sendResponse(response, productList);
+
 		} else if (skuIdPattern.matcher(endpoint).matches()) {
 
 			// Get product by sku id
 			product = ProductServlet.getProduct(response, endpoint);
 
+			if (product == null) {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				response.getWriter().write("Could not find the products");
+
+				return;
+			}
+
 			ResponseJSON.sendResponse(response, product);
+
 		} else if (slugPattern.matcher(endpoint).matches()) {
 
 			// Get product by slug
 			product = ProductServlet.getProductBySlug(response, endpoint);
 
+			if (product == null) {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				response.getWriter().write("Could not find the products");
+
+				return;
+			}
+
 			ResponseJSON.sendResponse(response, product);
+
 		} else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Route not found");
@@ -121,8 +145,10 @@ public class ProductServlet extends HttpServlet {
 
 		ProductDao productDao = new ProductDao();
 
+		int result = 0;
+
 		try {
-			productDao.createProduct(name, description, vendor, url, sku, price);
+			productDao.createProduct(response, name, description, vendor, url, sku, price);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -130,13 +156,24 @@ public class ProductServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 			response.getWriter().write("Invalid query");
 		}
+
+		if (result != 1) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Could not add product.");
+
+			return;
+		}
+
+		ResponseJSON.sendResponse(response, "success");
 	}
 
 	static void updateProduct(HttpServletRequest request, HttpServletResponse response, String sku) throws IOException {
 		ProductDao productDao = new ProductDao();
 
+		int result = 0;
+
 		try {
-			productDao.updateProduct(request, sku);
+			result = productDao.updateProduct(response, request, sku);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -144,6 +181,15 @@ public class ProductServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 			response.getWriter().write("Invalid query");
 		}
+
+		if (result != 1) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Could not update product.");
+
+			return;
+		}
+
+		ResponseJSON.sendResponse(response, "success");
 	}
 
 	static Product getProduct(HttpServletResponse response, String sku) throws IOException {
@@ -152,7 +198,7 @@ public class ProductServlet extends HttpServlet {
 		Product product = null;
 
 		try {
-			product = productDao.getProduct(sku);
+			product = productDao.getProduct(response, sku);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -170,7 +216,7 @@ public class ProductServlet extends HttpServlet {
 		Product product = null;
 
 		try {
-			productDao.getProductBySlug(slug);
+			productDao.getProductBySlug(response, slug);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -188,7 +234,7 @@ public class ProductServlet extends HttpServlet {
 		ArrayList<Product> productList = null;
 
 		try {
-			productList = productDao.getProductList();
+			productList = productDao.getProductList(response);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");

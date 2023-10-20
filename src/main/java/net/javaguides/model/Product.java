@@ -7,14 +7,25 @@ public class Product {
 	private String url;
 	private String sku;
 	private double price;
+	private int quantity;
 
-	public Product(String name, String description, String vendor, String url, String sku, double price) {
+	public Product(String sku, String name, String description, String vendor, String url, double price) {
 		this.name = name;
 		this.description = description;
 		this.vendor = vendor;
 		this.url = url;
 		this.sku = sku;
 		this.price = price;
+	}
+
+	public Product(String sku, String name, String description, String vendor, String url, double price, int quantity) {
+		this.name = name;
+		this.description = description;
+		this.vendor = vendor;
+		this.url = url;
+		this.sku = sku;
+		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public String getName() {
@@ -63,5 +74,13 @@ public class Product {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }
