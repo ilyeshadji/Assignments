@@ -70,16 +70,9 @@ public class CartDao {
 
 		createDatabaseConnection();
 
-		try {
-			Statement statement = conn.createStatement();
-			statement.executeUpdate(ADD_PRODUCT_TO_CART);
-			result = 1;
-
-		} catch (SQLException e) {
-			System.out.println("SQLException: " + e.getMessage());
-			System.out.println("SQLState: " + e.getSQLState());
-			System.out.println("VendorError: " + e.getErrorCode());
-		}
+		Statement statement = conn.createStatement();
+		statement.executeUpdate(ADD_PRODUCT_TO_CART);
+		result = 1;
 
 		return result;
 	}
