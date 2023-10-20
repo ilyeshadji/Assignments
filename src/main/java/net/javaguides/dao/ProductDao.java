@@ -36,16 +36,9 @@ public class ProductDao {
 
 		createDatabaseConnection();
 
-		try {
-			Statement statement = conn.createStatement();
-			statement.executeUpdate(CREATE_PRODUCT);
-			result = 1;
-
-		} catch (SQLException e) {
-			System.out.println("SQLException: " + e.getMessage());
-			System.out.println("SQLState: " + e.getSQLState());
-			System.out.println("VendorError: " + e.getErrorCode());
-		}
+		Statement statement = conn.createStatement();
+		statement.executeUpdate(CREATE_PRODUCT);
+		result = 1;
 
 		return result;
 	}
@@ -69,15 +62,13 @@ public class ProductDao {
 
 		CREATE_PRODUCT = CREATE_PRODUCT.substring(0, CREATE_PRODUCT.length() - 2) + "\nWHERE (`sku` = '" + sku + "');";
 
-		int result = 0;
-
 		createDatabaseConnection();
+
+		int result = 0;
 
 		try {
 			Statement statement = conn.createStatement();
-			statement.executeUpdate(CREATE_PRODUCT);
-			result = 1;
-
+			result = statement.executeUpdate(CREATE_PRODUCT);
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());

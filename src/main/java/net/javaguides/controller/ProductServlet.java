@@ -146,6 +146,7 @@ public class ProductServlet extends HttpServlet {
 		ProductDao productDao = new ProductDao();
 
 		int result = 0;
+		String message = "";
 
 		try {
 			productDao.createProduct(name, description, vendor, url, sku, price);
@@ -153,13 +154,14 @@ public class ProductServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
 		} catch (SQLException e) {
-			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
-			response.getWriter().write("Invalid query");
+			if (e.getMessage().contains("Duplicate entry")) {
+				message = "This item has an id that already exists.";
+			}
 		}
 
 		if (result != 1) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Could not add product.");
+			response.getWriter().write("Could not add product. " + message);
 
 			return;
 		}
@@ -184,7 +186,7 @@ public class ProductServlet extends HttpServlet {
 
 		if (result != 1) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Could not update product.");
+			response.getWriter().write("Could not update product. Please make sure that you entered a valid sku id.");
 
 			return;
 		}

@@ -45,7 +45,7 @@ public class HeaderCheckFilter implements Filter {
 			if (customerAccess.equals(headerValue.toLowerCase())) {
 				if (endpoint.contains("download") || endpoint.contains("product/create")
 						|| (endpoint.contains("product") && request.getMethod().toLowerCase().equals("put"))) {
-					servletResponse.getWriter().write("Unauthorized");
+					servletResponse.getWriter().write("Unauthorized. Only staff members have access to this feature.");
 					((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
 					return;
@@ -59,7 +59,7 @@ public class HeaderCheckFilter implements Filter {
 			// *********************************
 			if (staffAccess.equals(headerValue.toLowerCase())) {
 				if (endpoint.contains("cart")) {
-					servletResponse.getWriter().write("Unauthorized");
+					servletResponse.getWriter().write("Unauthorized. Only customers have access to this feature.");
 					((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
 					return;
