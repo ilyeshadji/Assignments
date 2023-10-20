@@ -24,22 +24,43 @@ public class DatabaseInitializationDao {
 	}
 
 	public int initializeDatabase() throws ClassNotFoundException, SQLException {
-		String FETCH_DATABASE = "SELECT * FROM product;";
+		String FETCH_PRODUCTS = "SELECT * FROM product;";
+		String FETCH_CARTS = "SELECT * FROM cart;";
+		String FETCH_USERS = "SELECT * FROM user";
 
 		String CREATE_TABLE_PRODUCT = "CREATE TABLE `Assignment1`.`Product` (\n" + "  `name` VARCHAR(33) NULL,\n"
 				+ "  `description` VARCHAR(45) NULL,\n" + "  `vendor` VARCHAR(45) NULL,\n"
 				+ "  `url` VARCHAR(45) NULL,\n" + "  `sku` VARCHAR(45) NOT NULL,\n" + "  `price` DECIMAL(10,2) NULL,\n"
 				+ "  PRIMARY KEY (`sku`));";
 
+		String CREATE_TABLE_USER = "CREATE TABLE `Assignment1`.`User` (\n" + "  `user_id` INT AUTO_INCREMENT,\n"
+				+ "  `role` VARCHAR(10) NOT NULL,\n" + "  PRIMARY KEY (`user_id`));";
+
+		String CREATE_TABLE_CART = "CREATE TABLE `Assignment1`.`Cart` (" + "`user_id` INT NOT NULL,\n"
+				+ "`product_id` VARCHAR(45) NOT NULL, \n" + "`quantity` INT NOT NULL,"
+				+ "PRIMARY KEY (user_id, product_id)," + "FOREIGN KEY (user_id) REFERENCES User(user_id),"
+				+ "FOREIGN KEY (product_id) REFERENCES Product(sku)" + ");";
+
 		int result = 0;
 
 		createDatabaseConnection();
+
+		this.tableInitialization(FETCH_PRODUCTS, CREATE_TABLE_PRODUCT);
+		this.tableInitialization(FETCH_USERS, CREATE_TABLE_USER);
+		result = this.tableInitialization(FETCH_CARTS, CREATE_TABLE_CART);
+
+		return result;
+	}
+
+	public int tableInitialization(String fetch, String create) {
+		System.out.println(fetch);
+		int result = 0;
 
 		ResultSet response = null;
 
 		try {
 			Statement statement = conn.createStatement();
-			response = statement.executeQuery(FETCH_DATABASE);
+			response = statement.executeQuery(fetch);
 
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -50,7 +71,7 @@ public class DatabaseInitializationDao {
 		if (response == null) {
 			try {
 				Statement productStatement = conn.createStatement();
-				result = productStatement.executeUpdate(CREATE_TABLE_PRODUCT);
+				result = productStatement.executeUpdate(create);
 
 			} catch (SQLException e) {
 				System.out.println("SQLException: " + e.getMessage());
@@ -61,5 +82,6 @@ public class DatabaseInitializationDao {
 		}
 
 		return result;
+
 	}
 }
