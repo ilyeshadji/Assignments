@@ -42,6 +42,11 @@ public class DownloadServlet extends HttpServlet {
 			try {
 				productList = productDao.getProductList();
 
+				if (productList.size() < 1) {
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					response.getWriter().write("Could not find items in your cart");
+				}
+
 				DownloadServlet.createProductsFile(response, productList, filePath);
 
 				File productsList = new File(filePath);

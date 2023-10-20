@@ -43,7 +43,7 @@ public class CartServlet extends HttpServlet {
 			response.getWriter().write("Error in SQL query");
 		}
 
-		if (cart == null) {
+		if (cart.size() < 1) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Could not add item to the cart.");
 			return;

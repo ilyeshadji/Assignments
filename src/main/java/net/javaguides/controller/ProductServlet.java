@@ -52,7 +52,7 @@ public class ProductServlet extends HttpServlet {
 			// Get products list
 			productList = ProductServlet.getProductList(response);
 
-			if (productList == null) {
+			if (productList.size() < 1) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				response.getWriter().write("Could not find the products.");
 
