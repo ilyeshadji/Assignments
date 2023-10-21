@@ -44,6 +44,7 @@ const TextInput = (props) => {
                             onChange={props.onChange}
                             fontSize={props.fontSize}
                             line={props.line}
+                            style={props.inputStyle}
                         />
                     )}
                 </InputContainer>
@@ -69,6 +70,7 @@ const Input = styled.input.attrs((props) => ({
   outline: none;
   height: 100%;
   width: 100%;
+  ${(props) => (props.inputStyle ? props.inputStyle : '')};
 `;
 
 const TextInputView = styled.div`

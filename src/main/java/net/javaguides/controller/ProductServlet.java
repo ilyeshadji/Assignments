@@ -141,15 +141,17 @@ public class ProductServlet extends HttpServlet {
 		String vendor = request.getParameter("vendor");
 		String url = request.getParameter("url");
 		String sku = request.getParameter("sku");
-		Double price = Double.parseDouble(request.getParameter("price"));
+		String price = request.getParameter("price");
 
 		ProductDao productDao = new ProductDao();
 
 		int result = 0;
 		String message = "";
 
+		Double priceValue = Double.parseDouble(price);
+
 		try {
-			productDao.createProduct(name, description, vendor, url, sku, price);
+			result = productDao.createProduct(name, description, vendor, url, sku, priceValue);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
@@ -165,6 +167,8 @@ public class ProductServlet extends HttpServlet {
 
 			return;
 		}
+
+		System.out.println("yo");
 
 		ResponseJSON.sendResponse(response, "success");
 	}

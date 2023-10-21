@@ -44,7 +44,7 @@ public class ProductDao {
 	}
 
 	public int updateProduct(HttpServletRequest request, String sku) throws ClassNotFoundException, SQLException {
-		String CREATE_PRODUCT = "UPDATE product \nSET ";
+		String UPDATE_PRODUCT = "UPDATE product \nSET ";
 
 		Enumeration<String> updates = request.getParameterNames();
 
@@ -53,14 +53,14 @@ public class ProductDao {
 			String value = request.getParameter(paramName);
 
 			if (paramName.equals("price")) {
-				CREATE_PRODUCT += "`" + paramName + "` = " + value + ", ";
+				UPDATE_PRODUCT += "`" + paramName + "` = " + value + ", ";
 
 			}
 
-			CREATE_PRODUCT += "`" + paramName + "` = '" + value + "', ";
+			UPDATE_PRODUCT += "`" + paramName + "` = '" + value + "', ";
 		}
 
-		CREATE_PRODUCT = CREATE_PRODUCT.substring(0, CREATE_PRODUCT.length() - 2) + "\nWHERE (`sku` = '" + sku + "');";
+		UPDATE_PRODUCT = UPDATE_PRODUCT.substring(0, UPDATE_PRODUCT.length() - 2) + "\nWHERE (`sku` = '" + sku + "');";
 
 		createDatabaseConnection();
 
@@ -68,7 +68,7 @@ public class ProductDao {
 
 		try {
 			Statement statement = conn.createStatement();
-			result = statement.executeUpdate(CREATE_PRODUCT);
+			result = statement.executeUpdate(UPDATE_PRODUCT);
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());

@@ -5,15 +5,16 @@ import TextInput from "../components/UI/TextInput";
 import {useNavigate} from "react-router-dom";
 import Toaster from "../plugin/Toaster";
 import {productApi} from "../api";
+import {showBackendError} from "../utils/utils";
 
 function CreateProduct() {
     const navigate = useNavigate();
 
-    const [sku, setSku] = useState();
-    const [name, setName] = useState();
-    const [description, setDescription] = useState();
-    const [vendor, setVendor] = useState();
-    const [url, setUrl] = useState();
+    const [sku, setSku] = useState('');
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [vendor, setVendor] = useState('');
+    const [url, setUrl] = useState('');
     const [price, setPrice] = useState();
     const [productCreated, setProductCreated] = useState(false);
 
@@ -34,13 +35,13 @@ function CreateProduct() {
                 setProductCreated(true);
                 Toaster.success('Product created')
             } catch (e) {
-                // TODO: catch error
+                showBackendError(e)
             }
         }
     }
 
     return (
-        <PageContainer>
+        <PageContainer style={{justifyContent: 'center'}}>
             <FormContainer>
                 <FormTitle>Product attributes</FormTitle>
                 <TextInput
@@ -116,7 +117,7 @@ function CreateProduct() {
 
 export default CreateProduct;
 
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -129,7 +130,7 @@ const FormContainer = styled.div`
   padding: 20px;
 `;
 
-const FormTitle = styled.p`
+export const FormTitle = styled.p`
   font-size: 20px;
   font-weight: bold;
 

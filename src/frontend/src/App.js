@@ -17,7 +17,13 @@ function App() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        localStorage.setItem("user", JSON.stringify({role: 'customer'}));
+        localStorage.setItem("user", JSON.stringify('customer'));
+    }
+
+    if (user?.role === 'staff') {
+        console.log('yo');
+    } else {
+        console.log('yo2');
     }
 
     return (

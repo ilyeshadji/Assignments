@@ -89,7 +89,7 @@ public class CartDao {
 		try {
 			Statement statement = conn.createStatement();
 			result = statement.executeUpdate(DELETE_PRODUCT_FROM_CART);
-
+			result = 1;
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
