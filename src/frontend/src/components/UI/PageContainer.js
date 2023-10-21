@@ -9,8 +9,10 @@ export default PageContainer;
 
 const Page = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1;
   flex-direction: column;
-  
+
   height: 95vh;
 `;

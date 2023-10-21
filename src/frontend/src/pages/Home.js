@@ -16,7 +16,6 @@ function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const role = useSelector(selectUserRole);
     const [password, setPassword] = useState('');
 
@@ -80,6 +79,7 @@ const CardContainer = styled.div`
   justify-content: center;
   flex: 3;
   flex-direction: row;
+  width: 100%;
 `;
 
 const LoginContainer = styled.div`

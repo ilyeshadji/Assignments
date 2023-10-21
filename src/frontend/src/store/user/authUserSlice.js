@@ -7,6 +7,7 @@ export const authUserSlice = createSlice({
     },
     reducers: {
         authUserSet(state, action) {
+            localStorage.setItem("user", JSON.stringify(action.payload));
             state.role = action.payload;
         },
         authUserUnset(state) {
