@@ -10,6 +10,6 @@ export default {
         return api.delete(`/cart?${formatParamsForURL({user_id, product_id})}`);
     },
     async getCart(user_id) {
-        return api.get(`/cart?${formatParamsForURL(user_id)}`);
+        return api.get(`/cart?${formatParamsForURL({user_id})}`);
     }
 };

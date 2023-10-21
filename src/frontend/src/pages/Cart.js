@@ -37,7 +37,7 @@ function Cart() {
     return (
         <PageContainer>
             <ProductContainer>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 1}}>
+                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
                     {products?.map((product, index) => (
                         <Grid item xs={2} sm={4} md={4} key={index}>
                             <ProductItem>
@@ -91,6 +91,8 @@ const ProductItem = styled.div`
   border: 1px solid gray;
 
   padding: 20px;
+
+  min-width: 500px;
 `;
 
 const DeleteButtonContainer = styled.div`

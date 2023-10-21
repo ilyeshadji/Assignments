@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {downloadApi, productApi} from "../api";
+import {productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import PageContainer from "../components/UI/PageContainer";
-import {Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {AiOutlineDownload} from "react-icons/ai";
-import {saveAs} from 'file-saver';
 import {useSelector} from "react-redux";
 import {selectUserRole} from "../store/selectors";
 
@@ -58,7 +57,7 @@ function ProductList() {
                 link.href = url;
                 link.setAttribute(
                     'download',
-                    `FileName.txt`,
+                    `product-list.txt`,
                 );
 
                 // Append to html link element page
@@ -82,9 +81,9 @@ function ProductList() {
                     </DownloadButton>
                 </DownloadButtonContainer>
             )}
-            
+
             <ProductContainer>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 20}}>
+                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
                     {products?.map((product, index) => (
                         <Grid item xs={2} sm={4} md={4} key={index}>
                             <Product onClick={() => redirect(`/product/${product.sku}`, product)}>
@@ -93,8 +92,7 @@ function ProductList() {
                                 <Attribute>Vendor: {product.vendor}</Attribute>
                                 <Attribute>Url: {product.url}</Attribute>
                                 <Attribute>Price: {product.price}</Attribute>
-                            </Product>
-                        </Grid>
+                            </Product> </Grid>
                     ))}
                 </Grid>
             </ProductContainer>
@@ -105,6 +103,10 @@ function ProductList() {
 export default ProductList;
 
 const ProductContainer = styled.div`
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: row;
   padding: 30px;
 `
 
@@ -139,6 +141,8 @@ const DownloadButtonContainer = styled.div`
   align-items: center;
   flex: 1;
   width: 100%;
+
+  max-height: 100px;
 `;
 
 const DownloadButton = styled.div`

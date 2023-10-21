@@ -168,8 +168,6 @@ public class ProductServlet extends HttpServlet {
 			return;
 		}
 
-		System.out.println("yo");
-
 		ResponseJSON.sendResponse(response, "success");
 	}
 

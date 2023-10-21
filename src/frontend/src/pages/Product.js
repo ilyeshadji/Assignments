@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PageContainer from "../components/UI/PageContainer";
 import {FormContainer, FormTitle} from "./CreateProduct";
 import TextInput from "../components/UI/TextInput";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {cartApi, productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import Toaster from "../plugin/Toaster";
@@ -12,25 +12,25 @@ import {selectUserRole} from "../store/selectors";
 
 function Product() {
     const location = useLocation();
+    const params = useParams();
     const role = useSelector(selectUserRole);
 
-    const [sku, setSku] = useState(location.state.sku);
-    const [name, setName] = useState(location.state.name);
-    const [description, setDescription] = useState(location.state.description);
-    const [vendor, setVendor] = useState(location.state.vendor);
-    const [url, setUrl] = useState(location.state.url);
-    const [price, setPrice] = useState(location.state.price);
+    const [sku, setSku] = useState(location?.state?.sku || '');
+    const [name, setName] = useState(location?.state?.name || '');
+    const [description, setDescription] = useState(location?.state?.description || '');
+    const [vendor, setVendor] = useState(location?.state?.vendor || '');
+    const [url, setUrl] = useState(`http://localhost:3000/${location?.state?.sku}`);
+    const [price, setPrice] = useState(location?.state?.price || '');
 
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState(1);
 
     const isCustomer = useMemo(() => role === 'customer', [role]);
 
     useEffect(() => {
-        console.log(location.state)
-        if (location.state.sku === null) {
+        if (!name) {
             (async () => {
                 try {
-                    const response = await productApi.getProductList();
+                    const response = await productApi.getProductBySku(location?.state?.sku || params?.sku);
                     setSku(response.data.sku);
                     setName(response.data.name);
                     setDescription(response.data.description)
@@ -42,8 +42,7 @@ function Product() {
                 }
             })();
         }
-
-    }, []);
+    }, [location?.state?.sku, name, params?.sku])
 
     async function handleButton() {
         if (isCustomer) {

@@ -14,7 +14,7 @@ function CreateProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [vendor, setVendor] = useState('');
-    const [url, setUrl] = useState('');
+    const [url, setUrl] = useState('http://localhost:3000/');
     const [price, setPrice] = useState();
     const [productCreated, setProductCreated] = useState(false);
 
@@ -51,7 +51,10 @@ function CreateProduct() {
                     marginTop="20px"
                     marginBottom="15px"
                     fontSize={'15px'}
-                    onChange={(e) => setSku(e.target.value)}
+                    onChange={(e) => {
+                        setSku(e.target.value);
+                        setUrl(`http://localhost:3000/` + e.target.value);
+                    }}
                 />
 
                 <TextInput
@@ -91,7 +94,7 @@ function CreateProduct() {
                     marginTop="20px"
                     marginBottom="15px"
                     fontSize={'15px'}
-                    onChange={(e) => setUrl(e.target.value)}
+                    disabled
                 />
 
                 <TextInput

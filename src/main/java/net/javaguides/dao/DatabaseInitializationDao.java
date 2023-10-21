@@ -49,11 +49,18 @@ public class DatabaseInitializationDao {
 		this.tableInitialization(FETCH_USERS, CREATE_TABLE_USER);
 		result = this.tableInitialization(FETCH_CARTS, CREATE_TABLE_CART);
 
+		// TODO: to remove on future parts
+		// User initialization
+		String CREATE_USER = "INSERT INTO `User` (role) VALUES ('staff');";
+
+		Statement statement = conn.createStatement();
+		statement.executeUpdate(CREATE_USER);
+		result = 1;
+
 		return result;
 	}
 
 	public int tableInitialization(String fetch, String create) {
-		System.out.println(fetch);
 		int result = 0;
 
 		ResultSet response = null;
