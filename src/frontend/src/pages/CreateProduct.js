@@ -14,7 +14,7 @@ function CreateProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [vendor, setVendor] = useState('');
-    const [url, setUrl] = useState('http://localhost:3000/');
+    const [url, setUrl] = useState('http://localhost:8080/');
     const [price, setPrice] = useState();
     const [productCreated, setProductCreated] = useState(false);
 
@@ -53,7 +53,7 @@ function CreateProduct() {
                     fontSize={'15px'}
                     onChange={(e) => {
                         setSku(e.target.value);
-                        setUrl(`http://localhost:3000/` + e.target.value);
+                        setUrl(`http://localhost:8080/` + e.target.value);
                     }}
                 />
 

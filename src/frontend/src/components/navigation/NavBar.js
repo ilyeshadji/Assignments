@@ -43,7 +43,7 @@ const NavBar = ({showShadow}) => {
             <ShadowContainer showShadow={showShadow}>
                 <>
                     <LeftSection>
-                        <ListItems onClick={() => redirect('/')}>
+                        <ListItems onClick={() => redirect('/Assignment1/index.jsp')}>
                             <StyledLink>Home</StyledLink>
                         </ListItems>
 

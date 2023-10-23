@@ -19,7 +19,7 @@ function Product() {
     const [name, setName] = useState(location?.state?.name || '');
     const [description, setDescription] = useState(location?.state?.description || '');
     const [vendor, setVendor] = useState(location?.state?.vendor || '');
-    const [url, setUrl] = useState(`http://localhost:3000/${location?.state?.sku}`);
+    const [url, setUrl] = useState(`http://localhost:8080/${location?.state?.sku}`);
     const [price, setPrice] = useState(location?.state?.price || '');
 
     const [quantity, setQuantity] = useState(1);

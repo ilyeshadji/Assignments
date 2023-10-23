@@ -47,7 +47,7 @@ function App() {
             <ToastContainer/>
             <AccessRoute>
                 <RoutesWrapper>
-                    <Route exact path="/" element={<Home/>}/>
+                    <Route exact path="/Assignment1/index.jsp" element={<Home/>}/>
                     <Route exact path="/product/:sku" element={<Product/>}/>
                     <Route exact path="/products" element={<ProductList/>}/>
                     <Route exact path="/cart" element={<Cart/>}/>

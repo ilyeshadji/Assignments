@@ -28,46 +28,45 @@ public class HeaderCheckFilter implements Filter {
 
 			String headerValue = request.getHeader("Customer-Role");
 
-			if (headerValue == null) {
-				servletResponse.getWriter().write("Unauthorized");
-				((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			if (headerValue != null) {
+				String customerAccess = "customer";
+				String staffAccess = "staff";
+				String endpoint = HeaderCheckFilter.getEndpoint(request);
 
+				// *********************************
+				// Customer accesses
+				// *********************************
+				if (customerAccess.equals(headerValue.toLowerCase())) {
+					if (endpoint.contains("download") || endpoint.contains("product/create")
+							|| (endpoint.contains("product") && request.getMethod().toLowerCase().equals("put"))) {
+						servletResponse.getWriter()
+								.write("Unauthorized. Only staff members have access to this feature.");
+						((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+						return;
+					}
+
+					filterChain.doFilter(servletRequest, servletResponse);
+				}
+
+				// *********************************
+				// Staff accesses
+				// *********************************
+				if (staffAccess.equals(headerValue.toLowerCase())) {
+					if (endpoint.contains("cart")) {
+						servletResponse.getWriter().write("Unauthorized. Only customers have access to this feature.");
+						((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+						return;
+					}
+
+					filterChain.doFilter(servletRequest, servletResponse);
+
+				}
 				return;
 			}
+			filterChain.doFilter(servletRequest, servletResponse);
 
-			String customerAccess = "customer";
-			String staffAccess = "staff";
-			String endpoint = HeaderCheckFilter.getEndpoint(request);
-
-			// *********************************
-			// Customer accesses
-			// *********************************
-			if (customerAccess.equals(headerValue.toLowerCase())) {
-				if (endpoint.contains("download") || endpoint.contains("product/create")
-						|| (endpoint.contains("product") && request.getMethod().toLowerCase().equals("put"))) {
-					servletResponse.getWriter().write("Unauthorized. Only staff members have access to this feature.");
-					((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-					return;
-				}
-
-				filterChain.doFilter(servletRequest, servletResponse);
-			}
-
-			// *********************************
-			// Staff accesses
-			// *********************************
-			if (staffAccess.equals(headerValue.toLowerCase())) {
-				if (endpoint.contains("cart")) {
-					servletResponse.getWriter().write("Unauthorized. Only customers have access to this feature.");
-					((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-					return;
-				}
-
-				filterChain.doFilter(servletRequest, servletResponse);
-
-			}
 		}
 	}
 
