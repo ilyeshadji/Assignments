@@ -44,7 +44,7 @@ public class CartServlet extends HttpServlet {
 		}
 
 		if (cart.size() < 1) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Could not fetch the cart. Your cart might be empty.");
 			return;
 		}
