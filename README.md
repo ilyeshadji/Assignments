@@ -1,8 +1,19 @@
 # Assignment 1
 
+## Usage
+
+It is important to note that both the backend and frontend are considered to be separate applications. One can run without the other with no problem (except for the api requests that will always throw an error if the backend is not on). 
+
+Frontend - runs on port 3000
+
+Backend - runs on port 8080
+
+MySQL - runs on port 3306
+
+
 ## Installation
 
-### Frontend
+### Frontend (REACT)
 
 In your terminal, go inside the folder Frontend located in the src directory like in the example below
 
@@ -25,6 +36,19 @@ npm start
 ```
 
 OR See section below to run the web application with the backend (served by JSP)
+
+### Database (MySQL)
+
+If you don't have this already installed on your personal device, I highly suggest referring to this documentation to set it up!
+
+https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-installing
+
+###### 1. Create a database named `Assignment1`
+###### 2. Set your username to be `root`
+###### 3. Set your password to be `xxxx`
+
+##### The implementation of an environment file for the backend will soon be there! If you have trouble changing the user and password, you can go to all 3 files in the `com.myapp.dao` package and change the `username` and `password` variables to reflect the ones on your local environment.
+
 
 ### Backend (JAVA)
 
