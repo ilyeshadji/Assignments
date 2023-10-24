@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PageContainer from "../components/UI/PageContainer";
 import {FormContainer, FormTitle} from "./CreateProduct";
 import TextInput from "../components/UI/TextInput";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {cartApi, productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import Toaster from "../plugin/Toaster";
@@ -13,18 +13,30 @@ import {selectUserRole} from "../store/selectors";
 function Product() {
     const location = useLocation();
     const params = useParams();
+    const navigate = useNavigate();
     const role = useSelector(selectUserRole);
 
     const [sku, setSku] = useState(location?.state?.sku || '');
     const [name, setName] = useState(location?.state?.name || '');
     const [description, setDescription] = useState(location?.state?.description || '');
     const [vendor, setVendor] = useState(location?.state?.vendor || '');
-    const [url, setUrl] = useState(`http://localhost:8080/${location?.state?.sku}`);
+    const [url, setUrl] = useState(`${process.env.REACT_APP_LOCAL_URL}/${location?.state?.sku}`);
     const [price, setPrice] = useState(location?.state?.price || '');
 
     const [quantity, setQuantity] = useState(1);
+    const [navigateToProductList, setNavigateToProductList] = useState(false);
 
     const isCustomer = useMemo(() => role === 'customer', [role]);
+
+    const buttonText = useMemo(() => {
+        if (isCustomer) {
+            return 'Add to Cart';
+        } else if (navigateToProductList) {
+            return 'Go to product list'
+        } else {
+            return 'Edit'
+        }
+    }, [isCustomer, navigateToProductList]);
 
     useEffect(() => {
         if (!name) {
@@ -52,9 +64,12 @@ function Product() {
             } catch (e) {
                 showBackendError(e);
             }
+        } else if (navigateToProductList) {
+            navigate('/products')
         } else {
             try {
                 await productApi.updateProduct({sku, name, description, vendor, url, price}, sku);
+                setNavigateToProductList(true);
                 Toaster.success('Product successfully updated!');
             } catch (e) {
                 showBackendError(e);
@@ -151,7 +166,7 @@ function Product() {
                     )}
 
                     <SaveButton onClick={handleButton}>
-                        {isCustomer ? 'Add to Cart' : 'Edit'}
+                        {buttonText}
                     </SaveButton>
                 </SaveButtonContainer>
 

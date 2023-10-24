@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {AiOutlineDownload} from "react-icons/ai";
 import {useSelector} from "react-redux";
 import {selectUserRole} from "../store/selectors";
+import ErrorPage from "./ErrorPage";
 
 function ProductList() {
     const navigate = useNavigate();
@@ -71,6 +72,10 @@ function ProductList() {
             });
     }
 
+    if (!products) {
+        return <ErrorPage message={'Please wait for a staff member to add products to the list!'}/>
+    }
+
     return (
         <PageContainer>
             {role === 'staff' && (
@@ -82,18 +87,20 @@ function ProductList() {
                 </DownloadButtonContainer>
             )}
 
+            
             <ProductContainer>
                 <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                    {products?.map((product, index) => (
-                        <Grid item xs={2} sm={4} md={4} key={index}>
+                    {products?.map((product, index) => {
+                        return <Grid item xs={2} sm={4} md={4} key={index}>
                             <Product onClick={() => redirect(`/product/${product.sku}`, product)}>
                                 <Title>{product.name} ({product.sku})</Title>
                                 <Attribute>Description: {product.description}</Attribute>
                                 <Attribute>Vendor: {product.vendor}</Attribute>
                                 <Attribute>Url: {product.url}</Attribute>
                                 <Attribute>Price: {product.price}</Attribute>
-                            </Product> </Grid>
-                    ))}
+                            </Product>
+                        </Grid>
+                    })}
                 </Grid>
             </ProductContainer>
         </PageContainer>

@@ -6,6 +6,7 @@ import PageContainer from "../components/UI/PageContainer";
 import {Grid} from "@mui/material";
 import {AiFillDelete} from "react-icons/ai";
 import Toaster from "../plugin/Toaster";
+import ErrorPage from "./ErrorPage";
 
 function Cart() {
     const [products, setProducts] = useState([]);
@@ -34,29 +35,50 @@ function Cart() {
         setProducts(updatedProducts);
     }
 
+    if (products.length < 1) {
+        return <ErrorPage message={'Select items from the products menu to see them appear here!'}/>
+    }
+
     return (
         <PageContainer>
             <ProductContainer>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                    {products?.map((product, index) => (
-                        <Grid item xs={2} sm={4} md={4} key={index}>
-                            <ProductItem>
-                                <Product>
-                                    <Title>{product.name} ({product.sku})</Title>
-                                    <Attribute>Description: {product.description}</Attribute>
-                                    <Attribute>Vendor: {product.vendor}</Attribute>
-                                    <Attribute>Url: {product.url}</Attribute>
-                                    <Attribute>Price: {product.price}</Attribute>
-                                </Product>
+                {products?.length === 2 ? (
+                    products.map(product => {
+                        return <ProductItem>
+                            <Product>
+                                <Title>{product.name} ({product.sku})</Title>
+                                <Attribute>Description: {product.description}</Attribute>
+                                <Attribute>Vendor: {product.vendor}</Attribute>
+                                <Attribute>Url: {product.url}</Attribute>
+                                <Attribute>Price: {product.price}</Attribute>
+                            </Product>
 
-                                <DeleteButtonContainer onClick={() => deleteItem(product)}>
-                                    <AiFillDelete size={70} color={'white'}/>
-                                </DeleteButtonContainer>
-                            </ProductItem>
+                            <DeleteButtonContainer onClick={() => deleteItem(product)}>
+                                <AiFillDelete size={70} color={'white'}/>
+                            </DeleteButtonContainer>
+                        </ProductItem>
+                    })
+                ) : (
+                    <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
+                        {products?.map((product, index) => (
+                            <Grid item xs={2} sm={4} md={4} key={index}>
+                                <ProductItem>
+                                    <Product>
+                                        <Title>{product.name} ({product.sku})</Title>
+                                        <Attribute>Description: {product.description}</Attribute>
+                                        <Attribute>Vendor: {product.vendor}</Attribute>
+                                        <Attribute>Url: {product.url}</Attribute>
+                                        <Attribute>Price: {product.price}</Attribute>
+                                    </Product>
 
-                        </Grid>
-                    ))}
-                </Grid>
+                                    <DeleteButtonContainer onClick={() => deleteItem(product)}>
+                                        <AiFillDelete size={70} color={'white'}/>
+                                    </DeleteButtonContainer>
+                                </ProductItem>
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
             </ProductContainer>
         </PageContainer>
     )
