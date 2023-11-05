@@ -43,12 +43,7 @@ If you don't have this already installed on your personal device, I highly sugge
 
 https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-installing
 
-###### 1. Create a database named `Assignment1`
-###### 2. Set your username to be `root`
-###### 3. Set your password to be `xxxx`
-
-##### The implementation of an environment file for the backend will soon be there! If you have trouble changing the user and password, you can go to all 3 files in the `com.myapp.dao` package and change the `username` and `password` variables to reflect the ones on your local environment.
-
+###### 1. Create a database named `Assignments`
 
 ### Backend (JAVA)
 
@@ -65,8 +60,14 @@ https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-instal
 * jsp-api
 * servlet-api
 * tomcat-jdbc
+* jjwt-api
+* jjwt-impl
+* jjwt-jackson
 
-##### 4. Compile the code and start the server
+##### 4. Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
+##### 5. Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
+##### 6. Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database.
+##### 7. Compile the code and start the server
 
 -> Right click on project
 

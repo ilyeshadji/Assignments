@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.myapp.models.Product;
 
 public class ProductDao {
-	static String url = "jdbc:mysql://127.0.0.1:3306/Assignment1?serverTimezone=UTC";
-	static String username = "root";
-	static String password = "xxxx";
+	static String url = System.getenv("DB_URL");
+	static String username = System.getenv("DB_USERNAME");
+	static String password = System.getenv("DB_PASSWORD");
 
 	static Connection conn = null;
 

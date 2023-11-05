@@ -45,7 +45,7 @@ function ProductList() {
     }
 
     async function downloadProjectList() {
-        await fetch('http://localhost:8080/Assignment1/download/products', {
+        await fetch('http://localhost:8080/Assignments/download/products', {
             method: 'GET',
             headers: {
                 'Content-Type': 'text/plain',
