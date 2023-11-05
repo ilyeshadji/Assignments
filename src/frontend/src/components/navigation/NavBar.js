@@ -4,14 +4,13 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import {useScrollInfo} from '../../hooks/useScrollInfo';
 import Scrolling from '../../enum/Scrolling';
-import {useDispatch, useSelector} from "react-redux";
-import {selectUserRole} from "../../store/selectors";
-import {authUserSet} from "../../store/user/authUserSlice";
+import {useSelector} from "react-redux";
+import {selectIsLoggedIn, selectUserRole} from "../../store/selectors";
 
 const NavBar = ({showShadow}) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const role = useSelector(selectUserRole);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const isCustomer = useMemo(() => {
         return role === 'customer'
@@ -30,13 +29,6 @@ const NavBar = ({showShadow}) => {
             },
         });
     }
-
-    function authenticationAction() {
-        const updatedRole = role === 'customer' ? 'staff' : 'customer';
-        dispatch(authUserSet(updatedRole));
-    }
-
-    console.log(role);
 
     return (
         <NavContainer out={hideNavBar}>
@@ -58,16 +50,22 @@ const NavBar = ({showShadow}) => {
                     </LeftSection>
 
                     <RightSection>
-                        {isCustomer && (
+                        {isCustomer && isLoggedIn && (
                             <ListItems onClick={() => redirect('/cart')}>
                                 <StyledLink>Cart</StyledLink>
                             </ListItems>
                         )}
 
 
-                        {!isCustomer && <ListItems onClick={authenticationAction}>
-                            <StyledLink>LOGOUT</StyledLink>
-                        </ListItems>}
+                        {isLoggedIn && (
+                            <ListItems>
+                                <StyledLink>LOGOUT</StyledLink>
+                            </ListItems>)
+                        }
+
+                        <ListItems onClick={() => redirect('/login')}>
+                            <StyledLink>login</StyledLink>
+                        </ListItems>
                     </RightSection>
                 </>
             </ShadowContainer>

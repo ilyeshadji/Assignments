@@ -15,6 +15,7 @@ import {databaseApi, productApi} from "./api";
 import {showBackendError} from "./utils/utils";
 import {selectUserRole} from "./store/selectors";
 import {useSelector} from "react-redux";
+import Login from "./pages/Login";
 
 function App() {
     const user = useSelector(selectUserRole);
@@ -50,6 +51,7 @@ function App() {
                     <Route exact path="/Assignment1/index.jsp" element={<Home/>}/>
                     <Route exact path="/product/:sku" element={<Product/>}/>
                     <Route exact path="/products" element={<ProductList/>}/>
+                    <Route exact path="/login" element={<Login/>}/>
                     <Route exact path="/cart" element={<Cart/>}/>
                     <Route exact path="/product/create" element={<CreateProduct/>}/>
                 </RoutesWrapper>

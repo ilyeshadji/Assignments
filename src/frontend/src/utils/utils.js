@@ -1,4 +1,5 @@
 import Toaster from '../plugin/Toaster';
+import {emailRegex, passwordRegex} from "./Regex";
 
 export function showBackendError(e) {
     let error;
@@ -9,4 +10,12 @@ export function showBackendError(e) {
     }
 
     Toaster.error(error);
+}
+
+export function isEmailValid(email) {
+    return emailRegex.test(email);
+}
+
+export function isPasswordValid(password) {
+    return passwordRegex.test(password);
 }

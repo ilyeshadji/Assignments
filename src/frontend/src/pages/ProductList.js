@@ -3,18 +3,20 @@ import styled from 'styled-components';
 import {productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import PageContainer from "../components/UI/PageContainer";
-import {Box, Grid} from "@mui/material";
+import {Box, CircularProgress, Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {AiOutlineDownload} from "react-icons/ai";
 import {useSelector} from "react-redux";
 import {selectUserRole} from "../store/selectors";
 import ErrorPage from "./ErrorPage";
+import Loader from "./Loader";
 
 function ProductList() {
     const navigate = useNavigate();
     const role = useSelector(selectUserRole);
 
     const [products, setProducts] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -23,6 +25,8 @@ function ProductList() {
                 setProducts(response.data);
             } catch (e) {
                 showBackendError(e);
+            } finally {
+                setIsLoading(false);
             }
         })();
     }, []);
@@ -72,6 +76,10 @@ function ProductList() {
             });
     }
 
+    if (isLoading) {
+        return <Loader/>
+    }
+
     if (!products) {
         return <ErrorPage message={'Please wait for a staff member to add products to the list!'}/>
     }
@@ -87,7 +95,7 @@ function ProductList() {
                 </DownloadButtonContainer>
             )}
 
-            
+
             <ProductContainer>
                 <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
                     {products?.map((product, index) => {

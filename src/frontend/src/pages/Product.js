@@ -8,13 +8,14 @@ import {cartApi, productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import Toaster from "../plugin/Toaster";
 import {useSelector} from "react-redux";
-import {selectUserRole} from "../store/selectors";
+import {selectIsLoggedIn, selectUserRole} from "../store/selectors";
 
 function Product() {
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
     const role = useSelector(selectUserRole);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const [sku, setSku] = useState(location?.state?.sku || '');
     const [name, setName] = useState(location?.state?.name || '');
@@ -57,6 +58,12 @@ function Product() {
     }, [location?.state?.sku, name, params?.sku])
 
     async function handleButton() {
+        if (!isLoggedIn) {
+            Toaster.warning("You have to be logged in to add an item to your cart.")
+
+            return
+        }
+
         if (isCustomer) {
             try {
                 await cartApi.addToCart(1, location.state.sku, quantity);

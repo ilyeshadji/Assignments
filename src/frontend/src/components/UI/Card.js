@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function Card({children, onClick, style}) {
+function Card({children, onClick, style, disabled}) {
     return (
         <Container onClick={onClick} style={style}>
             {children}
