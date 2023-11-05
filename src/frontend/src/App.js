@@ -65,6 +65,4 @@ const RoutesWrapper = styled(Routes)`
   flex: 1;
 `;
 
-const PageContainer = styled.div`
-  display: flex;
-`;
+
