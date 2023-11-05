@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Card from "../components/UI/Card";
 import PageContainer from "../components/UI/PageContainer";
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserRole} from "../store/selectors";
+import {selectIsLoggedIn, selectUserRole} from "../store/selectors";
 import {FiPackage} from "react-icons/fi";
 import {LuPackagePlus} from "react-icons/lu";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
@@ -13,6 +13,7 @@ function Home() {
     const navigate = useNavigate();
 
     const role = useSelector(selectUserRole);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const isCustomer = useMemo(() => {
         return role === 'customer'
@@ -26,12 +27,12 @@ function Home() {
                     <CardTitle>View products</CardTitle>
                 </Card>
 
-                {isCustomer && <Card onClick={() => navigate('/cart')}>
+                {isCustomer && isLoggedIn && <Card onClick={() => navigate('/cart')}>
                     <AiOutlineShoppingCart size={200} color={'grey'}/>
                     <CardTitle>View Cart</CardTitle>
                 </Card>}
 
-                {!isCustomer && <Card onClick={() => navigate('/product/create')}>
+                {!isCustomer && isLoggedIn && <Card onClick={() => navigate('/product/create')}>
                     <LuPackagePlus size={200} color={'grey'}/>
                     <CardTitle>Create product</CardTitle>
                 </Card>}

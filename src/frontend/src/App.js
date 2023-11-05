@@ -11,7 +11,7 @@ import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import Cart from "./pages/Cart";
 import CreateProduct from "./pages/CreateProduct";
-import {databaseApi, productApi} from "./api";
+import {databaseApi} from "./api";
 import {showBackendError} from "./utils/utils";
 import {selectUserRole} from "./store/selectors";
 import {useSelector} from "react-redux";
