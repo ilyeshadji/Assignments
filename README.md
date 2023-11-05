@@ -49,7 +49,7 @@ https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-instal
 
 ##### 1. Ask Ilyes Hadji for the source files.
 ##### 2. Open the source files in the IDE of your choice (preferably ECLIPSE)
-##### 3. Make sure that all the dependencies are added to your classpath project
+##### 3. Make sure that all the dependencies are added to the `Modulepath` of the project
 
 * jackson-annotations-2.15.2
 * jackson-core-2.15.2
@@ -64,9 +64,38 @@ https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-instal
 * jjwt-impl
 * jjwt-jackson
 
+To do so, you can follow these steps for each library:
+
+**NB:** Some of these library can be selected internally, meaning that you could simply add them from the `Add JAR` button on step 8
+
+1. Download the library (here is a useful link: http://www.java2s.com/ref/jar/jar.html)
+2. Copy and paste the .jar file in this folder `./src/main/webapp/WEB-INF/lib`
+3. Right click on the project opened in the `Project Explorer`
+4. Hover over `Build Path`
+5. Click on `Configure Build Path`
+6. Navigate to the `Libraries` tab
+7. Click on `Modulepath`, dropdown menu
+8. Click on `Add External JAR`
+9. Navigate to the `lib` folder in which you copied the library (jar file)
+10. Select the library
+11. Click on `Open`
+12. Click on `Apply and Close`
+
 ##### 4. Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
 ##### 5. Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
 ##### 6. Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database.
+
+Here is an example on how you could add a variable to your environment using `Eclipse`
+
+1. Click on the `RUN` dropdown on your top menu
+2. Click on the `Run Configurations` option
+3. Select the `Environment` tab
+4. On the right, you will see an `Add` button, click on it
+5. Write the name of the variable (`DB_USERNAME` for example)
+6. Write the value of the variable (`root` for example)
+7. Click on `OK`
+8. Click on `Apply` on the bottom right.
+
 ##### 7. Compile the code and start the server
 
 -> Right click on project
