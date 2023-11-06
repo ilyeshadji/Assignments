@@ -1,4 +1,4 @@
-# Assignment 1
+# Assignment 2
 
 ## Usage
 
@@ -9,6 +9,12 @@ Frontend - runs on port 3000
 Backend - runs on port 8080
 
 MySQL - runs on port 3306
+
+You can access the staff account with these credentials:
+
+`email`: staff@myapp.com
+
+`password`: secret
 
 
 ## Installation
@@ -63,6 +69,7 @@ https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-instal
 * jjwt-api
 * jjwt-impl
 * jjwt-jackson
+* jBCrypt
 
 To do so, you can follow these steps for each library:
 
@@ -103,6 +110,10 @@ Here is an example on how you could add a variable to your environment using `Ec
 -> Hover on `Run As`
 
 -> Select `Run on Server`
+
+##### 7. Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
+
+## **NB:** There is a key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
 
 ### Backend (JAVA) + Frontend
 

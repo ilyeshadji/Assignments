@@ -18,7 +18,7 @@ import com.myapp.models.ResponseJSON;
 /**
  * Servlet implementation class ProductsServlet
  */
-@WebServlet("/product/*")
+@WebServlet(name = "ProductServlet", urlPatterns = { "/product/*", "/product-list" })
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,6 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String endpoint = ProductServlet.getEndpoint(request);
 
 		String skuIdRegex = "^[a-zA-Z0-9]+$";
@@ -47,7 +46,7 @@ public class ProductServlet extends HttpServlet {
 		Product product = null;
 		ArrayList<Product> productList = null;
 
-		if (request.getRequestURL().toString().endsWith("product")) {
+		if (request.getRequestURL().toString().endsWith("product-list")) {
 
 			// Get products list
 			productList = ProductServlet.getProductList(response);
@@ -102,7 +101,6 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String skuId = ProductServlet.getEndpoint(request);
 
 		String regex = "^[a-zA-Z0-9]+$";

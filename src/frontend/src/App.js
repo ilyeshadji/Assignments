@@ -24,12 +24,6 @@ function App() {
         localStorage.setItem("user", JSON.stringify('customer'));
     }
 
-    if (user === 'customer') {
-        localStorage.setItem("user", JSON.stringify('customer'));
-    } else {
-        console.log('yo2');
-    }
-
     useEffect(() => {
         (async () => {
             try {

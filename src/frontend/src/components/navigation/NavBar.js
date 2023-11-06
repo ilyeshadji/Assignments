@@ -4,11 +4,14 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import {useScrollInfo} from '../../hooks/useScrollInfo';
 import Scrolling from '../../enum/Scrolling';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectIsLoggedIn, selectUserRole} from "../../store/selectors";
+import {authUserUnset} from "../../store/user/authUserSlice";
 
 const NavBar = ({showShadow}) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const role = useSelector(selectUserRole);
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -28,6 +31,13 @@ const NavBar = ({showShadow}) => {
                 section: section,
             },
         });
+    }
+
+    function logout() {
+        dispatch(authUserUnset);
+
+        navigate('/Assignments/index.jsp')
+        window.location.reload();
     }
 
     return (
@@ -57,15 +67,15 @@ const NavBar = ({showShadow}) => {
                         )}
 
 
-                        {isLoggedIn && (
-                            <ListItems>
+                        {isLoggedIn ? (
+                            <ListItems onClick={logout}>
                                 <StyledLink>LOGOUT</StyledLink>
-                            </ListItems>)
-                        }
-
-                        <ListItems onClick={() => redirect('/login')}>
-                            <StyledLink>login</StyledLink>
-                        </ListItems>
+                            </ListItems>
+                        ) : (
+                            <ListItems onClick={() => redirect('/login')}>
+                                <StyledLink>login</StyledLink>
+                            </ListItems>
+                        )}
                     </RightSection>
                 </>
             </ShadowContainer>

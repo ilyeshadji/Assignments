@@ -7,7 +7,7 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         config.headers['Customer-Role'] = JSON.parse(localStorage.getItem("user"));
-
+        config.headers['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
         return config;
     },
 

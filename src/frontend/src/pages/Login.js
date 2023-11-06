@@ -9,7 +9,8 @@ function Login() {
 
     return (
         <PageContainer centered>
-            {createAccount ? <CreateAccountForm/> : <LoginForm setCreateAccount={setCreateAccount}/>}
+            {createAccount ? <CreateAccountForm setCreateAccount={setCreateAccount}/> :
+                <LoginForm setCreateAccount={setCreateAccount}/>}
         </PageContainer>
     )
 }

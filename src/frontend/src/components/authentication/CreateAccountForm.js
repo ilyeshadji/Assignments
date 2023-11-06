@@ -8,8 +8,10 @@ import {useValidatedEmail} from "../../hooks/InputValidation/useValidatedEmail";
 import {authApi} from "../../api";
 import {isPasswordValid, showBackendError} from "../../utils/utils";
 import Toaster from "../../plugin/Toaster";
+import {useNavigate} from "react-router-dom";
 
-function CreateAccountForm() {
+function CreateAccountForm({setCreateAccount}) {
+
     const [email, setEmail, validated] = useValidatedEmail();
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
@@ -38,7 +40,10 @@ function CreateAccountForm() {
         }
 
         try {
-            const response = await authApi.signup(email, password)
+            await authApi.signup(email, password)
+
+            Toaster.success("Successfully created the account. You can now log in with those credentials.")
+            setCreateAccount(false);
         } catch (e) {
             showBackendError(e);
         }

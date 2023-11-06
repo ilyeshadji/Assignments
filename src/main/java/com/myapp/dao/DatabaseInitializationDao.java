@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.myapp.controllers.AuthenticationServlet;
+
 public class DatabaseInitializationDao {
 
 	static String url = System.getenv("DB_URL");
@@ -33,7 +35,8 @@ public class DatabaseInitializationDao {
 				+ "  PRIMARY KEY (`sku`));";
 
 		String CREATE_TABLE_USER = "CREATE TABLE `Assignments`.`User` (\n" + "  `user_id` INT AUTO_INCREMENT,\n"
-				+ "  `role` VARCHAR(10) NOT NULL,\n" + "  PRIMARY KEY (`user_id`));";
+				+ "  `role` VARCHAR(10) NOT NULL,\n" + " `email` VARCHAR(100) NOT NULL,\n"
+				+ "`password` VARCHAR(300) NOT NULL,\n" + "  PRIMARY KEY (`user_id`));";
 
 		String CREATE_TABLE_CART = "CREATE TABLE `Assignments`.`Cart` (" + "`user_id` INT NOT NULL,\n"
 				+ "`product_id` VARCHAR(45) NOT NULL, \n" + "`quantity` INT NOT NULL,"
@@ -51,7 +54,7 @@ public class DatabaseInitializationDao {
 		return result;
 	}
 
-	public int tableInitialization(String fetch, String create) {
+	public int tableInitialization(String fetch, String create) throws ClassNotFoundException, SQLException {
 		int result = 0;
 
 		ResultSet response = null;
@@ -76,6 +79,12 @@ public class DatabaseInitializationDao {
 				System.out.println("SQLState: " + e.getSQLState());
 				System.out.println("VendorError: " + e.getErrorCode());
 			}
+
+			// Creating the staff account
+			if (fetch.equals("SELECT * FROM user")) {
+				UserDao.createUser("staff", "staff@myapp.com", AuthenticationServlet.hashPassword("secret"));
+			}
+
 		}
 
 		return result;

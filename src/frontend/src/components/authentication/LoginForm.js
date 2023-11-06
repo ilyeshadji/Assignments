@@ -6,8 +6,14 @@ import {Button} from "@mui/material";
 import TextInput from "../UI/TextInput";
 import {authApi} from "../../api";
 import {showBackendError} from "../../utils/utils";
+import {useDispatch} from "react-redux";
+import {authUserSet} from "../../store/user/authUserSlice";
+import {useNavigate} from "react-router-dom";
 
 function LoginForm({setCreateAccount}) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -15,6 +21,23 @@ function LoginForm({setCreateAccount}) {
         try {
             const response = await authApi.login(email, password)
 
+            const base64Url = response.data.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            const payload = JSON.parse(jsonPayload);
+
+            dispatch(authUserSet({
+                token: response.data,
+                user: {
+                    role: payload.role,
+                    user_id: payload.user_id
+                }
+            }))
+
+            navigate('/Assignments/index.jsp')
         } catch (e) {
             showBackendError(e)
         }

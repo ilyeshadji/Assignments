@@ -15,6 +15,6 @@ export default {
         return api.get(`/product/${productSku}`);
     },
     async getProductList() {
-        return api.get(`/product`);
+        return api.get(`/product-list`);
     },
 };
