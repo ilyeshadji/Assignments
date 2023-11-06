@@ -13,16 +13,14 @@ import Cart from "./pages/Cart";
 import CreateProduct from "./pages/CreateProduct";
 import {databaseApi} from "./api";
 import {showBackendError} from "./utils/utils";
-import {selectUserRole} from "./store/selectors";
-import {useSelector} from "react-redux";
+import {selectUser} from "./store/selectors";
+import {useDispatch, useSelector} from "react-redux";
 import Login from "./pages/Login";
+import {authUserSet, authUserUnset} from "./store/user/authUserSlice";
 
 function App() {
-    const user = useSelector(selectUserRole);
-
-    if (!user) {
-        localStorage.setItem("user", JSON.stringify('customer'));
-    }
+    const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         (async () => {
@@ -32,7 +30,15 @@ function App() {
                 showBackendError(e);
             }
         })();
-    }, []);
+
+        if (!user?.id) {
+            dispatch(authUserUnset);
+        }
+        if (user.user_id) {
+            dispatch(authUserSet(user));
+        }
+
+    }, [dispatch, user]);
 
     return (
         <BrowserRouter>

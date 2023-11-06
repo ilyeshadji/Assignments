@@ -30,9 +30,8 @@ public class DatabaseInitializationDao {
 		String FETCH_USERS = "SELECT * FROM user";
 
 		String CREATE_TABLE_PRODUCT = "CREATE TABLE `Assignments`.`Product` (\n" + "  `name` VARCHAR(33) NULL,\n"
-				+ "  `description` VARCHAR(45) NULL,\n" + "  `vendor` VARCHAR(45) NULL,\n"
-				+ "  `url` VARCHAR(45) NULL,\n" + "  `sku` VARCHAR(45) NOT NULL,\n" + "  `price` DECIMAL(10,2) NULL,\n"
-				+ "  PRIMARY KEY (`sku`));";
+				+ "  `description` LONGTEXT NULL,\n" + "  `vendor` VARCHAR(45) NULL,\n" + "  `url` VARCHAR(45) NULL,\n"
+				+ "  `sku` VARCHAR(45) NOT NULL,\n" + "  `price` DECIMAL(10,2) NULL,\n" + "  PRIMARY KEY (`sku`));";
 
 		String CREATE_TABLE_USER = "CREATE TABLE `Assignments`.`User` (\n" + "  `user_id` INT AUTO_INCREMENT,\n"
 				+ "  `role` VARCHAR(10) NOT NULL,\n" + " `email` VARCHAR(100) NOT NULL,\n"

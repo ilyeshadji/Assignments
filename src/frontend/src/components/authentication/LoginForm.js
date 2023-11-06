@@ -31,10 +31,8 @@ function LoginForm({setCreateAccount}) {
 
             dispatch(authUserSet({
                 token: response.data,
-                user: {
-                    role: payload.role,
-                    user_id: payload.user_id
-                }
+                role: payload.role,
+                user_id: payload.user_id
             }))
 
             navigate('/Assignments/index.jsp')

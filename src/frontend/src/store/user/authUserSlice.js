@@ -5,7 +5,7 @@ export const authUserSlice = createSlice({
     initialState: {
         user_id: null,
         role: 'customer',
-        isLoggedIn: !!JSON.parse(localStorage.getItem("user")).isLoggedIn,
+        isLoggedIn: false,
         token: null,
     },
     reducers: {
@@ -13,12 +13,19 @@ export const authUserSlice = createSlice({
             localStorage.setItem("user", JSON.stringify(action.payload));
 
             state.isLoggedIn = !!action.payload.token;
-            state.role = action.payload.user.role;
-            state.user_id = action.payload.user.user_id;
+            state.role = action.payload.role;
+            state.user_id = action.payload.user_id;
             state.token = action.payload.token;
         },
         authUserUnset(state) {
-            localStorage.removeItem("user");
+            const user = {
+                user_id: null,
+                role: 'customer',
+                isLoggedIn: false,
+                token: null
+            };
+
+            localStorage.setItem("user", JSON.stringify(user));
 
             state.role = 'customer';
             state.isLoggedIn = false;

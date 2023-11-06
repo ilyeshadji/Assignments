@@ -51,6 +51,7 @@ function Cart() {
                                 <Attribute>Vendor: {product.vendor}</Attribute>
                                 <Attribute>Url: {product.url}</Attribute>
                                 <Attribute>Price: {product.price}</Attribute>
+                                <Attribute>Quantity: {product.quantity}</Attribute>
                             </Product>
 
                             <DeleteButtonContainer onClick={() => deleteItem(product)}>
@@ -69,6 +70,7 @@ function Cart() {
                                         <Attribute>Vendor: {product.vendor}</Attribute>
                                         <Attribute>Url: {product.url}</Attribute>
                                         <Attribute>Price: {product.price}</Attribute>
+                                        <Attribute>Quantity: {product.quantity}</Attribute>
                                     </Product>
 
                                     <DeleteButtonContainer onClick={() => deleteItem(product)}>
@@ -93,7 +95,7 @@ const ProductContainer = styled.div`
 const Product = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 5;
+  flex: 3;
 `;
 
 const Title = styled.p`

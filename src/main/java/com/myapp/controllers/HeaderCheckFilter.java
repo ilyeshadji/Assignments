@@ -34,15 +34,14 @@ public class HeaderCheckFilter implements Filter {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
 
 			String authorization = request.getHeader("Authorization");
+			String token = authorization.replace("Bearer ", "");
 			Claims claims = null;
 			String endpoint = HeaderCheckFilter.getEndpoint(request);
 
 			// *********************************
 			// Token verifications
 			// *********************************
-			if (authorization != null) {
-				String token = authorization.replace("Bearer ", "");
-
+			if (token != null && !token.equals("null") && !token.equals("undefined")) {
 				try {
 					claims = Jwts.parser().setSigningKey(AuthenticationServlet.getPrivateKey()).parseClaimsJws(token)
 							.getBody();
