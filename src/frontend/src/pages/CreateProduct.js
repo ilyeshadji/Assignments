@@ -5,7 +5,7 @@ import TextInput from "../components/UI/TextInput";
 import {useNavigate} from "react-router-dom";
 import Toaster from "../plugin/Toaster";
 import {productApi} from "../api";
-import {showBackendError} from "../utils/utils";
+import {isSkuValid, showBackendError} from "../utils/utils";
 
 function CreateProduct() {
     const navigate = useNavigate();
@@ -14,14 +14,19 @@ function CreateProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [vendor, setVendor] = useState('');
-    const [url, setUrl] = useState(`${process.env.REACT_APP_LOCAL_URL}/product`);
+    const [url, setUrl] = useState(`${process.env.REACT_APP_LOCAL_URL}/product/`);
     const [price, setPrice] = useState();
     const [productCreated, setProductCreated] = useState(false);
 
     async function buttonHandler() {
         if (productCreated) {
-            navigate('/');
+            navigate('/Assignments/index.jsp');
         } else {
+            if (!isSkuValid(sku)) {
+                Toaster.warning("Please enter a valid SKU. It is limited to 100 characters and may only contain lowercase letters, numbers or dashes.")
+                return;
+            }
+
             try {
                 await productApi.createProduct({
                     sku,
@@ -53,7 +58,7 @@ function CreateProduct() {
                     fontSize={'15px'}
                     onChange={(e) => {
                         setSku(e.target.value);
-                        setUrl(`${process.env.REACT_APP_LOCAL_URL}/${e.target.value}`);
+                        setUrl(`${process.env.REACT_APP_LOCAL_URL}/product/${e.target.value}`);
                     }}
                 />
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import PageContainer from "../components/UI/PageContainer";
-import {Box, CircularProgress, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {AiOutlineDownload} from "react-icons/ai";
 import {useSelector} from "react-redux";

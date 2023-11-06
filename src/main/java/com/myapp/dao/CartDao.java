@@ -26,7 +26,9 @@ public class CartDao {
 
 	public ArrayList<Product> getCart(String user_id) throws ClassNotFoundException, SQLException {
 		String GET_CART = "SELECT C.*, P.sku, P.price, P.vendor, P.name, P.description, P.url\n" + "FROM Cart C\n"
-				+ "JOIN Product P ON C.product_id = P.sku;";
+				+ "JOIN Product P ON C.product_id = P.sku WHERE `user_id` = " + user_id + ";";
+
+		System.out.println(user_id);
 
 		createDatabaseConnection();
 

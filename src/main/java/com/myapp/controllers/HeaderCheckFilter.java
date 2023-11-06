@@ -34,7 +34,12 @@ public class HeaderCheckFilter implements Filter {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
 
 			String authorization = request.getHeader("Authorization");
-			String token = authorization.replace("Bearer ", "");
+			String token = null;
+
+			if (authorization != null) {
+				token = authorization.replace("Bearer ", "");
+			}
+
 			Claims claims = null;
 			String endpoint = HeaderCheckFilter.getEndpoint(request);
 

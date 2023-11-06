@@ -3,6 +3,7 @@ package com.myapp.controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -147,6 +148,19 @@ public class ProductServlet extends HttpServlet {
 		String message = "";
 
 		Double priceValue = Double.parseDouble(price);
+
+		String regexPattern = "^[a-z0-9-]{1,100}$";
+
+		Pattern pattern = Pattern.compile(regexPattern);
+		Matcher matcher = pattern.matcher(sku);
+
+		if (!matcher.matches()) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(
+					"Invalid Sku. It is limited to 100 characters and may only contain lowercase letters, numbers or dashes.");
+
+			return;
+		}
 
 		try {
 			result = productDao.createProduct(name, description, vendor, url, sku, priceValue);

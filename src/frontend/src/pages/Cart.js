@@ -7,20 +7,23 @@ import {Grid} from "@mui/material";
 import {AiFillDelete} from "react-icons/ai";
 import Toaster from "../plugin/Toaster";
 import ErrorPage from "./ErrorPage";
+import {useSelector} from "react-redux";
+import {selectUser} from "../store/selectors";
 
 function Cart() {
+    const userId = useSelector(selectUser).user_id;
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await cartApi.getCart(1);
+                const response = await cartApi.getCart(userId);
                 setProducts(response.data);
             } catch (e) {
                 showBackendError(e);
             }
         })();
-    }, []);
+    }, [userId]);
 
     async function deleteItem(product) {
         try {

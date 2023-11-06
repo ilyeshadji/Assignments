@@ -8,20 +8,21 @@ import {cartApi, productApi} from "../api";
 import {showBackendError} from "../utils/utils";
 import Toaster from "../plugin/Toaster";
 import {useSelector} from "react-redux";
-import {selectIsLoggedIn, selectUserRole} from "../store/selectors";
+import {selectIsLoggedIn, selectUser, selectUserRole} from "../store/selectors";
 
 function Product() {
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
     const role = useSelector(selectUserRole);
+    const userId = useSelector(selectUser).user_id;
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const [sku, setSku] = useState(location?.state?.sku || '');
     const [name, setName] = useState(location?.state?.name || '');
     const [description, setDescription] = useState(location?.state?.description || '');
     const [vendor, setVendor] = useState(location?.state?.vendor || '');
-    const [url, setUrl] = useState(`${process.env.REACT_APP_LOCAL_URL}/${location?.state?.sku}`);
+    const [url, setUrl] = useState(location?.state?.url || '');
     const [price, setPrice] = useState(location?.state?.price || '');
 
     const [quantity, setQuantity] = useState(1);
@@ -66,7 +67,7 @@ function Product() {
 
         if (isCustomer) {
             try {
-                await cartApi.addToCart(1, location.state.sku, quantity);
+                await cartApi.addToCart(userId, location.state.sku, quantity);
                 Toaster.success('Product successfully added to cart!');
             } catch (e) {
                 showBackendError(e);
@@ -95,8 +96,7 @@ function Product() {
                     marginTop="20px"
                     marginBottom="15px"
                     fontSize={'15px'}
-                    disabled={isCustomer}
-                    onChange={(e) => setSku(e.target.value)}
+                    disabled
                 />
 
                 <TextInput
@@ -139,8 +139,7 @@ function Product() {
                     marginTop="20px"
                     marginBottom="15px"
                     fontSize={'15px'}
-                    disabled={isCustomer}
-                    onChange={(e) => setUrl(e.target.value)}
+                    disabled
                 />
 
                 <TextInput

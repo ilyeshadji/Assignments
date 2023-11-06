@@ -8,7 +8,6 @@ import {useValidatedEmail} from "../../hooks/InputValidation/useValidatedEmail";
 import {authApi} from "../../api";
 import {isPasswordValid, showBackendError} from "../../utils/utils";
 import Toaster from "../../plugin/Toaster";
-import {useNavigate} from "react-router-dom";
 
 function CreateAccountForm({setCreateAccount}) {
 
