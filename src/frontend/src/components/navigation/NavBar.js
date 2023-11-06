@@ -34,7 +34,7 @@ const NavBar = ({showShadow}) => {
     }
 
     function logout() {
-        dispatch(authUserUnset);
+        dispatch(authUserUnset());
 
         navigate('/Assignments/index.jsp')
         window.location.reload();

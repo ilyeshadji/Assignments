@@ -14,7 +14,7 @@ function CreateProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [vendor, setVendor] = useState('');
-    const [url, setUrl] = useState(process.env.REACT_APP_LOCAL_URL);
+    const [url, setUrl] = useState(`${process.env.REACT_APP_LOCAL_URL}/product`);
     const [price, setPrice] = useState();
     const [productCreated, setProductCreated] = useState(false);
 
