@@ -113,7 +113,7 @@ Here is an example on how you could add a variable to your environment using `Ec
 
 ##### 7. Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
 
-## **NB:** There is a key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
+## **NB:** You'll find key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
 
 ### Backend (JAVA) + Frontend
 
