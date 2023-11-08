@@ -20,7 +20,7 @@ function CreateProduct() {
 
     async function buttonHandler() {
         if (productCreated) {
-            navigate('/Assignments/index.jsp');
+            navigate('/');
         } else {
             if (!isSkuValid(sku)) {
                 Toaster.warning("Please enter a valid SKU. It is limited to 100 characters and may only contain lowercase letters, numbers or dashes.")

@@ -35,7 +35,7 @@ function LoginForm({setCreateAccount}) {
                 user_id: payload.user_id
             }))
 
-            navigate('/Assignments/index.jsp')
+            navigate('/')
         } catch (e) {
             showBackendError(e)
         }

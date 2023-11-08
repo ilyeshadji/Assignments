@@ -36,7 +36,7 @@ const NavBar = ({showShadow}) => {
     function logout() {
         dispatch(authUserUnset());
 
-        navigate('/Assignments/index.jsp')
+        navigate('/')
         window.location.reload();
     }
 
@@ -45,7 +45,7 @@ const NavBar = ({showShadow}) => {
             <ShadowContainer showShadow={showShadow}>
                 <>
                     <LeftSection>
-                        <ListItems onClick={() => redirect('/Assignments/index.jsp')}>
+                        <ListItems onClick={() => redirect('/')}>
                             <StyledLink>Home</StyledLink>
                         </ListItems>
 
