@@ -2,29 +2,29 @@ package com.myapp.models;
 
 public class User {
 
-	String user_id;
+	int user_id;
 	String role;
 	String email;
 	String password;
 
-	public User(String user_id, String role) {
+	public User(int user_id, String role) {
 		super();
 		this.user_id = user_id;
 		this.role = role;
 	}
 
-	public User(String user_id, String role, String password) {
+	public User(int user_id, String role, String password) {
 		super();
 		this.user_id = user_id;
 		this.role = role;
 		this.password = password;
 	}
 
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 

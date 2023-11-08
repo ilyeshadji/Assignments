@@ -2,7 +2,6 @@ package com.myapp.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.myapp.dao.CartDao;
-import com.myapp.models.Product;
+import com.myapp.models.Cart;
 import com.myapp.models.ResponseJSON;
 
 /**
@@ -31,10 +30,18 @@ public class CartServlet extends HttpServlet {
 
 		String user_id = request.getParameter("user_id");
 
-		ArrayList<Product> cart = new ArrayList<>();
+		if (user_id == null) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("To send an order, a user needs a valid user id.");
+			return;
+		}
+
+		int convertedUserId = Integer.parseInt(user_id);
+
+		Cart cart = null;
 
 		try {
-			cart = cartDao.getCart(user_id);
+			cart = cartDao.getCart(convertedUserId);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");
@@ -43,7 +50,7 @@ public class CartServlet extends HttpServlet {
 			response.getWriter().write("Error in SQL query");
 		}
 
-		if (cart.size() < 1) {
+		if (cart == null || cart.getProducts().size() < 1) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Could not fetch the cart. Your cart might be empty.");
 			return;
@@ -67,8 +74,16 @@ public class CartServlet extends HttpServlet {
 		int result = 0;
 		String message = "";
 
+		if (user_id == null) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("To send an order, a user needs a valid user id.");
+			return;
+		}
+
+		int convertedUserId = Integer.parseInt(user_id);
+
 		try {
-			result = cartDao.addProductToCart(user_id, product_id, quantity);
+			result = cartDao.addProductToCart(convertedUserId, product_id, quantity);
 		} catch (ClassNotFoundException e) {
 		} catch (SQLException e) {
 			if (e.getMessage().contains("Duplicate entry")) {
@@ -98,8 +113,16 @@ public class CartServlet extends HttpServlet {
 
 		int result = 0;
 
+		if (user_id == null) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("To send an order, a user needs a valid user id.");
+			return;
+		}
+
+		int convertedUserId = Integer.parseInt(user_id);
+
 		try {
-			result = cartDao.deleteProductFromCart(user_id, product_id);
+			result = cartDao.deleteProductFromCart(convertedUserId, product_id);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");
@@ -111,6 +134,44 @@ public class CartServlet extends HttpServlet {
 		if (result != 1) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Could not delete item from the cart.");
+			return;
+		}
+
+		ResponseJSON.sendResponse(response, "success");
+	}
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		CartDao cartDao = new CartDao();
+
+		String user_id = request.getParameter("user_id");
+		String sku = request.getParameter("sku");
+		String quantity = request.getParameter("quantity");
+
+		if (sku == null || user_id == null || quantity == null) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("To update your cart, a user needs a valid user id, sku and quantity.");
+			return;
+		}
+
+		int result = 0;
+
+		int convertedUserId = Integer.parseInt(user_id);
+		int convertedQuantity = Integer.parseInt(quantity);
+
+		try {
+			result = cartDao.updateProductQuantityInCart(convertedUserId, sku, convertedQuantity);
+		} catch (ClassNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Class not found");
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error in SQL query");
+		}
+
+		if (result != 1) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Could not update item from the cart.");
 			return;
 		}
 

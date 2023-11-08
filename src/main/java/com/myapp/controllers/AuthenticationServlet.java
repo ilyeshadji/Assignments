@@ -64,7 +64,8 @@ public class AuthenticationServlet extends HttpServlet {
 
 			if (user == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter().write("Wrong credentials.");
+				response.getWriter()
+						.write("We could not find user with this address. Please create an account before logging in.");
 				return;
 			}
 
@@ -88,6 +89,11 @@ public class AuthenticationServlet extends HttpServlet {
 				return;
 			}
 
+			/**
+			 * N.B. The token does not have an expiration date for the sake of testing. This
+			 * should always be implemented by adding the function setExpiration for
+			 * security.
+			 */
 			Instant now = Instant.now();
 			String jwtToken = Jwts.builder().claim("role", user.getRole()).claim("user_id", user.getUser_id())
 					.setId(UUID.randomUUID().toString()).setIssuedAt(Date.from(now)).signWith(privateKey).compact();

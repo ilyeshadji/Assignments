@@ -51,7 +51,7 @@ public class UserDao {
 			ResultSet resultSet = statement.executeQuery(FIND_USER);
 
 			if (resultSet.next()) {
-				String user_id = resultSet.getString("user_id");
+				int user_id = Integer.parseInt(resultSet.getString("user_id"));
 				String role = resultSet.getString("role");
 				String userPassword = resultSet.getString("password");
 

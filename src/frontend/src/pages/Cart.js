@@ -18,7 +18,7 @@ function Cart() {
         (async () => {
             try {
                 const response = await cartApi.getCart(userId);
-                setProducts(response.data);
+                setProducts(response.data.products);
             } catch (e) {
                 showBackendError(e);
             }

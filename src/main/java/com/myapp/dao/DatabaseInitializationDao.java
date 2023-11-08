@@ -28,6 +28,8 @@ public class DatabaseInitializationDao {
 		String FETCH_PRODUCTS = "SELECT * FROM product;";
 		String FETCH_CARTS = "SELECT * FROM cart;";
 		String FETCH_USERS = "SELECT * FROM user";
+		String FETCH_ORDERS = "SELECT * FROM `order`";
+		String FETCH_ORDERS_PRODUCTS = "SELECT * FROM orderProducts";
 
 		String CREATE_TABLE_PRODUCT = "CREATE TABLE `Assignments`.`Product` (\n" + "  `name` VARCHAR(33) NULL,\n"
 				+ "  `description` LONGTEXT NULL,\n" + "  `vendor` VARCHAR(45) NULL,\n" + "  `url` VARCHAR(45) NULL,\n"
@@ -42,12 +44,24 @@ public class DatabaseInitializationDao {
 				+ "PRIMARY KEY (user_id, product_id)," + "FOREIGN KEY (user_id) REFERENCES User(user_id),"
 				+ "FOREIGN KEY (product_id) REFERENCES Product(sku)" + ");";
 
+		String CREATE_TABLE_ORDER = "CREATE TABLE `Assignments`.`Order` (" + "`order_id` INT AUTO_INCREMENT,\n"
+				+ "`shipping_address` VARCHAR(100) NOT NULL,\n"
+				+ "`tracking_number` INT UNIQUE, `user_id` INT NOT NULL, FOREIGN KEY (user_id) REFERENCES User(user_id),\n"
+				+ "PRIMARY KEY (`order_id`)) AUTO_INCREMENT = 10000;";
+
+		String CREATE_TABLE_ORDER_PRODUCTS = "CREATE TABLE `Assignments`.`orderProducts` ("
+				+ "`order_id` INT NOT NULL,\n" + "`sku` VARCHAR(45) NOT NULL,\n" + "PRIMARY KEY (order_id, sku),"
+				+ "FOREIGN KEY (order_id) REFERENCES `Order` (order_id),"
+				+ " FOREIGN KEY (sku) REFERENCES `Product` (sku));";
+
 		int result = 0;
 
 		createDatabaseConnection();
 
 		this.tableInitialization(FETCH_PRODUCTS, CREATE_TABLE_PRODUCT);
 		this.tableInitialization(FETCH_USERS, CREATE_TABLE_USER);
+		this.tableInitialization(FETCH_ORDERS, CREATE_TABLE_ORDER);
+		this.tableInitialization(FETCH_ORDERS_PRODUCTS, CREATE_TABLE_ORDER_PRODUCTS);
 		result = this.tableInitialization(FETCH_CARTS, CREATE_TABLE_CART);
 
 		return result;
@@ -83,7 +97,6 @@ public class DatabaseInitializationDao {
 			if (fetch.equals("SELECT * FROM user")) {
 				UserDao.createUser("staff", "staff@myapp.com", AuthenticationServlet.hashPassword("secret"));
 			}
-
 		}
 
 		return result;

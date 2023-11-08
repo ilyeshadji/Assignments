@@ -41,8 +41,6 @@ Then, to start the server, you can either run
 npm start
 ```
 
-OR See section below to run the web application with the backend (served by JSP)
-
 ### Database (MySQL)
 
 If you don't have this already installed on your personal device, I highly suggest referring to this documentation to set it up!
@@ -53,9 +51,8 @@ https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-instal
 
 ### Backend (JAVA)
 
-##### 1. Ask Ilyes Hadji for the source files.
-##### 2. Open the source files in the IDE of your choice (preferably ECLIPSE)
-##### 3. Make sure that all the dependencies are added to the `Modulepath` of the project
+##### 1. Open the source files in the IDE of your choice (preferably ECLIPSE)
+##### 2. Make sure that all the dependencies are added to the `Modulepath` of the project
 
 * jackson-annotations-2.15.2
 * jackson-core-2.15.2
@@ -88,9 +85,11 @@ To do so, you can follow these steps for each library:
 11. Click on `Open`
 12. Click on `Apply and Close`
 
-##### 4. Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
-##### 5. Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
-##### 6. Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database.
+##### 3. Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
+##### 4. Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
+##### 5. Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database.
+##### 6. Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
+
 
 Here is an example on how you could add a variable to your environment using `Eclipse`
 
@@ -111,28 +110,7 @@ Here is an example on how you could add a variable to your environment using `Ec
 
 -> Select `Run on Server`
 
-##### 7. Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
+##### You can find the Postman exported files at the root of the project to test the REST API !
 
 ## **NB:** You'll find key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
-
-### Backend (JAVA) + Frontend
-
-##### 1. Perform all the steps before `npm start` from the frontend section
-##### 2. Build the project
-
-```bash
-npm run build
-```
-
-##### 4. Navigate to `src/frontend/build/static/js` and copy the name of the file that starts with `main`
-
-e.g. `main.5e6f9ad3.js`
-
-##### 4. Navigate to `src/main/webapp/index.jsp` and paste the string in the previous step in the `script` tag to change the `src` to the actual path of your build file
-
-##### 5. Copy the `build` folder in the `frontend` directory
-
-##### 6. Paste the folder in the `webapp` directory
-
-##### 7. Compile and run as server like described in the `Backend (JAVA)` section of the README
 

@@ -1,0 +1,659 @@
+{
+	"info": {
+		"_postman_id": "86673bea-5521-423b-99cb-ce2aab410b43",
+		"name": "SOEN 387",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24006747"
+	},
+	"item": [
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "Database initialization",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/database-initialization",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"database-initialization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJuYW1lIjoiSmFuZSBEb2UiLCJlbWFpbCI6ImphbmVAZXhhbXBsZS5jb20iLCJzdWIiOiJqYW5lIiwianRpIjoiZWVmMmRlYjYtM2YzNC00YWFkLThkYTQtYTZkOWY1MzFkMzc5IiwiaWF0IjoxNjk5MjMxMDExfQ.wqDV0bq0E3tmixUBzRuOXW1vPliv4xRIf6W1e2mEEjckNX0Dli5sf-w4bKvL0Tc4pv5nbbDT3LsKTqIPo6ZSnEQFXJyiqJInsCVYoWs8-b_SeCKcR_cYSLtxiFdL30RejPU4zv2szHVrGmMJ636gLw1e1332k__AzTKIUjYoDGtur6azvycFCix28vJVDTSEPyZOG4g1RAT6XAQgX7Fr_TQDMVqyi8Ks2KrsL9klO_oXVe9BMRuwAjSlSSDOXd_BDiabi-dVm4_O2yrc97I4s9QJ1u22tv7JssYmWcjdqHg9NP82WVOEMyGpeTS_6zL50wnKgTICg4D0UXl6jeLuEg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/permissions?actor=customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"permissions"
+							],
+							"query": [
+								{
+									"key": "actor",
+									"value": "customer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoic3RhZmYiLCJ1c2VyX2lkIjoxLCJqdGkiOiIwYzkyZDZhNC03OTJiLTQ2OTAtYWYyNC00ZDI0MDQ5NjI0YTkiLCJpYXQiOjE2OTk0MTM2NzV9.RfeO75geK9n2KqHfQiZWIzDX5yL2ATh97Uyba46wEFG6EpYxlTW_IdbT_hKL3GknF3iFR0G1TkNqANewFeNw8QAiIuyXMWYu04751hlMOfj6xWxiVZOfRwMoia_LdEDNwSQMAUFNqEBjOXU3MuIBJt5K9VT0YqPfCID_iGQucqOCwm35NdKMxMn4WRLRvq9PQ4Z9zR4e4Heou591dKIk3Nud6uSOaDOnGTcbYsVdlkSLQHZwfZ-NE8Wj3QnGOfrKCWiY6ASPJhdPD5z9fC51K27WKLe45VcsiMgDqOm4ZLO_eCszn8hfy6iXyrFo1yBkYyASCd9HQocINJstjluAxg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/product/create?name=product 3&description=sample product&url=http://locahost:3000&sku=1&vendor=myself&price=10.00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"product",
+								"create"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "product 3"
+								},
+								{
+									"key": "description",
+									"value": "sample product"
+								},
+								{
+									"key": "url",
+									"value": "http://locahost:3000"
+								},
+								{
+									"key": "sku",
+									"value": "1"
+								},
+								{
+									"key": "vendor",
+									"value": "myself"
+								},
+								{
+									"key": "price",
+									"value": "10.00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoic3RhZmYiLCJ1c2VyX2lkIjoxLCJqdGkiOiIwYzkyZDZhNC03OTJiLTQ2OTAtYWYyNC00ZDI0MDQ5NjI0YTkiLCJpYXQiOjE2OTk0MTM2NzV9.RfeO75geK9n2KqHfQiZWIzDX5yL2ATh97Uyba46wEFG6EpYxlTW_IdbT_hKL3GknF3iFR0G1TkNqANewFeNw8QAiIuyXMWYu04751hlMOfj6xWxiVZOfRwMoia_LdEDNwSQMAUFNqEBjOXU3MuIBJt5K9VT0YqPfCID_iGQucqOCwm35NdKMxMn4WRLRvq9PQ4Z9zR4e4Heou591dKIk3Nud6uSOaDOnGTcbYsVdlkSLQHZwfZ-NE8Wj3QnGOfrKCWiY6ASPJhdPD5z9fC51K27WKLe45VcsiMgDqOm4ZLO_eCszn8hfy6iXyrFo1yBkYyASCd9HQocINJstjluAxg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/product/1?name=asd&description=alskdnalskdnlaksnd&price=20&vendor=some vendo&url=http://localhost:3003&sku=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"product",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "asd"
+								},
+								{
+									"key": "description",
+									"value": "alskdnalskdnlaksnd"
+								},
+								{
+									"key": "price",
+									"value": "20"
+								},
+								{
+									"key": "vendor",
+									"value": "some vendo"
+								},
+								{
+									"key": "url",
+									"value": "http://localhost:3003"
+								},
+								{
+									"key": "sku",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by Slug",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/product/http://localhost:3000/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"product",
+								"http:",
+								"",
+								"localhost:3000",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By SKU",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product List",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/product-list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"product-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add product to cart of a user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoyLCJqdGkiOiJhM2E1MjZmYy1jZWE2LTRlMDEtODM5ZS0zM2Y5MGIzZGQ0YmYiLCJpYXQiOjE2OTk0MTM5MjZ9.rdRR43m4Phw1X2WDCOjfz8Gh3xsyBlKHRFZGpzs8BYA9f_4wFmWLIpwKa1z1AOymM3PcOZ0nLriwKb7q9e_O1_ZGHzcxYx2ZHE6Zui1oB5xOr0KUItwYK87HRsqN16XxBv0yI4GUBtIhTEBDJePXQrqhcbVPUFUHAWJ95jN2IC6QrYGicKhgFfsFPo0l6wmoalCEQJIuDqqme2Px1Gw9bRZ301rcpb5O4vIX1cZWLJWimSJL7PGlhl9d-UkBK7yM374I-MZNGsk-lMPIO0dVLktdEsri4IIHIL7skYxV3a8U_iyMLpKeEokxle--Gpd62E7O_pb0HBwEm_ubFAryiA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/cart?user_id=2&product_id=6&quantity=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "2"
+								},
+								{
+									"key": "product_id",
+									"value": "6"
+								},
+								{
+									"key": "quantity",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete item from user' cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoyLCJqdGkiOiI0M2Q3NDIyYi05ZDBmLTQwYmQtODY0ZC03ZGRiYmJmNjFkZTMiLCJpYXQiOjE2OTk0MTQ1NTZ9.m_PZ38dn_KAvi_DAZo_jl7cIX8HqdIQa_Gn5k1bX8o3hJP0JSK4udvSa2MfaCCkQaDvfc4AfZH6tFV97HoXxlXWsnxVtc8VFL5K8Y1R1UwCPPoeh1ZIUvAXmqCievNxLwSdmTN00E6r0MFZmTwtT0R_tYWdu36mw2r-oqpS1KruASabj762jykk_XzJdazZVp6IXXnZHGeopmSaz2BlMEPHTtiGvHkAK-9tPNJKSb13oaskh3ESR8q3Qxt8bluFEI0RlxrC5scmaW3fUdg2fbZ8-AIIJVtyM25N3K8Loaks3BRqpU6OMcDSSvot_QSKczcFtb3AVNYPf2FW2xlwNuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/cart?user_id=1&product_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1"
+								},
+								{
+									"key": "product_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cart for user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/cart?user_id=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"cart"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Products List File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoic3RhZmYiLCJ1c2VyX2lkIjoxLCJqdGkiOiIwYzkyZDZhNC03OTJiLTQ2OTAtYWYyNC00ZDI0MDQ5NjI0YTkiLCJpYXQiOjE2OTk0MTM2NzV9.RfeO75geK9n2KqHfQiZWIzDX5yL2ATh97Uyba46wEFG6EpYxlTW_IdbT_hKL3GknF3iFR0G1TkNqANewFeNw8QAiIuyXMWYu04751hlMOfj6xWxiVZOfRwMoia_LdEDNwSQMAUFNqEBjOXU3MuIBJt5K9VT0YqPfCID_iGQucqOCwm35NdKMxMn4WRLRvq9PQ4Z9zR4e4Heou591dKIk3Nud6uSOaDOnGTcbYsVdlkSLQHZwfZ-NE8Wj3QnGOfrKCWiY6ASPJhdPD5z9fC51K27WKLe45VcsiMgDqOm4ZLO_eCszn8hfy6iXyrFo1yBkYyASCd9HQocINJstjluAxg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/download/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"download",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/authentication/login?email=test@test.test&password=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"authentication",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "test@test.test"
+								},
+								{
+									"key": "password",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/authentication/signup?email=test2@test.test&password=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"authentication",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "test2@test.test"
+								},
+								{
+									"key": "password",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of orders from all customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All orders from one customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/orders/customer?user_id=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"orders",
+								"customer"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/orders?order_id=10007",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "10007"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ship an order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/orders/ship?order_id=10003",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"orders",
+								"ship"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "10003"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send an order (by customer)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VyX2lkIjoiMyIsImp0aSI6IjhhMWYzNzNiLTYwNWQtNGM2My05Y2UyLTk2ZjZiYWQxZThmYSIsImlhdCI6MTY5OTIzMzM0N30.i5wRpltr-V2lTSOYiWzIKaNFE9poNA1hJBNm4BLuy3Fnhyx-AkZqKkLHs1u0ukwfnHm50R7AnEc3NmxBK-ghbCKUDl1G8t9wnuNjky3WmdL_X6iP8m3j_p0w-gU_FLVnEi9te4w7AJ1MPORX9cs52vIlmotbCLtbOZqJjSEirGy0kbwcY3C5OAYDL4wUblvFQOvqwBoW5gnc6-dx7G-9qRd2VDfYWRK2ypFIjlb4X5_y-oO2xU5T4FqIk58sy60olbccy3bPpDbdcKplXrRSI4A2Dy8__8--5TKMZzwh0y06six-TmpWtz_ybGNVTNBHIHTw0K_nsgi7UWXfUjBLbQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Assignments/orders/customer?user_id=3&shipping_address=chez nous",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Assignments",
+								"orders",
+								"customer"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "3"
+								},
+								{
+									"key": "shipping_address",
+									"value": "chez nous"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
