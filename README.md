@@ -112,5 +112,16 @@ Here is an example on how you could add a variable to your environment using `Ec
 
 ##### You can find the Postman exported files at the root of the project to test the REST API !
 
+## How to import collections on Postman
+
+##### 1. Open Postman
+##### 2. On the top left corner, click on the `Import` button
+##### 3. Choose import from a file 
+##### 4. Select file `SOEN 387.postman_collection.json` 
+##### 5. Repeat from the files `Customer.postman_environment.json` and `Staff.postman_environment.json`
+
+Congrats! You are now all setup to jump in and test this wonderful web application.
+You can switch between a refgular customer, or a staff member to be able to perform the actions you would like. Be careful, some of them are not accessible depending on the environment on which you are connected.
+
 ## **NB:** You'll find key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
 

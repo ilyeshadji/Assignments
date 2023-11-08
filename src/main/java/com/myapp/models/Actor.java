@@ -1,9 +1,11 @@
 package com.myapp.models;
 
-public abstract class Actor {
-	String[] permissions = { "CAN_VIEW_PRODUCTS", "CAN_VIEW_PRODUCT DETAILS" };
+public class Actor {
+	String[] permissions = { "CAN_VIEW_PRODUCTS", "CAN_VIEW_PRODUCT_DETAILS", "CAN_SEE_ORDER_BY_ID",
+			"CAN_SEE_USER_ORDERS", "CAN_AUTHENTICATE", "CAN_SIGN_UP", "CAN_INITIALIZE_DATABASE" };
 
 	public Actor(String[] permissions) {
+
 		int length1 = permissions.length;
 		int length2 = this.permissions.length;
 		String[] mergedPermissions = new String[length1 + length2];
@@ -14,7 +16,15 @@ public abstract class Actor {
 		this.permissions = mergedPermissions;
 	}
 
+	public Actor() {
+
+	}
+
 	public String[] getPermissions() {
 		return permissions;
+	}
+
+	public void setPermissions(String[] permissions) {
+		this.permissions = permissions;
 	}
 }

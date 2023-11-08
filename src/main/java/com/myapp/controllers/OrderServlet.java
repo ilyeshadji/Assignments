@@ -19,7 +19,7 @@ import com.myapp.models.ResponseJSON;
 /**
  * Servlet implementation class OrderServlet
  */
-@WebServlet(name = "OrderServlet", urlPatterns = { "/orders", "/orders/customer/*", "/orders/ship" })
+@WebServlet(name = "OrderServlet", urlPatterns = { "/orders", "/orders/customer/*", "/orders/ship", "/orders/order" })
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

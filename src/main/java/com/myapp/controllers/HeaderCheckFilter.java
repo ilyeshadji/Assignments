@@ -10,6 +10,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.myapp.models.Actor;
+import com.myapp.models.Customer;
+import com.myapp.models.Staff;
+import com.myapp.models.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -41,7 +46,7 @@ public class HeaderCheckFilter implements Filter {
 			}
 
 			Claims claims = null;
-			String endpoint = HeaderCheckFilter.getEndpoint(request);
+			String endpoint = request.getServletPath();
 
 			// *********************************
 			// Token verifications
@@ -74,6 +79,11 @@ public class HeaderCheckFilter implements Filter {
 				}
 			}
 
+			// *********************************
+			// Random user accesses
+			// *********************************
+			Actor actor = new Actor();
+
 			if (claims != null) {
 				String customerAccess = "customer";
 				String staffAccess = "staff";
@@ -83,57 +93,27 @@ public class HeaderCheckFilter implements Filter {
 				// Customer accesses
 				// *********************************
 				if (customerAccess.equals(role.toLowerCase())) {
-					if (endpoint.contains("download") || endpoint.contains("product/create")
-							|| (endpoint.contains("product") && request.getMethod().toLowerCase().equals("put"))) {
-						servletResponse.getWriter()
-								.write("Unauthorized. Only staff members have access to this feature.");
-						((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-						response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-						response.getWriter().write("Unauthorized");
-
-						return;
-					}
+					actor = new Customer();
 				}
 
 				// *********************************
 				// Staff accesses
 				// *********************************
-				if (staffAccess.equals(role.toLowerCase())) {
-					if (endpoint.contains("cart")) {
-						servletResponse.getWriter().write("Unauthorized. Only customers have access to this feature.");
-						((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-						response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-						response.getWriter().write("Unauthorized");
-
-						return;
-					}
-
+				else if (staffAccess.equals(role.toLowerCase())) {
+					actor = new Staff();
 				}
+			}
 
-				filterChain.doFilter(servletRequest, servletResponse);
+			User user = new User(actor.getPermissions());
+
+			if (!user.can(endpoint, request.getMethod().toLowerCase())) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.getWriter().write("Unauthorized");
 
 				return;
 			}
 
-			// *********************************
-			// Random user accesses
-			// *********************************
-			if ((endpoint.contains("product-list") && request.getMethod().toLowerCase().equals("get"))
-					|| endpoint.contains("database-initialization") || endpoint.contains("authentication")) {
-				filterChain.doFilter(servletRequest, servletResponse);
-
-				return;
-			}
-
-			// *********************************
-			// Random user tries to access anything that they do not have the permission
-			// *********************************
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			response.getWriter().write("Unauthorized");
-
-			return;
+			filterChain.doFilter(servletRequest, servletResponse);
 		}
 	}
 

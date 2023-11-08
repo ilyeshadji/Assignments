@@ -142,7 +142,7 @@ public class CartDao {
 
 	public int updateProductQuantityInCart(int user_id, String sku, int quantity)
 			throws SQLException, ClassNotFoundException {
-		String UPDATE_PRODUCT_QUANTITY = "UPDATE cart SET quantity = (?) WHERE `user_id` = (?) AND `sku` = (?);";
+		String UPDATE_PRODUCT_QUANTITY = "UPDATE cart SET quantity = (?) WHERE `user_id` = (?) AND `product_id` = (?);";
 
 		createDatabaseConnection();
 

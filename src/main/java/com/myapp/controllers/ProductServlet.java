@@ -19,7 +19,7 @@ import com.myapp.models.ResponseJSON;
 /**
  * Servlet implementation class ProductsServlet
  */
-@WebServlet(name = "ProductServlet", urlPatterns = { "/product/*", "/product-list" })
+@WebServlet(name = "ProductServlet", urlPatterns = { "/product", "/product-list", "/product/create" })
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,18 +36,12 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String endpoint = ProductServlet.getEndpoint(request);
-
-		String skuIdRegex = "^[a-zA-Z0-9]+$";
-		Pattern skuIdPattern = Pattern.compile(skuIdRegex);
-
-		String slugRegex = "^(http(s)?:\\/\\/)?[a-zA-Z0-9.-]+(\\.[a-zA-Z]{2,})?(:[0-9]+)?(\\/[^?#\\s]*)?(\\?[^#\\s]*)?(#.*)?$";
-		Pattern slugPattern = Pattern.compile(slugRegex);
+		String endpoint = request.getServletPath();
 
 		Product product = null;
 		ArrayList<Product> productList = null;
 
-		if (request.getRequestURL().toString().endsWith("product-list")) {
+		if (endpoint.equals("/product-list")) {
 
 			// Get products list
 			productList = ProductServlet.getProductList(response);
@@ -61,24 +55,11 @@ public class ProductServlet extends HttpServlet {
 
 			ResponseJSON.sendResponse(response, productList);
 
-		} else if (skuIdPattern.matcher(endpoint).matches()) {
+		} else if (endpoint.equals("/product")) {
+			String sku = request.getParameter("sku");
 
 			// Get product by sku id
-			product = ProductServlet.getProduct(response, endpoint);
-
-			if (product == null) {
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter().write("Could not find the product.");
-
-				return;
-			}
-
-			ResponseJSON.sendResponse(response, product);
-
-		} else if (slugPattern.matcher(endpoint).matches()) {
-
-			// Get product by slug
-			product = ProductServlet.getProductBySlug(response, endpoint);
+			product = ProductServlet.getProduct(response, sku);
 
 			if (product == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -102,13 +83,12 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String skuId = ProductServlet.getEndpoint(request);
+		String endpoint = request.getServletPath();
 
-		String regex = "^[a-zA-Z0-9]+$";
-		Pattern pattern = Pattern.compile(regex);
+		if (endpoint.contains("/product")) {
+			String sku = request.getParameter("sku");
 
-		if (pattern.matcher(skuId).matches() && skuId.length() > 0) {
-			ProductServlet.updateProduct(request, response, skuId);
+			ProductServlet.updateProduct(request, response, sku);
 		} else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Not found - Invalid product Id");
@@ -122,10 +102,10 @@ public class ProductServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String endpoint = ProductServlet.getEndpoint(request);
+		String endpoint = request.getServletPath();
 
 		switch (endpoint) {
-		case "create":
+		case "/product/create":
 			ProductServlet.createProduct(request, response);
 			break;
 		default:
@@ -261,10 +241,4 @@ public class ProductServlet extends HttpServlet {
 
 		return productList;
 	}
-
-	static String getEndpoint(HttpServletRequest request) {
-		int lastIndex = request.getRequestURL().lastIndexOf("/");
-		return request.getRequestURL().substring(lastIndex + 1);
-	}
-
 }
