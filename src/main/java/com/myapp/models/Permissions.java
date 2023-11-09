@@ -19,7 +19,7 @@ public enum Permissions {
 	CAN_INITIALIZE_DATABASE("post", "/database-initialization"),
 
 	// Download permissions
-	CAN_DOWNLOAD_PRODUCT_LIST("get", "/download/products"),;
+	CAN_DOWNLOAD_PRODUCT_LIST("get", "/download"),;
 
 	public String method;
 	public String endpoint;

@@ -11,5 +11,8 @@ export default {
     },
     async getCart(user_id) {
         return api.get(`/cart?${formatParamsForURL({user_id})}`);
+    },
+    async changeQuantity(user_id, sku, quantity) {
+        return api.put(`/cart?${formatParamsForURL({user_id, sku, quantity})}`);
     }
 };

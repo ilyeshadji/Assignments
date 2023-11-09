@@ -36,7 +36,7 @@ public class DatabaseInitializationDao {
 				+ "  `sku` VARCHAR(45) NOT NULL,\n" + "  `price` DECIMAL(10,2) NULL,\n" + "  PRIMARY KEY (`sku`));";
 
 		String CREATE_TABLE_USER = "CREATE TABLE `Assignments`.`User` (\n" + "  `user_id` INT AUTO_INCREMENT,\n"
-				+ "  `role` VARCHAR(10) NOT NULL,\n" + " `email` VARCHAR(100) NOT NULL,\n"
+				+ "  `role` VARCHAR(10) NOT NULL,\n" + " `email` VARCHAR(100) NOT NULL UNIQUE,\n"
 				+ "`password` VARCHAR(300) NOT NULL,\n" + "  PRIMARY KEY (`user_id`));";
 
 		String CREATE_TABLE_CART = "CREATE TABLE `Assignments`.`Cart` (" + "`user_id` INT NOT NULL,\n"
@@ -50,8 +50,8 @@ public class DatabaseInitializationDao {
 				+ "PRIMARY KEY (`order_id`)) AUTO_INCREMENT = 10000;";
 
 		String CREATE_TABLE_ORDER_PRODUCTS = "CREATE TABLE `Assignments`.`orderProducts` ("
-				+ "`order_id` INT NOT NULL,\n" + "`sku` VARCHAR(45) NOT NULL,\n" + "PRIMARY KEY (order_id, sku),"
-				+ "FOREIGN KEY (order_id) REFERENCES `Order` (order_id),"
+				+ "`order_id` INT NOT NULL,\n" + "`sku` VARCHAR(45) NOT NULL,\n" + "`quantity` INT NOT NULL,"
+				+ "PRIMARY KEY (order_id, sku)," + "FOREIGN KEY (order_id) REFERENCES `Order` (order_id),"
 				+ " FOREIGN KEY (sku) REFERENCES `Product` (sku));";
 
 		int result = 0;

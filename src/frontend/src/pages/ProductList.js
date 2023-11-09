@@ -49,7 +49,7 @@ function ProductList() {
             method: 'GET',
             headers: {
                 'Content-Type': 'text/plain',
-                'Customer-Role': role
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
             },
         })
             .then((response) => response.blob())

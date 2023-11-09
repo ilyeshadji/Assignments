@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components'
 import mstyled from '@emotion/styled'
 import {Button} from "@mui/material";
@@ -17,6 +17,27 @@ function LoginForm({setCreateAccount}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    useEffect(() => {
+        const handleKeyPress = async (event) => {
+            if (event.key === 'Enter') {
+                await login();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [login]);
+
+    const handleKeyPress = async (event) => {
+        if (event.key === 'Enter') {
+            await login();
+        }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     async function login() {
         try {
             const response = await authApi.login(email, password)
@@ -63,6 +84,7 @@ function LoginForm({setCreateAccount}) {
                 marginBottom="45px"
                 fontSize={'15px'}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyPress}
             />
 
             <MyButton variant="contained" onClick={login}>Login</MyButton>

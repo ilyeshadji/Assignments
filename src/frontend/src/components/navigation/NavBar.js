@@ -57,6 +57,10 @@ const NavBar = ({showShadow}) => {
                             <StyledLink>Create product</StyledLink>
                         </ListItems>}
 
+                        {isLoggedIn && <ListItems onClick={() => redirect('/orders')}>
+                            <StyledLink>Orders</StyledLink>
+                        </ListItems>}
+
                     </LeftSection>
 
                     <RightSection>
@@ -92,7 +96,7 @@ const NavContainer = styled.div`
   width: 100%;
 
   top: 0;
-  position: sticky;
+  position: fixed;
 
   opacity: ${(props) => (props.out ? 0 : 1)};
 

@@ -66,7 +66,7 @@ public class OrderServlet extends HttpServlet {
 			String user_id = request.getParameter("user_id");
 			ArrayList<Order> orders = new ArrayList<>();
 
-			if (user_id == null) {
+			if (user_id == null || user_id.equals("null")) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().write("To ship an order, it needs to have a valid user id.");
 				return;

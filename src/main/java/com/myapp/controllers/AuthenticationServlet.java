@@ -99,6 +99,7 @@ public class AuthenticationServlet extends HttpServlet {
 					.setId(UUID.randomUUID().toString()).setIssuedAt(Date.from(now)).signWith(privateKey).compact();
 
 			ResponseJSON.sendResponse(response, jwtToken);
+
 		} else if (endpoint.equals("/authentication/signup")) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
@@ -113,12 +114,18 @@ public class AuthenticationServlet extends HttpServlet {
 				response.getWriter().write("Something went wrong. We could not create a user for you.");
 				return;
 			} catch (SQLException e) {
-				e.printStackTrace();
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.getWriter().write("Something went wrong. We could not create a user for you.");
+				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				response.getWriter().write("This address is already used by another account. Please log in.");
+				return;
 			}
 
-			System.out.println(result);
+			if (result != 1) {
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.getWriter().write("Something went wrong, please try again.");
+				return;
+			}
+
+			ResponseJSON.sendResponse(response, "Successfuly created the account.");
 		} else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Route not found");

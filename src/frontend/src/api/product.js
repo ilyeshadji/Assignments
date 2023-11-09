@@ -11,8 +11,8 @@ export default {
     async getProductBySlug(productSlug) {
         return api.get(`/product/${productSlug}`);
     },
-    async getProductBySku(productSku) {
-        return api.get(`/product/${productSku}`);
+    async getProductBySku(sku) {
+        return api.get(`/product?${formatParamsForURL({sku})}`);
     },
     async getProductList() {
         return api.get(`/product-list`);

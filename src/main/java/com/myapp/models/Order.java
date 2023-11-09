@@ -1,26 +1,26 @@
 package com.myapp.models;
 
+import java.util.ArrayList;
+
 public class Order {
 	private int user_id;
 	private String user_email;
 	private int order_id;
-	private String[] product_skus;
-	private String[] product_urls;
+	private ArrayList<Product> products;
 	private Double totalPrice;
 	private String shipping_address;
 	private int tracking_number;
 
-	public Order(int user_id, String user_email, int order_id, String[] product_skus, String[] product_urls,
-			Double totalPrice, String shipping_address, int tracking_number) {
+	public Order(int user_id, String user_email, int order_id, ArrayList<Product> products, Double totalPrice,
+			String shipping_address, int tracking_number) {
 		super();
 		this.user_id = user_id;
 		this.user_email = user_email;
 		this.order_id = order_id;
-		this.product_skus = product_skus;
-		this.product_urls = product_urls;
 		this.totalPrice = totalPrice;
 		this.shipping_address = shipping_address;
 		this.tracking_number = tracking_number;
+		this.products = products;
 	}
 
 	public int getOrder_id() {
@@ -63,28 +63,20 @@ public class Order {
 		this.user_email = user_email;
 	}
 
-	public String[] getProduct_skus() {
-		return product_skus;
-	}
-
-	public void setProduct_skus(String[] product_skus) {
-		this.product_skus = product_skus;
-	}
-
-	public String[] getProduct_urls() {
-		return product_urls;
-	}
-
-	public void setProduct_urls(String[] product_urls) {
-		this.product_urls = product_urls;
-	}
-
 	public Double getTotalPrice() {
 		return totalPrice;
 	}
 
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public ArrayList<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(ArrayList<Product> products) {
+		this.products = products;
 	}
 
 }

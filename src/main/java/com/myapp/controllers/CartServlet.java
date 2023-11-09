@@ -85,10 +85,21 @@ public class CartServlet extends HttpServlet {
 		try {
 			result = cartDao.addProductToCart(convertedUserId, product_id, quantity);
 		} catch (ClassNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Class not found");
+			return;
 		} catch (SQLException e) {
 			if (e.getMessage().contains("Duplicate entry")) {
 				message = "You already have this item in your cart.";
+				return;
+			} else {
+				e.printStackTrace();
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.getWriter().write("Could not add item to the cart. " + message);
+				return;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		if (result != 1) {

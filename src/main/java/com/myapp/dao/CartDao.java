@@ -69,35 +69,17 @@ public class CartDao {
 
 	public int addProductToCart(int user_id, String product_id, int quantity)
 			throws ClassNotFoundException, SQLException {
-		String ADD_PRODUCT_TO_CART = "INSERT INTO `Cart` (`user_id`, `product_id`, `quantity`)\n" + "VALUES (\n"
-				+ "  (SELECT `user_id` FROM `User` WHERE `user_id` = " + user_id + "),\n"
-				+ "  (SELECT `sku` FROM `Product` WHERE `sku` = '" + product_id + "'),\n" + " " + quantity + "\n"
-				+ ");";
+		String ADD_PRODUCT_TO_CART = "INSERT INTO `Cart` (`user_id`, `product_id`, `quantity`)\n" + "VALUES (?,?,?);";
 
 		int result = 0;
-		String userRole = null;
 
 		createDatabaseConnection();
 
-		// to prevent adding products to a staff user
-		String FETCH_USER = "SELECT * FROM user WHERE user_id = (?)";
-
-		PreparedStatement preparedStatement = conn.prepareStatement(FETCH_USER);
-		preparedStatement.setInt(1, user_id);
-
-		ResultSet user = preparedStatement.executeQuery();
-
-		while (user.next()) {
-			userRole = user.getString("role");
-		}
-
-		if (userRole.equals("staff")) {
-			return 0;
-		}
-
-		Statement statement = conn.createStatement();
-		statement.executeUpdate(ADD_PRODUCT_TO_CART);
-		result = 1;
+		PreparedStatement statement = conn.prepareStatement(ADD_PRODUCT_TO_CART);
+		statement.setInt(1, user_id);
+		statement.setString(2, product_id);
+		statement.setInt(3, quantity);
+		result = statement.executeUpdate();
 
 		return result;
 	}

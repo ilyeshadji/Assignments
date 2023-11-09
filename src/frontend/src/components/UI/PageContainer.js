@@ -14,5 +14,9 @@ const Page = styled.div`
   flex: 1;
   flex-direction: column;
 
-  height: 95vh;
+  height: 89vh;
+
+  margin-top: 90px;
+
+  z-index: 50;
 `;
