@@ -1,23 +1,23 @@
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/User.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/AuthenticationServlet.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/MyServletContextListener.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Permissions.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/dao/OrderDao.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/DatabaseInitialization.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/DownloadServlet.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/dao/CartDao.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/ResponseJSON.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/dao/UserDao.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Customer.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Product.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/HeaderCheckFilter.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Cart.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/CartServlet.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/CORSFilter.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/dao/DatabaseInitializationDao.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/dao/ProductDao.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/OrderServlet.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Order.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/controllers/ProductServlet.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Actor.java
-/Users/ilyeshadji/Documents/Concordia/Fall 2023/SOEN 387/Assignments/Assignment 3/soen-387-assignments/src/main/java/models/Staff.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/dao/CartDao.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/ResponseJSON.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/AuthenticationServlet.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Order.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/ProductServlet.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Customer.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Cart.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/dao/DatabaseInitializationDao.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/CartServlet.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/dao/ProductDao.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/CORSFilter.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/dao/UserDao.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/dao/OrderDao.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/User.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Staff.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/HeaderCheckFilter.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Actor.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/MyServletContextListener.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Product.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/DatabaseInitialization.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/models/Permissions.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/DownloadServlet.java
+/Users/ilyeshadji/eclipse-workspace/Assignments/src/main/java/controllers/OrderServlet.java

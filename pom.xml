@@ -5,10 +5,18 @@
   <artifactId>Assignments</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>SOEN 387 Assignments</name>
+  <name>Assignments Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
+	<!-- Servlet API -->
+	<dependency>
+	    <groupId>jakarta.servlet</groupId>
+	    <artifactId>jakarta.servlet-api</artifactId>
+	    <version>5.0.0</version>
+	    <scope>provided</scope>
+	</dependency>
+	    
 	<!-- Tests API -->
     <dependency>
       <groupId>junit</groupId>
@@ -16,7 +24,6 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-   
     
     <!-- Bcrypt Password Hashing -->
     <dependency>
@@ -58,16 +65,10 @@
         <version>2.13.0</version>
     </dependency>
     
-    <dependency>
-    	<groupId>jakarta.servlet</groupId>
-    	<artifactId>jakarta.servlet-api</artifactId>
-    	<version>5.0.0</version>
-    <scope>provided</scope>
-</dependency>
   </dependencies>
   
   <build>
-    <finalName>soen-387-assignments</finalName>
+    <finalName>Assignments</finalName>
     <sourceDirectory>src/main/java</sourceDirectory>
     
     <plugins>
@@ -80,7 +81,15 @@
                 <target>11</target>
             </configuration>
         </plugin>
+        
+        <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <path>/Assignments</path>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
-
 </project>
