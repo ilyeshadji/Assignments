@@ -3,18 +3,6 @@ package controllers;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.UUID;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -22,11 +10,21 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.Base64;
+import java.util.Date;
+import java.util.UUID;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import dao.UserDao;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import models.ResponseJSON;
 import models.User;
-import io.jsonwebtoken.Jwts;
 
 /**
  * Servlet implementation class AuthenticationServlet

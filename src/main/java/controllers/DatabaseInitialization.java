@@ -3,13 +3,12 @@ package controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import dao.DatabaseInitializationDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import dao.DatabaseInitializationDao;
 
 /**
  * Servlet implementation class DatabaseInitialization
@@ -26,6 +25,7 @@ public class DatabaseInitialization extends HttpServlet {
 			throws ServletException, IOException {
 		DatabaseInitializationDao dbInit = new DatabaseInitializationDao();
 		try {
+			System.out.println("Init database");
 			dbInit.initializeDatabase();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
