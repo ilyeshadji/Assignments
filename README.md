@@ -18,63 +18,19 @@ You can access the staff account with these credentials:
 
 ## Installation
 
-### Frontend (REACT)
-
-In your terminal, go inside the folder Frontend located in the src directory like in the example below
-
-```bash
-cd src
-cd frontend
-
-```
-
-Then install the dependencies like follows
-
-```bash
-npm install
-```
-
-Then, to start the server, you can either run
-
-```bash
-npm start
-```
-
 ### Database (MySQL)
 
 If you don't have this already installed on your personal device, I highly suggest referring to this documentation to set it up!
 
 https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-installing
 
-###### 1. Create a database named `Assignments`
+##### 1. Create a database named `Assignments`
 
 ### Backend (JAVA)
 
-##### 1. Configurations
+##### 1. Open Eclipse IDE for Enterprise Java and Web Developers - 2023-09
 
--   Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
-
--   Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
-
--   Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database. e.g. `jdbc:mysql://localhost:3306/assignments`
-
--   Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
-    e.g. `C:\Users\Ilyes\Documents\Repos\comp-287-assignements\src`
-
-Here is an example on how you could add a variable to your environment using `Eclipse`
-
-1. Click on the `RUN` dropdown on your top menu
-2. Click on the `Run Configurations` option
-3. Select the `Environment` tab
-4. On the right, you will see an `Add` button, click on it
-5. Write the name of the variable (`DB_USERNAME` for example)
-6. Write the value of the variable (`root` for example)
-7. Click on `OK`
-8. Click on `Apply` on the bottom right.
-
-##### 2. Open Eclipse IDE for Enterprise Java and Web Developers - 2023-09
-
-##### 3. Import the maven project following these steps
+##### 2. Import the maven project following these steps
 
 -   Click on `File`
 -   Click on `Import...`
@@ -85,7 +41,7 @@ Here is an example on how you could add a variable to your environment using `Ec
 -   Navigate to the place where you cloned the repository
 -   Click on `Finish`
 
-##### 4. Install and build the project
+##### 3. Install and build the project
 
 Cleaning the project
 
@@ -107,7 +63,7 @@ Building the project
 -   In the `Goals` field, write `clean install`
 -   Click on `Run`
 
-##### 5. Run the server
+##### 4. Run the server
 
 -   Right click on the project in the `Project Explorer`
 - 	Hover over `Run As...`
@@ -119,6 +75,30 @@ Building the project
 -   Click on `Finish`
 
 ##### You can find the Postman exported files at the root of the project to test the REST API !
+
+##### 5. Environment configurations
+
+**NB:** Before doing this, you'll need to have installed the Apache server. You can find how to do so on the 5th step. Otherwise, you might get errors such as NullPointerException, since you won't have the right configurations for the database or for the authentication process.
+
+-   Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
+
+-   Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
+
+-   Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database. e.g. `jdbc:mysql://localhost:3306/assignments`
+
+-   Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
+    e.g. `C:\Users\Ilyes\Documents\Repos\Assignments\src` or `/Users/ilyeshadji/Documents/Repos/Assignments/src`
+
+Here is an example on how you could add a variable to your environment using `Eclipse`
+
+1. Click on the `RUN` dropdown on your top menu
+2. Click on the `Run Configurations` option
+3. Select the `Environment` tab
+4. On the right, you will see an `Add` button, click on it
+5. Write the name of the variable (`DB_USERNAME` for example)
+6. Write the value of the variable (`root` for example)
+7. Click on `OK`
+8. Click on `Apply` on the bottom right.
 
 ## How to import collections on Postman
 
@@ -137,3 +117,25 @@ Congrats! You are now all setup to jump in and test this wonderful web applicati
 You can switch between a regular customer, or a staff member to be able to perform the actions you would like. Be careful, some of them are not accessible depending on the environment on which you are connected.
 
 ### **NB:** You'll find key.pem in the source files; RSA key for the generation of the token, this should never be there for security concerns
+
+### Frontend (REACT)
+
+In your terminal, go inside the folder Frontend located in the src directory like in the example below
+
+```bash
+cd src
+cd frontend
+
+```
+
+Then install the dependencies like follows
+
+```bash
+npm install
+```
+
+Then, to start the server, run
+
+```bash
+npm start
+```
