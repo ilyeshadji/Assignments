@@ -110,6 +110,8 @@ Building the project
 ##### 5. Run the server
 
 -   Right click on the project in the `Project Explorer`
+- 	Hover over `Run As...`
+-	Click on `Run on Server`
 -   Open the `Apache` menu
 -   Select `Tomcat v10.0 Server`
 -   Click on `Next`
