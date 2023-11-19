@@ -26,7 +26,6 @@ import java.time.Instant;
 import dao.UserDao;
 import models.ResponseJSON;
 import models.User;
-
 import io.jsonwebtoken.Jwts;
 
 /**
