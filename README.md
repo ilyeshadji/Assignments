@@ -79,7 +79,7 @@ Here is an example on how you could add a variable to your environment using `Ec
 -   Click on `File`
 -   Click on `Import...`
 -   Open the `Maven` menu
--   Click on `Existing Mavec Projects`
+-   Click on `Existing Maven Projects`
 -   Click on `Next`
 -   Select the `Browse...` option
 -   Navigate to the place where you cloned the repository
@@ -130,7 +130,7 @@ Building the project
 
 ##### 5. Repeat from the files `Customer.postman_environment.json` and `Staff.postman_environment.json`
 
-Congrats! You are now all setup to jump in and test this wonderful web application. Make sure to select one of the environments, or else you will get nasty 406 errors :(
+Congrats! You are now all setup to jump in and test this wonderful web application. Make sure to select one of the environments (Customer or Staff), or else you will get nasty 406 errors :(
 
 You can switch between a regular customer, or a staff member to be able to perform the actions you would like. Be careful, some of them are not accessible depending on the environment on which you are connected.
 
