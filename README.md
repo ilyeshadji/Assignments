@@ -1,4 +1,4 @@
-# Assignment 2
+# Assignment 3
 
 ## Usage
 
@@ -17,14 +17,6 @@ You can access the staff account with these credentials:
 `password`: secret
 
 ## Installation
-
-### Database (MySQL)
-
-If you don't have this already installed on your personal device, I highly suggest referring to this documentation to set it up!
-
-https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-installing
-
-##### 1. Create a database named `Assignments`
 
 ### Backend (JAVA)
 
@@ -79,12 +71,6 @@ Building the project
 ##### 5. Environment configurations
 
 **NB:** Before doing this, you'll need to have installed the Apache server. You can find how to do so on the 5th step. Otherwise, you might get errors such as NullPointerException, since you won't have the right configurations for the database or for the authentication process.
-
--   Add the variable `DB_USERNAME` to your environment files. This should be the username you use to connect to your MySQL database.
-
--   Add the variable `DB_PASSWORD` to your environment files. This should be the password you use to connect to your MySQL database.
-
--   Add the variable `DB_URL` to your environment files. This should be the url you use to connect to your MySQL database. e.g. `jdbc:mysql://localhost:3306/assignments`
 
 -   Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
     e.g. `C:\Users\Ilyes\Documents\Repos\Assignments\src` or `/Users/ilyeshadji/Documents/Repos/Assignments/src`
