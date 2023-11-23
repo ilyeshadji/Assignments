@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,24 +8,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+import models.Database;
 import models.Product;
 
 public class ProductDao {
-	static String url = System.getenv("DB_URL");
-	static String username = System.getenv("DB_USERNAME");
-	static String password = System.getenv("DB_PASSWORD");
-
-	static Connection conn = null;
-
-	static void createDatabaseConnection() throws ClassNotFoundException, SQLException {
-		// Load the Oracle JDBC driver
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		// Create a connection to the database
-		conn = DriverManager.getConnection(url, username, password);
-	}
-
 	public int createProduct(String name, String description, String vendor, String url, String sku, double price)
 			throws ClassNotFoundException, SQLException {
 		String CREATE_PRODUCT = "INSERT INTO product (name, description, vendor, url, sku, price)\n" + "VALUES ('"
@@ -34,7 +19,7 @@ public class ProductDao {
 
 		int result = 0;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		Statement statement = conn.createStatement();
 		statement.executeUpdate(CREATE_PRODUCT);
@@ -62,7 +47,7 @@ public class ProductDao {
 
 		UPDATE_PRODUCT = UPDATE_PRODUCT.substring(0, UPDATE_PRODUCT.length() - 2) + "\nWHERE (`sku` = '" + sku + "');";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		int result = 0;
 
@@ -83,7 +68,7 @@ public class ProductDao {
 
 		Product product = null;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		try {
 			Statement statement = conn.createStatement();
@@ -113,7 +98,7 @@ public class ProductDao {
 
 		Product product = null;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		try {
 			Statement statement = conn.createStatement();
@@ -143,7 +128,7 @@ public class ProductDao {
 
 		ArrayList<Product> productList = new ArrayList<>();
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		try {
 			Statement statement = conn.createStatement();

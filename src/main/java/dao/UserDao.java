@@ -1,28 +1,14 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import models.Database;
 import models.User;
 
 public class UserDao {
-	static String url = System.getenv("DB_URL");
-	static String username = System.getenv("DB_USERNAME");
-	static String password = System.getenv("DB_PASSWORD");
-
-	static Connection conn = null;
-
-	static void createDatabaseConnection() throws ClassNotFoundException, SQLException {
-		// Load the Oracle JDBC driver
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		// Create a connection to the database
-		conn = DriverManager.getConnection(url, username, password);
-	}
-
 	public static int createUser(String role, String email, String password)
 			throws ClassNotFoundException, SQLException {
 		String CREATE_USER = "INSERT INTO user (role, email, password)\n" + "VALUES ('" + role + "', '" + email + "', '"
@@ -30,7 +16,7 @@ public class UserDao {
 
 		int result = 0;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		Statement statement = conn.createStatement();
 		statement.executeUpdate(CREATE_USER);
@@ -44,7 +30,7 @@ public class UserDao {
 
 		User user = null;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		try {
 			Statement statement = conn.createStatement();

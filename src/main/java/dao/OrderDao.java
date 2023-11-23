@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,24 +13,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import models.Database;
 import models.Order;
 import models.Product;
 
 public class OrderDao {
-	static String url = System.getenv("DB_URL");
-	static String username = System.getenv("DB_USERNAME");
-	static String password = System.getenv("DB_PASSWORD");
-
-	static Connection conn = null;
-
-	static void createDatabaseConnection() throws ClassNotFoundException, SQLException {
-		// Load the Oracle JDBC driver
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		// Create a connection to the database
-		conn = DriverManager.getConnection(url, username, password);
-	}
-
 	public static String createOrder(int user_id, ArrayList<Product> products, String shipping_address)
 			throws ClassNotFoundException, SQLException {
 		String CREATE_ORDER = "INSERT INTO `order` (shipping_address, user_id)\n" + "VALUES (?, ?);";
@@ -41,7 +28,7 @@ public class OrderDao {
 			return "No products in the cart, could not create order";
 		}
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		// Creating the order
 		PreparedStatement preparedStatement = conn.prepareStatement(CREATE_ORDER, Statement.RETURN_GENERATED_KEYS);
@@ -88,7 +75,7 @@ public class OrderDao {
 		int result = 0;
 		int trackingNumber = 0;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		// Check the uniqueness of the tracking_number
 		do {
@@ -126,7 +113,7 @@ public class OrderDao {
 				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
 				+ "WHERE u.user_id = (?)\n" + "GROUP BY u.user_id, o.order_id;";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		ArrayList<Order> orders = new ArrayList<>();
 
@@ -176,7 +163,7 @@ public class OrderDao {
 				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
 				+ "GROUP BY u.user_id, o.order_id;";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		ArrayList<Order> orders = new ArrayList<>();
 
@@ -223,7 +210,7 @@ public class OrderDao {
 				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
 				+ "WHERE o.order_id = (?)\n" + "GROUP BY u.user_id, o.order_id;";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		Order order = null;
 

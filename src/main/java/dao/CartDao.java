@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,34 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import models.Cart;
+import models.Database;
 import models.Product;
 
 public class CartDao {
-	static String url = System.getenv("DB_URL");
-	static String username = System.getenv("DB_USERNAME");
-	static String password = System.getenv("DB_PASSWORD");
-
-	static Connection conn = null;
-
-	static void createDatabaseConnection() throws ClassNotFoundException, SQLException {
-		// Load the Oracle JDBC driver
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		// Create a connection to the database
-		conn = DriverManager.getConnection(url, username, password);
-	}
-
 	public Cart getCart(int user_id) throws ClassNotFoundException, SQLException {
 		String GET_CART = "SELECT C.*, P.sku, P.price, P.vendor, P.name, P.description, P.url\n" + "FROM Cart C\n"
 				+ "JOIN Product P ON C.product_id = P.sku WHERE `user_id` = " + user_id + ";";
 
-		createDatabaseConnection();
-
 		ArrayList<Product> products = new ArrayList<>();
 
-		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(GET_CART);
+		try (Connection conn = Database.getConnection();
+				Statement statement = conn.createStatement();
+				ResultSet resultSet = statement.executeQuery(GET_CART)) {
 
 			while (resultSet.next()) {
 				String sku = resultSet.getString("sku");
@@ -52,6 +36,7 @@ public class CartDao {
 
 				products.add(product);
 			}
+
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
@@ -73,7 +58,7 @@ public class CartDao {
 
 		int result = 0;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(ADD_PRODUCT_TO_CART);
 		statement.setInt(1, user_id);
@@ -91,7 +76,7 @@ public class CartDao {
 
 		int result = 0;
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		try {
 			Statement statement = conn.createStatement();
@@ -109,7 +94,7 @@ public class CartDao {
 	public int clearCart(int user_id) throws ClassNotFoundException, SQLException {
 		String REMOVE_ALL_PRODUCTS = "DELETE FROM Cart WHERE `user_id` = (?);";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		int result = 0;
 
@@ -126,7 +111,7 @@ public class CartDao {
 			throws SQLException, ClassNotFoundException {
 		String UPDATE_PRODUCT_QUANTITY = "UPDATE cart SET quantity = (?) WHERE `user_id` = (?) AND `product_id` = (?);";
 
-		createDatabaseConnection();
+		Connection conn = Database.getConnection();
 
 		int result = 0;
 

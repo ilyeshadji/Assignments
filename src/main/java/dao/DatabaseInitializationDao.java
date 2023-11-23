@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import controllers.AuthenticationServlet;
 import models.Database;
 
 public class DatabaseInitializationDao {
@@ -28,13 +27,13 @@ public class DatabaseInitializationDao {
 				+ "    `user_id` INTEGER NOT NULL,\n" + "    FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`)\n"
 				+ ");";
 
-		String INSERT_FIRST_ORDER_EXAMPLE = "INSERT INTO `Order` (`shipping_address`, `tracking_number`, `user_id`)\n"
-				+ "VALUES ('Sample Address', 123456, 10000);";
-
 		String CREATE_TABLE_ORDER_PRODUCTS = "CREATE TABLE IF NOT EXISTS orderProducts (" + "`order_id` INT NOT NULL,\n"
 				+ "`sku` VARCHAR(45) NOT NULL,\n" + "`quantity` INT NOT NULL," + "PRIMARY KEY (order_id, sku),"
 				+ "FOREIGN KEY (order_id) REFERENCES `Order` (order_id),"
 				+ " FOREIGN KEY (sku) REFERENCES `Product` (sku));";
+
+		String INSERT_FIRST_ORDER_EXAMPLE = "INSERT INTO `Order` (`shipping_address`, `tracking_number`, `user_id`)\n"
+				+ "VALUES ('Sample Address', 123456, 10000);";
 
 		int result = 0;
 
@@ -52,13 +51,13 @@ public class DatabaseInitializationDao {
 		int result = 0;
 
 		try (Connection conn = Database.getConnection(); Statement stmt = conn.createStatement()) {
-			// create a new table
 			stmt.execute(create);
 		} catch (SQLException e) {
 			if (!ignoreError) {
 				System.out.println(e.getMessage());
 			}
 		}
+
 		return result;
 	}
 }
