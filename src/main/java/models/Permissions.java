@@ -14,6 +14,9 @@ public enum Permissions {
 	CAN_VIEW_CART("get", "/cart"), CAN_ADD_TO_CART("post", "/cart"), CAN_REMOVE_FROM_CART("delete", "/cart"),
 	CAN_CHANGE_ITEM_QUANTITY_IN_CART("put", "/cart"),
 
+	// Authentication permissions
+	CAN_UPDATE_PASSWORD("put", "/authentication/update-password"),
+
 	// No auth permissions
 	CAN_AUTHENTICATE("post", "/authentication/login"), CAN_SIGN_UP("post", "/authentication/signup"),
 	CAN_INITIALIZE_DATABASE("post", "/database-initialization"), CAN_CREATE_ORDER("post", "/orders/no-customer"),

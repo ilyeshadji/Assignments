@@ -23,6 +23,8 @@ public class UserDao {
 
 		result = statement.executeUpdate();
 
+		Database.CloseConnection(conn);
+
 		return result;
 	}
 
@@ -53,6 +55,25 @@ public class UserDao {
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
 
+		Database.CloseConnection(conn);
+
 		return user;
+	}
+
+	public static int updatePassword(int userId, String password) throws SQLException {
+		String UPDATE_ORDER = "UPDATE User SET `password` = (?) WHERE `user_id` = (?);";
+
+		int result = 0;
+
+		Connection conn = Database.getConnection();
+
+		PreparedStatement statement = conn.prepareStatement(UPDATE_ORDER);
+		statement.setString(1, password);
+		statement.setInt(2, userId);
+		result = statement.executeUpdate();
+
+		Database.CloseConnection(conn);
+
+		return result;
 	}
 }

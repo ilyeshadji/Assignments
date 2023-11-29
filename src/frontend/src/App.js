@@ -17,6 +17,7 @@ import Orders from "./pages/Orders";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import StaffCreateAccount from './pages/StaffCreateAccount';
+import UpdatePassword from './pages/UpdatePassword';
 import { authUserSet, authUserUnset } from "./store/user/authUserSlice";
 import GlobalStyles from "./utils/GlobalStyles";
 import { showBackendError } from "./utils/utils";
@@ -62,6 +63,7 @@ function App() {
                         <Route exact path="/order/create" element={<CreateOrder />} />
                         <Route exact path="/staff/create-account" element={<StaffCreateAccount />} />
                         <Route exact path="/orders/claim" element={<ClaimOrder />} />
+                        <Route exact path="/update-password" element={<UpdatePassword />} />
                     </RoutesWrapper>
                 </AccessRoute>
             )}

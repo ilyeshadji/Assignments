@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
-import models.Cart;
 import models.Database;
 import models.Order;
 import models.Product;

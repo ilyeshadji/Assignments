@@ -83,6 +83,9 @@ const NavBar = ({ showShadow }) => {
                             </ListItems>
                         )}
 
+                        {isLoggedIn && <ListItems onClick={() => redirect('/update-password')}>
+                            <StyledLink>Update Password</StyledLink>
+                        </ListItems>}
 
                         {isLoggedIn ? (
                             <ListItems onClick={logout}>

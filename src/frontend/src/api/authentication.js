@@ -7,5 +7,8 @@ export default {
     },
     async signup(password, role) {
         return api.post(`/authentication/signup?${formatParamsForURL({ password, role })}`);
+    },
+    async updatePassword(oldPassword, newPassword) {
+        return api.put(`/authentication/update-password?${formatParamsForURL({ oldPassword, newPassword })}`);
     }
 };

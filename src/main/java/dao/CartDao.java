@@ -18,9 +18,11 @@ public class CartDao {
 
 		ArrayList<Product> products = new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-				Statement statement = conn.createStatement();
-				ResultSet resultSet = statement.executeQuery(GET_CART)) {
+		Connection conn = Database.getConnection();
+
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(GET_CART);
 
 			while (resultSet.next()) {
 				String sku = resultSet.getString("sku");
@@ -48,6 +50,8 @@ public class CartDao {
 		if (cart.getNumberOfProducts() < 1) {
 			return null;
 		}
+
+		Database.CloseConnection(conn);
 
 		return cart;
 	}

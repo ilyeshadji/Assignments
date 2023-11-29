@@ -29,7 +29,8 @@ import models.User;
 /**
  * Servlet implementation class AuthenticationServlet
  */
-@WebServlet(name = "AuthenticationServlet", urlPatterns = { "/authentication/login", "/authentication/signup" })
+@WebServlet(name = "AuthenticationServlet", urlPatterns = { "/authentication/login", "/authentication/signup",
+		"/authentication/update-password" })
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PASSCODE_REGEX = "^(?=.*[0-9a-zA-Z]).{4,}$";
@@ -96,10 +97,7 @@ public class AuthenticationServlet extends HttpServlet {
 
 			int result = 0;
 
-			Pattern pattern = Pattern.compile(PASSCODE_REGEX);
-			Matcher matcher = pattern.matcher(password);
-
-			if (!matcher.matches()) {
+			if (!passwordValid(password)) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().write(
 						"Wrong password format. Make sure that the password is alphanumeric and contains at least four characters");
@@ -113,7 +111,6 @@ public class AuthenticationServlet extends HttpServlet {
 				response.getWriter().write("Something went wrong. We could not create a user for you.");
 				return;
 			} catch (SQLException e) {
-				System.out.println(e);
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				response.getWriter().write("This address is already used by another account. Please log in.");
 				return;
@@ -130,6 +127,64 @@ public class AuthenticationServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Route not found");
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String oldPassword = request.getParameter("oldPassword");
+		String newPassword = request.getParameter("newPassword");
+
+		// find the user
+		User user;
+
+		int result = 0;
+
+		try {
+			user = UserDao.getUser(oldPassword);
+		} catch (ClassNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Something went wrong. We could not find the user.");
+			return;
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Something went wrong. Please try again later.");
+			return;
+		}
+
+		if (user == null || oldPassword.equals("")) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().write("Wrong credentials.");
+			return;
+		}
+
+		if (!passwordValid(newPassword)) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(
+					"Wrong password format. Make sure that the password is alphanumeric and contains at least four characters");
+			return;
+		}
+
+		// update password
+		try {
+			result = UserDao.updatePassword(user.getUser_id(), newPassword);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Something went wrong. Please try again later.");
+			return;
+		}
+
+		if (result == 0) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Something went wrong. Please try again later.");
+			return;
+		}
+
+		ResponseJSON.sendResponse(response, "Successfully updated password");
 	}
 
 	public static PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -155,5 +210,16 @@ public class AuthenticationServlet extends HttpServlet {
 		KeyFactory kf = KeyFactory.getInstance("RSA");
 		PrivateKey privKey = kf.generatePrivate(keySpec);
 		return privKey;
+	}
+
+	public static boolean passwordValid(String password) {
+		Pattern pattern = Pattern.compile(PASSCODE_REGEX);
+		Matcher matcher = pattern.matcher(password);
+
+		if (!matcher.matches()) {
+			return false;
+		}
+
+		return true;
 	}
 }
