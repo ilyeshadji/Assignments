@@ -73,6 +73,12 @@ const NavBar = ({ showShadow }) => {
 
                     <RightSection>
 
+                        {!isCustomer && isLoggedIn && (
+                            <ListItems onClick={() => redirect('/user-management')}>
+                                <StyledLink>User Management</StyledLink>
+                            </ListItems>
+                        )}
+
                         {!isCustomer && <ListItems onClick={() => redirect('/staff/create-account')}>
                             <StyledLink>CREATE NEW STAFF ACCOUNT</StyledLink>
                         </ListItems>}

@@ -17,6 +17,9 @@ public enum Permissions {
 	// Authentication permissions
 	CAN_UPDATE_PASSWORD("put", "/authentication/update-password"),
 
+	// Users permissions
+	CAN_SEE_ALL_USERS("get", "/users"), CAN_CHANGE_USER_ROLE("put", "/user"),
+
 	// No auth permissions
 	CAN_AUTHENTICATE("post", "/authentication/login"), CAN_SIGN_UP("post", "/authentication/signup"),
 	CAN_INITIALIZE_DATABASE("post", "/database-initialization"), CAN_CREATE_ORDER("post", "/orders/no-customer"),
