@@ -1,29 +1,24 @@
-import React, {useState} from 'react';
-import styled from 'styled-components'
-import mstyled from '@emotion/styled'
-import TextInput from "../UI/TextInput";
-import {Button} from "@mui/material";
-import {usePasswordConfirmed} from "../../hooks/InputValidation/usePasswordConfirmed";
-import {useValidatedEmail} from "../../hooks/InputValidation/useValidatedEmail";
-import {authApi} from "../../api";
-import {isPasswordValid, showBackendError} from "../../utils/utils";
+import mstyled from '@emotion/styled';
+import { Button } from "@mui/material";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { authApi } from "../../api";
+import { usePasswordConfirmed } from "../../hooks/InputValidation/usePasswordConfirmed";
 import Toaster from "../../plugin/Toaster";
+import { selectUserRole } from '../../store/selectors';
+import { isPasswordValid, showBackendError } from "../../utils/utils";
+import TextInput from "../UI/TextInput";
 
-function CreateAccountForm({setCreateAccount}) {
+function CreateAccountForm({ setCreateAccount }) {
+    const role = useSelector(selectUserRole)
 
-    const [email, setEmail, validated] = useValidatedEmail();
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
 
     const isPasswordConfirmed = usePasswordConfirmed(password, confirmedPassword)
 
     async function signup() {
-        if (!validated) {
-            Toaster.warning('Please write a valid email format');
-
-            return
-        }
-
         if (!isPasswordConfirmed) {
             Toaster.warning('Your two passwords do not match.')
 
@@ -39,7 +34,7 @@ function CreateAccountForm({setCreateAccount}) {
         }
 
         try {
-            await authApi.signup(email, password)
+            await authApi.signup(password, role)
 
             Toaster.success("Successfully created the account. You can now log in with those credentials.")
             setCreateAccount(false);
@@ -50,17 +45,7 @@ function CreateAccountForm({setCreateAccount}) {
 
     return (
         <CardContainer>
-            <Title>SIGN UP</Title>
-
-            <TextInput
-                type="text"
-                label={'Email'}
-                value={email}
-                marginTop="20px"
-                marginBottom="30px"
-                fontSize={'15px'}
-                onChange={(e) => setEmail(e.target.value)}
-            />
+            <Title>{role === 'staff' ? 'CREATE STAFF ACCOUNT' : 'SIGN UP'}</Title>
 
             <TextInput
                 type="password"
@@ -90,8 +75,9 @@ function CreateAccountForm({setCreateAccount}) {
 export default CreateAccountForm;
 
 const Title = styled.h1`
+    text-align: center;
   color: grey;
-  margin: 0 0 50px 0;
+  margin: 0 0 50px 0; 
 `;
 
 const CardContainer = styled.div`
@@ -115,14 +101,5 @@ const MyButton = mstyled(Button)`
   &:hover{
     opacity: 0.5;
     background-color: white;
-  }
-`;
-
-const Text = styled.p`
-  color: grey;
-  text-decoration: underline;
-
-  &:hover {
-    cursor: pointer;
   }
 `;

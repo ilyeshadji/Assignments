@@ -14,7 +14,6 @@ function LoginForm({setCreateAccount}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     useEffect(() => {
@@ -40,7 +39,7 @@ function LoginForm({setCreateAccount}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     async function login() {
         try {
-            const response = await authApi.login(email, password)
+            const response = await authApi.login(password)
 
             const base64Url = response.data.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -65,16 +64,6 @@ function LoginForm({setCreateAccount}) {
     return (
         <CardContainer>
             <Title>LOGIN</Title>
-
-            <TextInput
-                type="text"
-                label={'Email'}
-                value={email}
-                marginTop="20px"
-                marginBottom="30px"
-                fontSize={'15px'}
-                onChange={(e) => setEmail(e.target.value)}
-            />
 
             <TextInput
                 type="password"

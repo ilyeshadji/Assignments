@@ -4,18 +4,16 @@ import java.util.ArrayList;
 
 public class Order {
 	private int user_id;
-	private String user_email;
 	private int order_id;
 	private ArrayList<Product> products;
 	private Double totalPrice;
 	private String shipping_address;
 	private int tracking_number;
 
-	public Order(int user_id, String user_email, int order_id, ArrayList<Product> products, Double totalPrice,
+	public Order(int user_id, int order_id, ArrayList<Product> products, Double totalPrice,
 			String shipping_address, int tracking_number) {
 		super();
 		this.user_id = user_id;
-		this.user_email = user_email;
 		this.order_id = order_id;
 		this.totalPrice = totalPrice;
 		this.shipping_address = shipping_address;
@@ -53,14 +51,6 @@ public class Order {
 
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
-	}
-
-	public String getUser_email() {
-		return user_email;
-	}
-
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
 	}
 
 	public Double getTotalPrice() {

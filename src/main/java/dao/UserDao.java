@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,24 +10,24 @@ import models.Database;
 import models.User;
 
 public class UserDao {
-	public static int createUser(String role, String email, String password)
-			throws ClassNotFoundException, SQLException {
-		String CREATE_USER = "INSERT INTO user (role, email, password)\n" + "VALUES ('" + role + "', '" + email + "', '"
-				+ password + "');";
+	public static int createUser(String role, String password) throws ClassNotFoundException, SQLException {
+		String CREATE_USER = "INSERT INTO user (role, password)\n" + "VALUES (?, ?);";
 
 		int result = 0;
 
 		Connection conn = Database.getConnection();
 
-		Statement statement = conn.createStatement();
-		statement.executeUpdate(CREATE_USER);
-		result = 1;
+		PreparedStatement statement = conn.prepareStatement(CREATE_USER);
+		statement.setString(1, role);
+		statement.setString(2, password);
+
+		result = statement.executeUpdate();
 
 		return result;
 	}
 
-	public static User getUser(String email, String password) throws ClassNotFoundException, SQLException {
-		String FIND_USER = "SELECT * FROM User WHERE `email` = '" + email + "';";
+	public static User getUser(String password) throws ClassNotFoundException, SQLException {
+		String FIND_USER = "SELECT * FROM User WHERE `password` = '" + password + "';";
 
 		User user = null;
 
@@ -37,11 +38,13 @@ public class UserDao {
 			ResultSet resultSet = statement.executeQuery(FIND_USER);
 
 			if (resultSet.next()) {
-				int user_id = Integer.parseInt(resultSet.getString("user_id"));
 				String role = resultSet.getString("role");
 				String userPassword = resultSet.getString("password");
+				String user_id = resultSet.getString("user_id");
 
-				user = new User(user_id, role, userPassword);
+				int convertedUserId = Integer.parseInt(user_id);
+
+				user = new User(convertedUserId, role, userPassword);
 			}
 
 		} catch (SQLException e) {

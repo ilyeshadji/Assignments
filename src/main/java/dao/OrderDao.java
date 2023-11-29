@@ -105,7 +105,7 @@ public class OrderDao {
 
 	public ArrayList<Order> getOrders(int user_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ORDERS_FROM_USER = "SELECT u.user_id, u.email AS user_email, o.order_id,\n"
+		String FETCH_ORDERS_FROM_USER = "SELECT u.user_id, o.order_id,\n"
 				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
 				+ "       SUM(p.price * op.quantity) AS total_price, \n"
 				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
@@ -125,7 +125,6 @@ public class OrderDao {
 
 			while (resultSet.next()) {
 				int userIdResult = resultSet.getInt("user_id");
-				String userEmail = resultSet.getString("user_email");
 				int orderId = resultSet.getInt("order_id");
 				String productsJson = resultSet.getString("products");
 				double totalPrice = resultSet.getDouble("total_price");
@@ -139,7 +138,7 @@ public class OrderDao {
 
 				ArrayList<Product> products = new ArrayList<>(productsList);
 
-				Order order = new Order(userIdResult, userEmail, orderId, products, totalPrice, shippingAddress,
+				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
 						trackingNumber);
 
 				orders.add(order);
@@ -155,7 +154,7 @@ public class OrderDao {
 
 	public ArrayList<Order> getOrders()
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ALL_ORDERS = "SELECT u.user_id, u.email AS user_email, o.order_id,\n"
+		String FETCH_ALL_ORDERS = "SELECT u.user_id, o.order_id,\n"
 				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
 				+ "       SUM(p.price * op.quantity) AS total_price, \n"
 				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
@@ -173,7 +172,6 @@ public class OrderDao {
 
 			while (resultSet.next()) {
 				int userIdResult = resultSet.getInt("user_id");
-				String userEmail = resultSet.getString("user_email");
 				int orderId = resultSet.getInt("order_id");
 				String productsJson = resultSet.getString("products");
 				double totalPrice = resultSet.getDouble("total_price");
@@ -186,7 +184,7 @@ public class OrderDao {
 						new TypeReference<ArrayList<Product>>() {
 						});
 
-				Order order = new Order(userIdResult, userEmail, orderId, products, totalPrice, shippingAddress,
+				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
 						trackingNumber);
 
 				orders.add(order);
@@ -202,7 +200,7 @@ public class OrderDao {
 
 	public Order getOrder(int order_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ORDER_BY_ID = "SELECT u.user_id, u.email AS user_email, o.order_id,\n"
+		String FETCH_ORDER_BY_ID = "SELECT u.user_id,s o.order_id,\n"
 				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
 				+ "       SUM(p.price * op.quantity) AS total_price, \n"
 				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
@@ -222,7 +220,6 @@ public class OrderDao {
 
 			while (resultSet.next()) {
 				int userIdResult = resultSet.getInt("user_id");
-				String userEmail = resultSet.getString("user_email");
 				int orderId = resultSet.getInt("order_id");
 				String productsJson = resultSet.getString("products");
 				double totalPrice = resultSet.getDouble("total_price");
@@ -235,7 +232,7 @@ public class OrderDao {
 						new TypeReference<ArrayList<Product>>() {
 						});
 
-				order = new Order(userIdResult, userEmail, orderId, products, totalPrice, shippingAddress,
+				order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
 						trackingNumber);
 			}
 		} catch (SQLException e) {

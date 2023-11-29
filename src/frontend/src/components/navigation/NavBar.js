@@ -1,14 +1,14 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {Link, useNavigate} from 'react-router-dom';
 
-import {useScrollInfo} from '../../hooks/useScrollInfo';
+import { useDispatch, useSelector } from "react-redux";
 import Scrolling from '../../enum/Scrolling';
-import {useDispatch, useSelector} from "react-redux";
-import {selectIsLoggedIn, selectUserRole} from "../../store/selectors";
-import {authUserUnset} from "../../store/user/authUserSlice";
+import { useScrollInfo } from '../../hooks/useScrollInfo';
+import { selectIsLoggedIn, selectUserRole } from "../../store/selectors";
+import { authUserUnset } from "../../store/user/authUserSlice";
 
-const NavBar = ({showShadow}) => {
+const NavBar = ({ showShadow }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -64,6 +64,11 @@ const NavBar = ({showShadow}) => {
                     </LeftSection>
 
                     <RightSection>
+
+                        {!isCustomer && <ListItems onClick={() => redirect('/staff/create-account')}>
+                            <StyledLink>CREATE NEW STAFF ACCOUNT</StyledLink>
+                        </ListItems>}
+
                         {isCustomer && isLoggedIn && (
                             <ListItems onClick={() => redirect('/cart')}>
                                 <StyledLink>Cart</StyledLink>

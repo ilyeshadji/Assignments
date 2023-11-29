@@ -1,83 +1,82 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { BiSolidDownArrow, BiSolidRightArrow } from "react-icons/bi";
+import { GiCancel } from "react-icons/gi";
+import { MdOutlineLocalShipping } from "react-icons/md";
+import { useSelector } from "react-redux";
 import styled from 'styled-components';
-import {useSelector} from "react-redux";
-import {selectUserRole} from "../../store/selectors";
-import {BiSolidDownArrow, BiSolidRightArrow} from "react-icons/bi";
-import ProductItem from "./ProductItem";
-import {MdOutlineLocalShipping} from "react-icons/md";
-import {GiCancel} from "react-icons/gi";
+import { orderApi } from "../../api";
 import Toaster from "../../plugin/Toaster";
-import {orderApi} from "../../api";
-import {showBackendError} from "../../utils/utils";
+import { selectUserRole } from "../../store/selectors";
+import { showBackendError } from "../../utils/utils";
+import ProductItem from "./ProductItem";
 
-function Order({order}) {
-    const role = useSelector(selectUserRole);
+function Order({ order }) {
+  const role = useSelector(selectUserRole);
 
-    const [productsCollapsed, setProductsCollapsed] = useState(true);
-    const [checkingIfSure, setCheckingIfSure] = useState(false);
+  const [productsCollapsed, setProductsCollapsed] = useState(true);
+  const [checkingIfSure, setCheckingIfSure] = useState(false);
 
-    async function shipOrder() {
-        if (!checkingIfSure) {
-            Toaster.info("You are about to ship the order. Press on the same button to confirm or cancel the shipment.")
-            setCheckingIfSure(true);
+  async function shipOrder() {
+    if (!checkingIfSure) {
+      Toaster.info("You are about to ship the order. Press on the same button to confirm or cancel the shipment.")
+      setCheckingIfSure(true);
 
-            return;
-        }
-
-        try {
-            await orderApi.ship(order.order_id)
-            window.location.reload();
-        } catch (e) {
-            showBackendError(e)
-        } finally {
-            setCheckingIfSure(false);
-        }
+      return;
     }
 
-    return (
-        <OrderContainer>
-            <InformationContainer>
-                <Label>Order id: <Value>{order.order_id}</Value></Label>
-                {order.tracking_number !== 0 && <Label>Tracking number: <Value>{order.tracking_number}</Value></Label>}
-                {role === 'staff' && <Label>User id: <Value>{order.user_id}</Value></Label>}
-                {role === 'staff' && <Label>User email: <Value>{order.user_email}</Value></Label>}
-                <Label>Shipping address: <Value>{order.shipping_address}</Value></Label>
+    try {
+      await orderApi.ship(order.order_id)
+      window.location.reload();
+    } catch (e) {
+      showBackendError(e)
+    } finally {
+      setCheckingIfSure(false);
+    }
+  }
 
-                <ProductsContainer onClick={() => setProductsCollapsed(!productsCollapsed)}>
-                    {productsCollapsed ? (
-                        <BiSolidRightArrow size={10} color={'grey'}/>
-                    ) : (
-                        <BiSolidDownArrow size={10} color={'grey'}/>
-                    )}
-                    <Label marginLeft={'5px'}>Products: {order.products.map((product, index) =>
-                        <Value>{product.name} ({product.quantity}){index < order.products.length - 1 ? ',' : ''}</Value>)}</Label>
-                </ProductsContainer>
+  return (
+    <OrderContainer>
+      <InformationContainer>
+        <Label>Order id: <Value>{order.order_id}</Value></Label>
+        {order.tracking_number !== 0 && <Label>Tracking number: <Value>{order.tracking_number}</Value></Label>}
+        {role === 'staff' && <Label>User id: <Value>{order.user_id}</Value></Label>}
+        <Label>Shipping address: <Value>{order.shipping_address}</Value></Label>
 
-                {!productsCollapsed && order.products.map((product, index) => {
-                    return <ProductItem product={product}/>
-                })}
-            </InformationContainer>
+        <ProductsContainer onClick={() => setProductsCollapsed(!productsCollapsed)}>
+          {productsCollapsed ? (
+            <BiSolidRightArrow size={10} color={'grey'} />
+          ) : (
+            <BiSolidDownArrow size={10} color={'grey'} />
+          )}
+          <Label marginLeft={'5px'}>Products: {order.products.map((product, index) =>
+            <Value>{product.name} ({product.quantity}){index < order.products.length - 1 ? ',' : ''}</Value>)}</Label>
+        </ProductsContainer>
 
-            <PriceContainer>
-                <Price>{order.totalPrice.toFixed(2)} $</Price>
-            </PriceContainer>
+        {!productsCollapsed && order.products.map((product, index) => {
+          return <ProductItem product={product} />
+        })}
+      </InformationContainer>
 
-            {role === 'staff' && !order.tracking_number && (
-                <ButtonContainer>
-                    <ShipContainer onClick={shipOrder} checkingIfSure={checkingIfSure}>
-                        <MdOutlineLocalShipping size={60} color={'grey'}/>
-                    </ShipContainer>
+      <PriceContainer>
+        <Price>{order.totalPrice.toFixed(2)} $</Price>
+      </PriceContainer>
 
-                    {checkingIfSure && (
-                        <CancelButton onClick={() => setCheckingIfSure(false)} checkingIfSure={checkingIfSure}>
-                            <GiCancel size={30} color={'grey'}/>
-                        </CancelButton>
-                    )}
-                </ButtonContainer>
+      {role === 'staff' && !order.tracking_number && (
+        <ButtonContainer>
+          <ShipContainer onClick={shipOrder} checkingIfSure={checkingIfSure}>
+            <MdOutlineLocalShipping size={60} color={'grey'} />
+          </ShipContainer>
 
-            )}
-        </OrderContainer>
-    )
+          {checkingIfSure && (
+            <CancelButton onClick={() => setCheckingIfSure(false)} checkingIfSure={checkingIfSure}>
+              <GiCancel size={30} color={'grey'} />
+            </CancelButton>
+          )}
+        </ButtonContainer>
+
+      )}
+    </OrderContainer>
+  )
 }
 
 export default Order;

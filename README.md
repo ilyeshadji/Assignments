@@ -10,9 +10,7 @@ Backend - runs on port 8080
 
 MySQL - runs on port 3306
 
-You can access the staff account with these credentials:
-
-`email`: staff@myapp.com
+You can access the first staff account with these credentials:
 
 `password`: secret
 
@@ -111,7 +109,6 @@ In your terminal, go inside the folder Frontend located in the src directory lik
 ```bash
 cd src
 cd frontend
-
 ```
 
 Then install the dependencies like follows

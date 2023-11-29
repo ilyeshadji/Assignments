@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {ToastContainer} from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import styled from 'styled-components';
 
+import { useDispatch } from "react-redux";
+import { databaseApi } from "./api";
 import AccessRoute from "./components/navigation/AccessRoute";
-import GlobalStyles from "./utils/GlobalStyles";
 import NavBar from "./components/navigation/NavBar";
-import Home from "./pages/Home";
-import Product from "./pages/Product";
-import ProductList from "./pages/ProductList";
 import Cart from "./pages/Cart";
 import CreateProduct from "./pages/CreateProduct";
-import {databaseApi} from "./api";
-import {showBackendError} from "./utils/utils";
-import {useDispatch} from "react-redux";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import {authUserSet, authUserUnset} from "./store/user/authUserSlice";
 import Orders from "./pages/Orders";
+import Product from "./pages/Product";
+import ProductList from "./pages/ProductList";
+import StaffCreateAccount from './pages/StaffCreateAccount';
+import { authUserSet, authUserUnset } from "./store/user/authUserSlice";
+import GlobalStyles from "./utils/GlobalStyles";
+import { showBackendError } from "./utils/utils";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
@@ -43,19 +44,20 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavBar/>
-            <GlobalStyles/>
-            <ToastContainer/>
+            <NavBar />
+            <GlobalStyles />
+            <ToastContainer />
             {!isLoading && (
                 <AccessRoute>
                     <RoutesWrapper>
-                        <Route exact path="/" element={<Home/>}/>
-                        <Route exact path="/product/:sku" element={<Product/>}/>
-                        <Route exact path="/products" element={<ProductList/>}/>
-                        <Route exact path="/login" element={<Login/>}/>
-                        <Route exact path="/cart" element={<Cart/>}/>
-                        <Route exact path="/product/create" element={<CreateProduct/>}/>
-                        <Route exact path="/orders" element={<Orders/>}/>
+                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/product/:sku" element={<Product />} />
+                        <Route exact path="/products" element={<ProductList />} />
+                        <Route exact path="/login" element={<Login />} />
+                        <Route exact path="/cart" element={<Cart />} />
+                        <Route exact path="/product/create" element={<CreateProduct />} />
+                        <Route exact path="/orders" element={<Orders />} />
+                        <Route exact path="/staff/create-account" element={<StaffCreateAccount />} />
                     </RoutesWrapper>
                 </AccessRoute>
             )}

@@ -1,11 +1,11 @@
-import api, {formatParamsForURL} from './api.js';
+import api, { formatParamsForURL } from './api.js';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    async login(email, password) {
-        return api.post(`/authentication/login?${formatParamsForURL({email, password})}`);
+    async login(password) {
+        return api.post(`/authentication/login?${formatParamsForURL({ password })}`);
     },
-    async signup(email, password) {
-        return api.post(`/authentication/signup?${formatParamsForURL({email, password})}`);
+    async signup(password, role) {
+        return api.post(`/authentication/signup?${formatParamsForURL({ password, role })}`);
     }
 };

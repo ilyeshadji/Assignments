@@ -14,8 +14,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import dao.UserDao;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.ServletException;
@@ -42,13 +40,12 @@ public class AuthenticationServlet extends HttpServlet {
 		String endpoint = request.getServletPath();
 
 		if (endpoint.equals("/authentication/login")) {
-			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 
 			User user;
 
 			try {
-				user = UserDao.getUser(email, password);
+				user = UserDao.getUser(password);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Something went wrong. We could not find the user.");
@@ -66,7 +63,7 @@ public class AuthenticationServlet extends HttpServlet {
 				return;
 			}
 
-			if (AuthenticationServlet.checkPassword(password, user.getPassword()) == false) {
+			if (!password.equals(user.getPassword())) {
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				response.getWriter().write("Wrong credentials.");
 				return;
@@ -98,19 +95,19 @@ public class AuthenticationServlet extends HttpServlet {
 			ResponseJSON.sendResponse(response, jwtToken);
 
 		} else if (endpoint.equals("/authentication/signup")) {
-			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			String role = "customer";
+			String role = request.getParameter("role");
 
 			int result = 0;
 
 			try {
-				result = UserDao.createUser(role, email, AuthenticationServlet.hashPassword(password));
+				result = UserDao.createUser(role, password);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Something went wrong. We could not create a user for you.");
 				return;
 			} catch (SQLException e) {
+				System.out.println(e);
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				response.getWriter().write("This address is already used by another account. Please log in.");
 				return;
@@ -152,15 +149,5 @@ public class AuthenticationServlet extends HttpServlet {
 		KeyFactory kf = KeyFactory.getInstance("RSA");
 		PrivateKey privKey = kf.generatePrivate(keySpec);
 		return privKey;
-	}
-
-	public static String hashPassword(String password) {
-		int workFactor = 12;
-
-		return BCrypt.hashpw(password, BCrypt.gensalt(workFactor));
-	}
-
-	public static boolean checkPassword(String password, String hashedPassword) {
-		return BCrypt.checkpw(password, hashedPassword);
 	}
 }
