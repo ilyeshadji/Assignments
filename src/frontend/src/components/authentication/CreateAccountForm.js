@@ -27,7 +27,7 @@ function CreateAccountForm({ setCreateAccount }) {
 
         if (!isPasswordValid(password)) {
             Toaster.error(
-                'Please make sure your password contains at least 1 uppercase letter, 1 lowercase letter, 1 special character and 1 number'
+                'Please make sure your password is alpha numeric and contains at least four characters.'
             );
 
             return

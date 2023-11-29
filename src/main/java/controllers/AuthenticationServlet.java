@@ -13,6 +13,8 @@ import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dao.UserDao;
 import io.jsonwebtoken.Jwts;
@@ -30,6 +32,7 @@ import models.User;
 @WebServlet(name = "AuthenticationServlet", urlPatterns = { "/authentication/login", "/authentication/signup" })
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String PASSCODE_REGEX = "^(?=.*[0-9a-zA-Z]).{4,}$";
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -58,8 +61,7 @@ public class AuthenticationServlet extends HttpServlet {
 
 			if (user == null || password.equals("")) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				response.getWriter()
-						.write("Wrong credentials.");
+				response.getWriter().write("Wrong credentials.");
 				return;
 			}
 
@@ -93,6 +95,16 @@ public class AuthenticationServlet extends HttpServlet {
 			String role = request.getParameter("role");
 
 			int result = 0;
+
+			Pattern pattern = Pattern.compile(PASSCODE_REGEX);
+			Matcher matcher = pattern.matcher(password);
+
+			if (!matcher.matches()) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write(
+						"Wrong password format. Make sure that the password is alphanumeric and contains at least four characters");
+				return;
+			}
 
 			try {
 				result = UserDao.createUser(role, password);
