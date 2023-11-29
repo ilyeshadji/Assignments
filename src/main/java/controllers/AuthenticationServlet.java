@@ -56,16 +56,10 @@ public class AuthenticationServlet extends HttpServlet {
 				return;
 			}
 
-			if (user == null) {
+			if (user == null || password.equals("")) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				response.getWriter()
-						.write("We could not find user with this address. Please create an account before logging in.");
-				return;
-			}
-
-			if (!password.equals(user.getPassword())) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.getWriter().write("Wrong credentials.");
+						.write("Wrong credentials.");
 				return;
 			}
 

@@ -49,7 +49,8 @@ public class HeaderCheckFilter implements Filter {
 			// *********************************
 			// Token verifications
 			// *********************************
-			if (token != null && !token.equals("null") && !token.equals("undefined")) {
+			if (token != null && !token.equals("null") && !token.equals("undefined")
+					&& !token.equals("{{AUTH_TOKEN}}")) {
 				try {
 					claims = Jwts.parser().setSigningKey(AuthenticationServlet.getPrivateKey()).parseClaimsJws(token)
 							.getBody();

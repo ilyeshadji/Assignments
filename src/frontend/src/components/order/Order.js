@@ -10,7 +10,7 @@ import { selectUserRole } from "../../store/selectors";
 import { showBackendError } from "../../utils/utils";
 import ProductItem from "./ProductItem";
 
-function Order({ order }) {
+function Order({ order, claimable, claimOrder }) {
   const role = useSelector(selectUserRole);
 
   const [productsCollapsed, setProductsCollapsed] = useState(true);
@@ -32,6 +32,17 @@ function Order({ order }) {
     } finally {
       setCheckingIfSure(false);
     }
+  }
+
+  async function claimingOrder() {
+    if (!checkingIfSure) {
+      Toaster.info("You are about to claim the order. Press on the same button to confirm or cancel the action.")
+      setCheckingIfSure(true);
+
+      return;
+    }
+
+    claimOrder();
   }
 
   return (
@@ -73,7 +84,20 @@ function Order({ order }) {
             </CancelButton>
           )}
         </ButtonContainer>
+      )}
 
+      {claimable && (
+        <ButtonContainer>
+          <ClaimContainer onClick={claimingOrder} checkingIfSure={checkingIfSure}>
+            Claim Order
+          </ClaimContainer>
+
+          {checkingIfSure && (
+            <CancelButton onClick={() => setCheckingIfSure(false)} checkingIfSure={checkingIfSure}>
+              <GiCancel size={30} color={'grey'} />
+            </CancelButton>
+          )}
+        </ButtonContainer>
       )}
     </OrderContainer>
   )
@@ -90,6 +114,7 @@ const OrderContainer = styled.div`
 
   margin: 0 0 20px 0;
   padding: 5px 5px 5px 20px;
+  min-height: 110px;
 `;
 
 const Label = styled.p`
@@ -150,6 +175,27 @@ const ShipContainer = styled.div`
   align-items: center;
 
   background-color: lightblue;
+
+  border-radius: 15px;
+
+  padding: 0 10px;
+  margin: 5px 0 5px 0;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  max-height: ${props => props.checkingIfSure ? '60px' : '120px'};
+`;
+
+const ClaimContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  background-color: lightgreen;
 
   border-radius: 15px;
 

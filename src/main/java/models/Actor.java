@@ -2,7 +2,7 @@ package models;
 
 public class Actor {
 	String[] permissions = { "CAN_VIEW_PRODUCTS", "CAN_VIEW_PRODUCT_DETAILS", "CAN_SEE_ORDER_BY_ID",
-			"CAN_SEE_USER_ORDERS", "CAN_AUTHENTICATE", "CAN_SIGN_UP", "CAN_INITIALIZE_DATABASE", "CAN_CREATE_ORDER" };
+			"CAN_SEE_USER_ORDERS", "CAN_AUTHENTICATE", "CAN_SIGN_UP", "CAN_INITIALIZE_DATABASE", "CAN_CREATE_ORDER", };
 
 	public Actor(String[] permissions) {
 

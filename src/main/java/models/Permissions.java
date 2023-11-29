@@ -8,7 +8,7 @@ public enum Permissions {
 	// Order permissions
 	CAN_SEE_ORDER_BY_ID("get", "/orders/order"), CAN_SEE_USER_ORDERS("get", "/orders/customer"),
 	CAN_PLACE_ORDER("post", "/orders/customer"), CAN_SHIP_ORDER("post", "/orders/ship"),
-	CAN_SEE_ORDER_LIST("get", "/orders"),
+	CAN_SEE_ORDER_LIST("get", "/orders"), CAN_CLAIM_ORDER("put", "/orders/claim"),
 
 	// Cart permissions
 	CAN_VIEW_CART("get", "/cart"), CAN_ADD_TO_CART("post", "/cart"), CAN_REMOVE_FROM_CART("delete", "/cart"),

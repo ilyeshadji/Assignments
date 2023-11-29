@@ -23,5 +23,8 @@ export default {
             shipping_address: shipping_address,
             products: products
         });
+    },
+    async claim(order_id, user_id) {
+        return api.put(`/orders/claim?${formatParamsForURL({ order_id, user_id })}`);
     }
 };

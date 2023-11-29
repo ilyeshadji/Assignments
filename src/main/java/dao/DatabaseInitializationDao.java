@@ -36,6 +36,7 @@ public class DatabaseInitializationDao {
 				+ "VALUES ('Sample Address', 123456, 10000);";
 
 		String INSERT_FIRT_STAFF_MEMBER = "INSERT INTO `User` (`user_id`, `role`, `password`) VALUES (1, 'staff', 'secret')";
+		String INSERT_NOT_LOGGED_IN_USER = "INSERT INTO `User` (`user_id`, `role`, `password`) VALUES (0, 'customer', '')";
 
 		int result = 0;
 
@@ -44,6 +45,7 @@ public class DatabaseInitializationDao {
 		this.tableInitialization(CREATE_TABLE_ORDER, false);
 		this.tableInitialization(INSERT_FIRST_ORDER_EXAMPLE, true);
 		this.tableInitialization(INSERT_FIRT_STAFF_MEMBER, true);
+		this.tableInitialization(INSERT_NOT_LOGGED_IN_USER, true);
 		this.tableInitialization(CREATE_TABLE_ORDER_PRODUCTS, false);
 		result = this.tableInitialization(CREATE_TABLE_CART, false);
 

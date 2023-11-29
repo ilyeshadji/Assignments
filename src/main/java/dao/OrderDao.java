@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletResponse;
+import models.Cart;
 import models.Database;
 import models.Order;
 import models.Product;
@@ -187,7 +190,7 @@ public class OrderDao {
 		return OrderDao.getAllOrders(FETCH_ORDERS_WITH_PRODUCTS, 0);
 	}
 
-	public Order getOrder(int order_id)
+	public static Order getOrder(int order_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
 		String FETCH_ORDER_BY_ID = "SELECT\n" + "    COALESCE(u.user_id, 'unknown') AS user_id,\n" + "    o.order_id,\n"
 				+ "    JSON_GROUP_ARRAY(\n" + "        JSON_OBJECT(\n" + "            'sku', p.sku,\n"
@@ -293,5 +296,49 @@ public class OrderDao {
 		orders.addAll(orderMap.values());
 
 		return orders;
+	}
+
+	public static int updateOrder(HttpServletResponse response, int order_id, int user_id)
+			throws SQLException, IOException {
+		String UPDATE_ORDER = "UPDATE `order` SET user_id = (?) WHERE `order_id` = (?);";
+
+		int result = 0;
+
+		Connection conn = Database.getConnection();
+
+		Order order = null;
+
+		try {
+			order = OrderDao.getOrder(order_id);
+		} catch (ClassNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Class not found");
+			return 0;
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error in SQL query");
+			return 0;
+		}
+
+		if (order == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().write("Something went wrong, we could not find the order.");
+			return 0;
+		}
+
+		if (order.getUser_id() != 0) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("Cannot claim an order that was already claimed.");
+			return 0;
+		}
+
+		PreparedStatement statement = conn.prepareStatement(UPDATE_ORDER);
+		statement.setInt(1, user_id);
+		statement.setInt(2, order_id);
+		result = statement.executeUpdate();
+
+		Database.CloseConnection(conn);
+
+		return result;
 	}
 }

@@ -25,7 +25,7 @@ import models.ResponseJSON;
  * Servlet implementation class OrderServlet
  */
 @WebServlet(name = "OrderServlet", urlPatterns = { "/orders", "/orders/customer/*", "/orders/ship", "/orders/order",
-		"/orders/no-customer" })
+		"/orders/no-customer", "/orders/claim" })
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ObjectMapper objectMapper = new ObjectMapper();
@@ -75,7 +75,7 @@ public class OrderServlet extends HttpServlet {
 
 			if (user_id == null || user_id.equals("null")) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().write("To ship an order, it needs to have a valid user id.");
+				response.getWriter().write("To get an order, it needs to have a valid user id.");
 				return;
 			}
 
@@ -314,4 +314,38 @@ public class OrderServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String order_id = request.getParameter("order_id");
+		String user_id = request.getParameter("user_id");
+
+		int result = 0;
+
+		if (order_id == null || user_id == null) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("To claim an order, it needs to have a valid order id and user id.");
+			return;
+		}
+
+		int convertedOrderId = Integer.parseInt(order_id);
+		int convertedUserId = Integer.parseInt(user_id);
+
+		try {
+			result = OrderDao.updateOrder(response, convertedOrderId, convertedUserId);
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error in SQL query");
+			return;
+		}
+
+		if (result == 0) {
+			return;
+		}
+
+		ResponseJSON.sendResponse(response, "Successfully updated order");
+	}
 }
