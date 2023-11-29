@@ -50,6 +50,7 @@ function CreateOrder() {
     async function sendOrder() {
         if (shippingAddress === '') {
             Toaster.warning('Please enter a shipping address to send your order')
+            return;
         }
 
         try {

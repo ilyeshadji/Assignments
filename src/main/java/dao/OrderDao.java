@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -107,112 +109,94 @@ public class OrderDao {
 		return result;
 	}
 
-	public ArrayList<Order> getOrders(int user_id)
+	public List<Order> getOrders(int user_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ORDERS_FROM_USER = "SELECT u.user_id, o.order_id,\n"
-				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
-				+ "       SUM(p.price * op.quantity) AS total_price, \n"
-				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
-				+ "JOIN `Order` o ON u.user_id = o.user_id\n"
+		String FETCH_ORDERS_FROM_USER = "SELECT\n" + "    u.user_id,\n" + "    o.order_id,\n"
+				+ "    '[' || GROUP_CONCAT('{\"sku\": \"' || p.sku || '\", \"url\": \"' || p.url || '\", \"name\": \"' || REPLACE(p.name, '\"', '\\\"') || '\", \"quantity\": ' || op.quantity || ', \"price\": ' || p.price || '}') || ']' AS products,\n"
+				+ "    SUM(p.price * op.quantity) AS total_price,\n" + "    o.shipping_address,\n"
+				+ "    o.tracking_number\n" + "FROM\n" + "    User u\n" + "JOIN `Order` o ON u.user_id = o.user_id\n"
 				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
-				+ "WHERE u.user_id = (?)\n" + "GROUP BY u.user_id, o.order_id;";
+				+ "WHERE\n" + "    u.user_id = ?\n" + "GROUP BY\n" + "    u.user_id, o.order_id;";
 
-		Connection conn = Database.getConnection();
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
-		ArrayList<Order> orders = new ArrayList<>();
+		List<Order> orders = new ArrayList<>();
+		Map<Integer, Order> orderMap = new HashMap<>();
 
 		try {
-			PreparedStatement statement = conn.prepareStatement(FETCH_ORDERS_FROM_USER);
+			conn = Database.getConnection();
+			statement = conn.prepareStatement(FETCH_ORDERS_FROM_USER);
+
 			statement.setInt(1, user_id);
 
-			ResultSet resultSet = statement.executeQuery();
+			resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				int userIdResult = resultSet.getInt("user_id");
 				int orderId = resultSet.getInt("order_id");
-				String productsJson = resultSet.getString("products");
-				double totalPrice = resultSet.getDouble("total_price");
 				String shippingAddress = resultSet.getString("shipping_address");
 				int trackingNumber = resultSet.getInt("tracking_number");
+
+				String productsJson = resultSet.getString("products");
 
 				ObjectMapper objectMapper = new ObjectMapper();
 
 				List<Product> productsList = objectMapper.readValue(productsJson, new TypeReference<List<Product>>() {
 				});
 
-				ArrayList<Product> products = new ArrayList<>(productsList);
-
-				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress, trackingNumber);
-
-				orders.add(order);
+				// Iterate through products and add them to the order
+				for (Product product : productsList) {
+					// Check if the order already exists in the map
+					if (orderMap.containsKey(orderId)) {
+						// If yes, add the product to the existing order
+						Order existingOrder = orderMap.get(orderId);
+						existingOrder.addProduct(product);
+					} else {
+						// If no, create a new order and add it to the map
+						Order order = new Order(orderId, shippingAddress, trackingNumber,
+								resultSet.getDouble("total_price"));
+						order.addProduct(product);
+						orderMap.put(orderId, order);
+					}
+				}
 			}
-		} catch (SQLException e) {
-			System.out.println("SQLException: " + e.getMessage());
-			System.out.println("SQLState: " + e.getSQLState());
-			System.out.println("VendorError: " + e.getErrorCode());
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.CloseConnection(conn);
 		}
 
-		Database.CloseConnection(conn);
+		// Convert the map values to a list of orders
+		orders.addAll(orderMap.values());
 
 		return orders;
 	}
 
-	public ArrayList<Order> getOrders()
+	public List<Order> getOrders()
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ALL_ORDERS = "SELECT u.user_id, o.order_id,\n"
-				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
-				+ "       SUM(p.price * op.quantity) AS total_price, \n"
-				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
-				+ "JOIN `Order` o ON u.user_id = o.user_id\n"
-				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
-				+ "GROUP BY u.user_id, o.order_id;";
+		String FETCH_ORDERS_WITH_PRODUCTS = "SELECT " + "o.order_id, " + "p.name AS product_name, "
+				+ "p.description AS product_description, " + "p.vendor AS product_vendor, " + "p.url AS product_url, "
+				+ "p.sku AS product_sku, " + "op.quantity AS product_quantity, " + "p.price AS product_price, "
+				+ "(p.price * op.quantity) AS total_product_price, " + "o.shipping_address, " + "o.tracking_number "
+				+ "FROM " + "`Order` o " + "JOIN orderProducts op ON o.order_id = op.order_id "
+				+ "JOIN Product p ON op.sku = p.sku";
 
-		Connection conn = Database.getConnection();
-
-		ArrayList<Order> orders = new ArrayList<>();
-
-		try {
-			PreparedStatement statement = conn.prepareStatement(FETCH_ALL_ORDERS);
-			ResultSet resultSet = statement.executeQuery();
-
-			while (resultSet.next()) {
-				int userIdResult = resultSet.getInt("user_id");
-				int orderId = resultSet.getInt("order_id");
-				String productsJson = resultSet.getString("products");
-				double totalPrice = resultSet.getDouble("total_price");
-				String shippingAddress = resultSet.getString("shipping_address");
-				int trackingNumber = resultSet.getInt("tracking_number");
-
-				ObjectMapper objectMapper = new ObjectMapper();
-
-				ArrayList<Product> products = objectMapper.readValue(productsJson,
-						new TypeReference<ArrayList<Product>>() {
-						});
-
-				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress, trackingNumber);
-
-				orders.add(order);
-			}
-		} catch (SQLException e) {
-			System.out.println("SQLException: " + e.getMessage());
-			System.out.println("SQLState: " + e.getSQLState());
-			System.out.println("VendorError: " + e.getErrorCode());
-		}
-
-		Database.CloseConnection(conn);
-
-		return orders;
+		return OrderDao.getAllOrders(FETCH_ORDERS_WITH_PRODUCTS, 0);
 	}
 
 	public Order getOrder(int order_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
-		String FETCH_ORDER_BY_ID = "SELECT u.user_id,s o.order_id,\n"
-				+ "       JSON_ARRAYAGG(JSON_OBJECT('sku', p.sku, 'url', p.url, 'name', p.name, 'quantity', op.quantity)) AS products,\n"
-				+ "       SUM(p.price * op.quantity) AS total_price, \n"
-				+ "       o.shipping_address, o.tracking_number\n" + "FROM User u\n"
-				+ "JOIN `Order` o ON u.user_id = o.user_id\n"
+		String FETCH_ORDER_BY_ID = "SELECT\n" + "    COALESCE(u.user_id, 'unknown') AS user_id,\n" + "    o.order_id,\n"
+				+ "    JSON_GROUP_ARRAY(\n" + "        JSON_OBJECT(\n" + "            'sku', p.sku,\n"
+				+ "            'url', p.url,\n" + "            'name', p.name,\n"
+				+ "            'quantity', op.quantity\n" + "        )\n" + "    ) AS products,\n"
+				+ "    SUM(p.price * op.quantity) AS total_price,\n" + "    o.shipping_address,\n"
+				+ "    o.tracking_number\n" + "FROM \"Order\" o\n" + "LEFT JOIN \"User\" u ON u.user_id = o.user_id\n"
 				+ "LEFT JOIN orderProducts op ON o.order_id = op.order_id\n" + "LEFT JOIN Product p ON op.sku = p.sku\n"
-				+ "WHERE o.order_id = (?)\n" + "GROUP BY u.user_id, o.order_id;";
+				+ "WHERE o.order_id = ?\n" + "GROUP BY COALESCE(u.user_id, 'unknown'), o.order_id;\n" + "";
 
 		Connection conn = Database.getConnection();
 
@@ -249,5 +233,65 @@ public class OrderDao {
 		Database.CloseConnection(conn);
 
 		return order;
+	}
+
+	public static List<Order> getAllOrders(String query, int userId) throws SQLException {
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		List<Order> orders = new ArrayList<>();
+		Map<Integer, Order> orderMap = new HashMap<>();
+
+		try {
+			conn = Database.getConnection();
+			statement = conn.prepareStatement(query);
+
+			if (userId != 0) {
+				statement.setInt(1, userId);
+			}
+
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				int orderId = resultSet.getInt("order_id");
+				String shippingAddress = resultSet.getString("shipping_address");
+				int trackingNumber = resultSet.getInt("tracking_number");
+
+				int productQuantity = resultSet.getInt("product_quantity");
+				double productPrice = resultSet.getDouble("product_price");
+				double totalProductPrice = resultSet.getDouble("total_product_price");
+
+				String productName = resultSet.getString("product_name");
+				String productDescription = resultSet.getString("product_description");
+				String productVendor = resultSet.getString("product_vendor");
+				String productUrl = resultSet.getString("product_url");
+				String productSku = resultSet.getString("product_sku");
+
+				Product product = new Product(productSku, productName, productDescription, productVendor, productUrl,
+						productPrice, productQuantity);
+
+				// Check if the order already exists in the map
+				if (orderMap.containsKey(orderId)) {
+					// If yes, add the product to the existing order
+					Order existingOrder = orderMap.get(orderId);
+					existingOrder.addProduct(product);
+				} else {
+					// If no, create a new order and add it to the map
+					Order order = new Order(orderId, shippingAddress, trackingNumber, totalProductPrice);
+					order.addProduct(product);
+					orderMap.put(orderId, order);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.CloseConnection(conn);
+		}
+
+		// Convert the map values to a list of orders
+		orders.addAll(orderMap.values());
+
+		return orders;
 	}
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +44,7 @@ public class OrderServlet extends HttpServlet {
 		// Get all orders
 		// *********************************
 		if (endpoint.equals("/orders") && order_id == null) {
-			ArrayList<Order> orders = new ArrayList<>();
+			List<Order> orders = new ArrayList<>();
 
 			try {
 				orders = orderDao.getOrders();
@@ -70,7 +71,7 @@ public class OrderServlet extends HttpServlet {
 			// *********************************
 		} else if (endpoint.contains("/orders/customer")) {
 			String user_id = request.getParameter("user_id");
-			ArrayList<Order> orders = new ArrayList<>();
+			List<Order> orders = new ArrayList<>();
 
 			if (user_id == null || user_id.equals("null")) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

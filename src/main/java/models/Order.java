@@ -5,13 +5,17 @@ import java.util.ArrayList;
 public class Order {
 	private int user_id;
 	private int order_id;
-	private ArrayList<Product> products;
+	private ArrayList<Product> products = new ArrayList<>();
 	private Double totalPrice;
 	private String shipping_address;
 	private int tracking_number;
 
-	public Order(int user_id, int order_id, ArrayList<Product> products, Double totalPrice,
-			String shipping_address, int tracking_number) {
+	public Order() {
+
+	}
+
+	public Order(int user_id, int order_id, ArrayList<Product> products, Double totalPrice, String shipping_address,
+			int tracking_number) {
 		super();
 		this.user_id = user_id;
 		this.order_id = order_id;
@@ -19,6 +23,23 @@ public class Order {
 		this.shipping_address = shipping_address;
 		this.tracking_number = tracking_number;
 		this.products = products;
+	}
+
+	public Order(int order_id, ArrayList<Product> products, Double totalPrice, String shipping_address,
+			int tracking_number) {
+		super();
+		this.order_id = order_id;
+		this.totalPrice = totalPrice;
+		this.shipping_address = shipping_address;
+		this.tracking_number = tracking_number;
+		this.products = products;
+	}
+
+	public Order(int orderId, String shippingAddress, int trackingNumber, double totalPrice) {
+		this.order_id = orderId;
+		this.shipping_address = shippingAddress;
+		this.tracking_number = trackingNumber;
+		this.totalPrice = totalPrice;
 	}
 
 	public int getOrder_id() {
@@ -69,4 +90,7 @@ public class Order {
 		this.products = products;
 	}
 
+	public void addProduct(Product product) {
+		this.products.add(product);
+	}
 }
