@@ -1,8 +1,12 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,9 +23,11 @@ import models.ResponseJSON;
 /**
  * Servlet implementation class OrderServlet
  */
-@WebServlet(name = "OrderServlet", urlPatterns = { "/orders", "/orders/customer/*", "/orders/ship", "/orders/order" })
+@WebServlet(name = "OrderServlet", urlPatterns = { "/orders", "/orders/customer/*", "/orders/ship", "/orders/order",
+		"/orders/no-customer" })
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -171,7 +177,7 @@ public class OrderServlet extends HttpServlet {
 			ResponseJSON.sendResponse(response, "Shipment successful.");
 
 			// *********************************
-			// Place an order
+			// Place an order with user id
 			// *********************************
 		} else if (endpoint.contains("/orders/customer")) {
 			String user_id = request.getParameter("user_id");
@@ -240,6 +246,42 @@ public class OrderServlet extends HttpServlet {
 			}
 
 			ResponseJSON.sendResponse(response, "Successfully created order.");
+		} else if (endpoint.contains("/orders/no-customer")) {
+			try {
+				// Retrieve the JSON data from the request body
+				BufferedReader reader = request.getReader();
+				StringBuilder sb = new StringBuilder();
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
+
+				// Parse the JSON data
+				String jsonData = sb.toString();
+				JsonNode jsonNode = objectMapper.readTree(jsonData);
+
+				// Access individual properties
+				String shippingAddress = jsonNode.get("shipping_address").asText();
+				JsonNode productsNode = jsonNode.get("products");
+
+				// Process the products
+				for (JsonNode productNode : productsNode) {
+					String productName = productNode.get("name").asText();
+					double productPrice = productNode.get("price").asDouble();
+					// Your processing logic here
+					System.out.println("Product Name: " + productName);
+					System.out.println("Product Price: " + productPrice);
+				}
+
+				// Respond with success message or other appropriate response
+				ResponseJSON.sendResponse(response, "Successfully processed order without customer.");
+
+			} catch (Exception e) {
+				// Handle JSON parsing or other exceptions
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write("Error processing order data.");
+			}
 		} else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Route not found.");

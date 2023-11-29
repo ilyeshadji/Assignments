@@ -25,7 +25,6 @@ public class DatabaseInitialization extends HttpServlet {
 			throws ServletException, IOException {
 		DatabaseInitializationDao dbInit = new DatabaseInitializationDao();
 		try {
-			System.out.println("Init database");
 			dbInit.initializeDatabase();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

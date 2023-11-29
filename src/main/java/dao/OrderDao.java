@@ -66,6 +66,8 @@ public class OrderDao {
 			return "success";
 		}
 
+		Database.CloseConnection(conn);
+
 		return "Something went wrong. Please try again";
 	}
 
@@ -99,6 +101,8 @@ public class OrderDao {
 		statement.setInt(2, order_id);
 
 		result = statement.executeUpdate();
+
+		Database.CloseConnection(conn);
 
 		return result;
 	}
@@ -138,8 +142,7 @@ public class OrderDao {
 
 				ArrayList<Product> products = new ArrayList<>(productsList);
 
-				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
-						trackingNumber);
+				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress, trackingNumber);
 
 				orders.add(order);
 			}
@@ -148,6 +151,8 @@ public class OrderDao {
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
+
+		Database.CloseConnection(conn);
 
 		return orders;
 	}
@@ -184,8 +189,7 @@ public class OrderDao {
 						new TypeReference<ArrayList<Product>>() {
 						});
 
-				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
-						trackingNumber);
+				Order order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress, trackingNumber);
 
 				orders.add(order);
 			}
@@ -194,6 +198,8 @@ public class OrderDao {
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
+
+		Database.CloseConnection(conn);
 
 		return orders;
 	}
@@ -232,14 +238,15 @@ public class OrderDao {
 						new TypeReference<ArrayList<Product>>() {
 						});
 
-				order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress,
-						trackingNumber);
+				order = new Order(userIdResult, orderId, products, totalPrice, shippingAddress, trackingNumber);
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
+
+		Database.CloseConnection(conn);
 
 		return order;
 	}

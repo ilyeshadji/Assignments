@@ -134,8 +134,8 @@ const PriceContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  max-height: 120px
-`
+  max-height: 120px;
+`;
 
 const Price = styled.p`
   color: grey;
@@ -161,7 +161,7 @@ const ShipContainer = styled.div`
     opacity: 0.5;
   }
 
-  max-height: ${props => props.checkingIfSure ? '60px' : '120px'}
+  max-height: ${props => props.checkingIfSure ? '60px' : '120px'};
 `;
 
 const ButtonContainer = styled.div`

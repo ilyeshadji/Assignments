@@ -148,6 +148,7 @@ public class ProductServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().write("Class not found");
 		} catch (SQLException e) {
+			e.printStackTrace();
 			if (e.getMessage().contains("Duplicate entry")) {
 				message = "This item has an id that already exists.";
 			}

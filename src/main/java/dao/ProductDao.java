@@ -25,6 +25,8 @@ public class ProductDao {
 		statement.executeUpdate(CREATE_PRODUCT);
 		result = 1;
 
+		Database.CloseConnection(conn);
+
 		return result;
 	}
 
@@ -60,6 +62,8 @@ public class ProductDao {
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
 
+		Database.CloseConnection(conn);
+
 		return result;
 	}
 
@@ -90,6 +94,8 @@ public class ProductDao {
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
 
+		Database.CloseConnection(conn);
+
 		return product;
 	}
 
@@ -119,6 +125,8 @@ public class ProductDao {
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
+
+		Database.CloseConnection(conn);
 
 		return product;
 	}
@@ -152,6 +160,8 @@ public class ProductDao {
 			System.out.println("SQLState: " + e.getSQLState());
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
+
+		Database.CloseConnection(conn);
 
 		return productList;
 	}

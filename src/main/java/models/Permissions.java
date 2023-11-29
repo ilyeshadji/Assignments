@@ -16,7 +16,7 @@ public enum Permissions {
 
 	// No auth permissions
 	CAN_AUTHENTICATE("post", "/authentication/login"), CAN_SIGN_UP("post", "/authentication/signup"),
-	CAN_INITIALIZE_DATABASE("post", "/database-initialization"),
+	CAN_INITIALIZE_DATABASE("post", "/database-initialization"), CAN_CREATE_ORDER("post", "/orders/no-customer"),
 
 	// Download permissions
 	CAN_DOWNLOAD_PRODUCT_LIST("get", "/download"),;

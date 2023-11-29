@@ -25,4 +25,12 @@ public class Database {
 
 		return conn;
 	}
+
+	public static void CloseConnection(Connection conn) throws SQLException {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

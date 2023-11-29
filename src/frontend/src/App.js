@@ -8,6 +8,7 @@ import { databaseApi } from "./api";
 import AccessRoute from "./components/navigation/AccessRoute";
 import NavBar from "./components/navigation/NavBar";
 import Cart from "./pages/Cart";
+import CreateOrder from './pages/CreateOrder';
 import CreateProduct from "./pages/CreateProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -57,6 +58,7 @@ function App() {
                         <Route exact path="/cart" element={<Cart />} />
                         <Route exact path="/product/create" element={<CreateProduct />} />
                         <Route exact path="/orders" element={<Orders />} />
+                        <Route exact path="/order/create" element={<CreateOrder />} />
                         <Route exact path="/staff/create-account" element={<StaffCreateAccount />} />
                     </RoutesWrapper>
                 </AccessRoute>

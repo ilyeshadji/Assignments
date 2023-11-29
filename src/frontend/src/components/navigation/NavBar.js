@@ -57,6 +57,10 @@ const NavBar = ({ showShadow }) => {
                             <StyledLink>Create product</StyledLink>
                         </ListItems>}
 
+                        {isCustomer && !isLoggedIn && <ListItems onClick={() => redirect('/order/create')}>
+                            <StyledLink>Create Order</StyledLink>
+                        </ListItems>}
+
                         {isLoggedIn && <ListItems onClick={() => redirect('/orders')}>
                             <StyledLink>Orders</StyledLink>
                         </ListItems>}

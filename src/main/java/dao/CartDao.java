@@ -66,6 +66,8 @@ public class CartDao {
 		statement.setInt(3, quantity);
 		result = statement.executeUpdate();
 
+		Database.CloseConnection(conn);
+
 		return result;
 	}
 
@@ -88,6 +90,8 @@ public class CartDao {
 			System.out.println("VendorError: " + e.getErrorCode());
 		}
 
+		Database.CloseConnection(conn);
+
 		return result;
 	}
 
@@ -103,6 +107,8 @@ public class CartDao {
 		preparedStatement.setInt(1, user_id);
 
 		result = preparedStatement.executeUpdate();
+
+		Database.CloseConnection(conn);
 
 		return result;
 	}
@@ -121,6 +127,8 @@ public class CartDao {
 		preparedStatement.setString(3, sku);
 
 		result = preparedStatement.executeUpdate();
+
+		Database.CloseConnection(conn);
 
 		return result;
 	}
