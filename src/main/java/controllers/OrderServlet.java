@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.CartDao;
+import dao.OrderDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import dao.CartDao;
-import dao.OrderDao;
 import models.Cart;
 import models.Order;
+import models.Product;
 import models.ResponseJSON;
 
 /**
@@ -247,8 +247,12 @@ public class OrderServlet extends HttpServlet {
 
 			ResponseJSON.sendResponse(response, "Successfully created order.");
 		} else if (endpoint.contains("/orders/no-customer")) {
+
+			ArrayList<Product> orderProducts = new ArrayList<>();
+			String shippingAddress;
+			String result = "";
+
 			try {
-				// Retrieve the JSON data from the request body
 				BufferedReader reader = request.getReader();
 				StringBuilder sb = new StringBuilder();
 				String line;
@@ -257,24 +261,44 @@ public class OrderServlet extends HttpServlet {
 					sb.append(line);
 				}
 
-				// Parse the JSON data
 				String jsonData = sb.toString();
 				JsonNode jsonNode = objectMapper.readTree(jsonData);
 
-				// Access individual properties
-				String shippingAddress = jsonNode.get("shipping_address").asText();
+				shippingAddress = jsonNode.get("shipping_address").asText();
 				JsonNode productsNode = jsonNode.get("products");
 
-				// Process the products
 				for (JsonNode productNode : productsNode) {
-					String productName = productNode.get("name").asText();
-					double productPrice = productNode.get("price").asDouble();
-					// Your processing logic here
-					System.out.println("Product Name: " + productName);
-					System.out.println("Product Price: " + productPrice);
+					String name = productNode.get("name").asText();
+					String description = productNode.get("description").asText();
+					String vendor = productNode.get("vendor").asText();
+					String url = productNode.get("url").asText();
+					String sku = productNode.get("sku").asText();
+					double price = productNode.get("price").asDouble();
+					int quantity = productNode.get("quantity").asInt();
+
+					Product product = new Product(sku, name, description, vendor, url, price, quantity);
+
+					orderProducts.add(product);
 				}
 
-				// Respond with success message or other appropriate response
+				try {
+					result = OrderDao.createOrder(0, orderProducts, shippingAddress);
+				} catch (ClassNotFoundException e) {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("Class not found");
+					return;
+				} catch (SQLException e) {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("Error in SQL query");
+					return;
+				}
+
+				if (!result.equals("success")) {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("Something went wrong while creating the order. Please try again.");
+					return;
+				}
+
 				ResponseJSON.sendResponse(response, "Successfully processed order without customer.");
 
 			} catch (Exception e) {

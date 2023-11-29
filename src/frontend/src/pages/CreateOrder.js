@@ -54,6 +54,9 @@ function CreateOrder() {
 
         try {
             await orderApi.createOrderWithoutCustomer(shippingAddress, order);
+            Toaster.success('Your order was placed successfully.')
+            setOrder([])
+            setShippingAddress('')
         }
         catch (e) {
             showBackendError(e)
