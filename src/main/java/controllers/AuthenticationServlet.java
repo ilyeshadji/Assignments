@@ -34,8 +34,12 @@ import models.User;
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PASSCODE_REGEX = "^(?=.*[0-9a-zA-Z]).{4,}$";
-	private UserDao userDao = null;
+	private UserDao userDao = new UserDao();
 
+	public AuthenticationServlet() {
+		
+	}
+	
 	public AuthenticationServlet(UserDao userDao) {
 		this.userDao = userDao;
 	}

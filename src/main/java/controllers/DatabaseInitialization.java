@@ -16,6 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/database-initialization")
 public class DatabaseInitialization extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public DatabaseInitialization() {
+		
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

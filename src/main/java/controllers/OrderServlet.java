@@ -31,8 +31,12 @@ import models.User;
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ObjectMapper objectMapper = new ObjectMapper();
-	private OrderDao orderDao = null;
-	private UserDao userDao = null;
+	private OrderDao orderDao = new OrderDao();
+	private UserDao userDao = new UserDao();
+	
+	public OrderServlet() {
+		
+	}
 
 	public OrderServlet(OrderDao orderDao, UserDao userDao) {
 		this.orderDao = orderDao;

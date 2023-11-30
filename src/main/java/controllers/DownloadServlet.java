@@ -23,6 +23,10 @@ import models.Product;
 @WebServlet("/download/*")
 public class DownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public DownloadServlet() {
+		
+	}
 
 	/**
 	 * @see HttpServlet#doGet( HttpServletRequest request, HttpServletResponse

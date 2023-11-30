@@ -23,6 +23,11 @@ import models.User;
 
 @WebFilter("/*")
 public class HeaderCheckFilter implements Filter {
+	
+	public HeaderCheckFilter() {
+		
+	}
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// Initialization code (if needed)

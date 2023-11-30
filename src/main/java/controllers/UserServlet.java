@@ -19,6 +19,10 @@ import models.User;
 @WebServlet(name = "UserServlet", urlPatterns = { "/users", "/user" })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public UserServlet() {
+		
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
