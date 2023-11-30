@@ -114,7 +114,7 @@ const OrderContainer = styled.div`
 
   margin: 0 0 20px 0;
   padding: 5px 5px 5px 20px;
-  min-height: 110px;
+  /* min-height: 110px; */
 `;
 
 const Label = styled.p`
@@ -159,7 +159,6 @@ const PriceContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  max-height: 120px;
 `;
 
 const Price = styled.p`
@@ -185,8 +184,6 @@ const ShipContainer = styled.div`
     cursor: pointer;
     opacity: 0.5;
   }
-
-  max-height: ${props => props.checkingIfSure ? '60px' : '120px'};
 `;
 
 const ClaimContainer = styled.div`
@@ -206,8 +203,6 @@ const ClaimContainer = styled.div`
     cursor: pointer;
     opacity: 0.5;
   }
-
-  max-height: ${props => props.checkingIfSure ? '60px' : '120px'};
 `;
 
 const ButtonContainer = styled.div`
