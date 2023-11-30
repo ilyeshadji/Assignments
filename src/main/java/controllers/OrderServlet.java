@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CartDao;
 import dao.OrderDao;
+import dao.UserDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ import models.Cart;
 import models.Order;
 import models.Product;
 import models.ResponseJSON;
+import models.User;
 
 /**
  * Servlet implementation class OrderServlet
@@ -29,16 +31,21 @@ import models.ResponseJSON;
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	private OrderDao orderDao = null;
+	private UserDao userDao = null;
+
+	public OrderServlet(OrderDao orderDao, UserDao userDao) {
+		this.orderDao = orderDao;
+		this.userDao = userDao;
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String endpoint = request.getServletPath();
 		String order_id = request.getParameter("order_id");
-		OrderDao orderDao = new OrderDao();
 
 		// *********************************
 		// Get all orders
@@ -47,7 +54,7 @@ public class OrderServlet extends HttpServlet {
 			List<Order> orders = new ArrayList<>();
 
 			try {
-				orders = orderDao.getOrders();
+				orders = this.orderDao.getOrders();
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -82,7 +89,7 @@ public class OrderServlet extends HttpServlet {
 			int convertedUserId = Integer.parseInt(user_id);
 
 			try {
-				orders = orderDao.getOrders(convertedUserId);
+				orders = this.orderDao.getOrders(convertedUserId);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -116,7 +123,7 @@ public class OrderServlet extends HttpServlet {
 			int convertedOrderId = Integer.parseInt(order_id);
 
 			try {
-				order = orderDao.getOrder(convertedOrderId);
+				order = this.orderDao.getOrder(convertedOrderId);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -134,7 +141,6 @@ public class OrderServlet extends HttpServlet {
 			}
 
 			ResponseJSON.sendResponse(response, order);
-
 		}
 	}
 
@@ -142,10 +148,8 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CartDao cartDao = new CartDao();
-		OrderDao orderDao = new OrderDao();
 
 		String endpoint = request.getServletPath();
 
@@ -164,7 +168,7 @@ public class OrderServlet extends HttpServlet {
 			int convertedOrderId = Integer.parseInt(order_id);
 
 			try {
-				orderDao.shipOrder(convertedOrderId);
+				this.orderDao.shipOrder(convertedOrderId);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -216,7 +220,7 @@ public class OrderServlet extends HttpServlet {
 
 			// Create an order from cart
 			try {
-				result = orderDao.createOrder(convertedUserId, cart.getProducts(), shipping_address);
+				result = this.orderDao.createOrder(convertedUserId, cart.getProducts(), shipping_address);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -283,7 +287,7 @@ public class OrderServlet extends HttpServlet {
 				}
 
 				try {
-					result = orderDao.createOrder(0, orderProducts, shippingAddress);
+					result = this.orderDao.createOrder(0, orderProducts, shippingAddress);
 				} catch (ClassNotFoundException e) {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write("Class not found");
@@ -318,9 +322,7 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		OrderDao orderDao = new OrderDao();
+	public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String order_id = request.getParameter("order_id");
 		String user_id = request.getParameter("user_id");
 
@@ -335,8 +337,48 @@ public class OrderServlet extends HttpServlet {
 		int convertedOrderId = Integer.parseInt(order_id);
 		int convertedUserId = Integer.parseInt(user_id);
 
+		Order order;
 		try {
-			result = orderDao.updateOrder(response, convertedOrderId, convertedUserId);
+			order = this.orderDao.getOrder(convertedOrderId);
+		} catch (ClassNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Class not found");
+			return;
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error in SQL query");
+			return;
+		}
+
+		if (order == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().write("Something went wrong, we could not find the order.");
+			return;
+		}
+
+		if (order.getUser_id() != 0) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("Cannot claim an order that was already claimed.");
+			return;
+		}
+
+		User user;
+		try {
+			user = this.userDao.getUserById(convertedUserId);
+		} catch (SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error in SQL query");
+			return;
+		}
+
+		if (user == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().write("Something went wrong, we could not find the user.");
+			return;
+		}
+
+		try {
+			result = this.orderDao.updateOrder(order.getOrder_id(), user.getUser_id());
 		} catch (SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Error in SQL query");

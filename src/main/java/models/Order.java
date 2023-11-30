@@ -25,6 +25,16 @@ public class Order {
 		this.products = products;
 	}
 
+	public Order(int user_id, int order_id, Double totalPrice, String shipping_address,
+			int tracking_number) {
+		super();
+		this.user_id = user_id;
+		this.order_id = order_id;
+		this.totalPrice = totalPrice;
+		this.shipping_address = shipping_address;
+		this.tracking_number = tracking_number;
+	}
+
 	public Order(int order_id, ArrayList<Product> products, Double totalPrice, String shipping_address,
 			int tracking_number) {
 		super();

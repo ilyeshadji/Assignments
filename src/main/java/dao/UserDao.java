@@ -61,6 +61,39 @@ public class UserDao {
 		return user;
 	}
 
+	public User getUserById(int user_id) throws SQLException {
+		String FIND_USER = "SELECT * FROM User WHERE `user_id` = (?);";
+
+		User user = null;
+
+		Connection conn = Database.getConnection();
+
+		try {
+			PreparedStatement statement = conn.prepareStatement(FIND_USER);
+			statement.setInt(1, user_id);
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				String role = resultSet.getString("role");
+				String userPassword = resultSet.getString("password");
+				String userId = resultSet.getString("user_id");
+
+				int convertedUserId = Integer.parseInt(userId);
+
+				user = new User(convertedUserId, role, userPassword);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLState: " + e.getSQLState());
+			System.out.println("VendorError: " + e.getErrorCode());
+		}
+
+		Database.CloseConnection(conn);
+
+		return user;
+	}
+
 	public ArrayList<User> getUsers() throws SQLException {
 		String GET_USERS = "SELECT * FROM user;";
 

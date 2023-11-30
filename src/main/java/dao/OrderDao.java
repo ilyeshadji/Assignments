@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.HttpServletResponse;
 import models.Database;
 import models.Order;
 import models.Product;
@@ -297,39 +296,12 @@ public class OrderDao {
 		return orders;
 	}
 
-	public int updateOrder(HttpServletResponse response, int order_id, int user_id) throws SQLException, IOException {
+	public int updateOrder(int order_id, int user_id) throws SQLException, IOException {
 		String UPDATE_ORDER = "UPDATE `order` SET user_id = (?) WHERE `order_id` = (?);";
-		OrderDao orderDao = new OrderDao();
 
 		int result = 0;
 
 		Connection conn = Database.getConnection();
-
-		Order order = null;
-
-		try {
-			order = orderDao.getOrder(order_id);
-		} catch (ClassNotFoundException e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Class not found");
-			return 0;
-		} catch (SQLException e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Error in SQL query");
-			return 0;
-		}
-
-		if (order == null) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.getWriter().write("Something went wrong, we could not find the order.");
-			return 0;
-		}
-
-		if (order.getUser_id() != 0) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("Cannot claim an order that was already claimed.");
-			return 0;
-		}
 
 		PreparedStatement statement = conn.prepareStatement(UPDATE_ORDER);
 		statement.setInt(1, user_id);
