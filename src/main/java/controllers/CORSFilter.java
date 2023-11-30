@@ -51,7 +51,7 @@ public class CORSFilter extends HttpFilter implements Filter {
 				"Origin, X-Requested-With, Content-Type, Accept, Authorization, Customer-Role");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/plain; charset=UTF-8");
+		response.setContentType("application/json; charset=UTF-8");
 
 		// Additional CORS headers as needed
 		// ...

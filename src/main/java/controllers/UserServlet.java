@@ -26,10 +26,11 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		UserDao userDao = new UserDao();
 		ArrayList<User> userList = null;
 
 		try {
-			userList = UserDao.getUsers();
+			userList = userDao.getUsers();
 		} catch (SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Error in SQL query");
@@ -58,6 +59,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		UserDao userDao = new UserDao();
 		String user_id = request.getParameter("user_id");
 		String role = request.getParameter("role");
 
@@ -78,7 +80,7 @@ public class UserServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			result = UserDao.updateRole(convertedUserId, role);
+			result = userDao.updateRole(convertedUserId, role);
 		} catch (SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Error in SQL query");

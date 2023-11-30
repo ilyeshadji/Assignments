@@ -216,7 +216,7 @@ public class OrderServlet extends HttpServlet {
 
 			// Create an order from cart
 			try {
-				result = OrderDao.createOrder(convertedUserId, cart.getProducts(), shipping_address);
+				result = orderDao.createOrder(convertedUserId, cart.getProducts(), shipping_address);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Class not found");
@@ -283,7 +283,7 @@ public class OrderServlet extends HttpServlet {
 				}
 
 				try {
-					result = OrderDao.createOrder(0, orderProducts, shippingAddress);
+					result = orderDao.createOrder(0, orderProducts, shippingAddress);
 				} catch (ClassNotFoundException e) {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write("Class not found");
@@ -320,6 +320,7 @@ public class OrderServlet extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		OrderDao orderDao = new OrderDao();
 		String order_id = request.getParameter("order_id");
 		String user_id = request.getParameter("user_id");
 
@@ -335,7 +336,7 @@ public class OrderServlet extends HttpServlet {
 		int convertedUserId = Integer.parseInt(user_id);
 
 		try {
-			result = OrderDao.updateOrder(response, convertedOrderId, convertedUserId);
+			result = orderDao.updateOrder(response, convertedOrderId, convertedUserId);
 		} catch (SQLException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Error in SQL query");

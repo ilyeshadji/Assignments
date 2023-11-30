@@ -11,7 +11,7 @@ import models.Database;
 import models.User;
 
 public class UserDao {
-	public static int createUser(String role, String password) throws ClassNotFoundException, SQLException {
+	public int createUser(String role, String password) throws ClassNotFoundException, SQLException {
 		String CREATE_USER = "INSERT INTO user (role, password)\n" + "VALUES (?, ?);";
 
 		int result = 0;
@@ -29,7 +29,7 @@ public class UserDao {
 		return result;
 	}
 
-	public static User getUser(String password) throws ClassNotFoundException, SQLException {
+	public User getUser(String password) throws ClassNotFoundException, SQLException {
 		String FIND_USER = "SELECT * FROM User WHERE `password` = '" + password + "';";
 
 		User user = null;
@@ -61,7 +61,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static ArrayList<User> getUsers() throws SQLException {
+	public ArrayList<User> getUsers() throws SQLException {
 		String GET_USERS = "SELECT * FROM user;";
 
 		ArrayList<User> userList = new ArrayList<>();
@@ -91,7 +91,7 @@ public class UserDao {
 		return userList;
 	}
 
-	public static int updatePassword(int userId, String password) throws SQLException {
+	public int updatePassword(int userId, String password) throws SQLException {
 		String UPDATE_PASSWORD = "UPDATE User SET `password` = (?) WHERE `user_id` = (?);";
 
 		int result = 0;
@@ -108,7 +108,7 @@ public class UserDao {
 		return result;
 	}
 
-	public static int updateRole(int user_id, String role) throws SQLException {
+	public int updateRole(int user_id, String role) throws SQLException {
 		String UPDATE_ORDER = "UPDATE User SET `role` = (?) WHERE `user_id` = (?);";
 
 		int result = 0;

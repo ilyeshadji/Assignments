@@ -42,6 +42,7 @@ public class AuthenticationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String endpoint = request.getServletPath();
+		UserDao userDao = new UserDao();
 
 		if (endpoint.equals("/authentication/login")) {
 			String password = request.getParameter("password");
@@ -49,7 +50,7 @@ public class AuthenticationServlet extends HttpServlet {
 			User user;
 
 			try {
-				user = UserDao.getUser(password);
+				user = userDao.getUser(password);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Something went wrong. We could not find the user.");
@@ -105,7 +106,7 @@ public class AuthenticationServlet extends HttpServlet {
 			}
 
 			try {
-				result = UserDao.createUser(role, password);
+				result = userDao.createUser(role, password);
 			} catch (ClassNotFoundException e) {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("Something went wrong. We could not create a user for you.");
@@ -133,8 +134,8 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserDao userDao = new UserDao();
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
 
@@ -144,7 +145,7 @@ public class AuthenticationServlet extends HttpServlet {
 		int result = 0;
 
 		try {
-			user = UserDao.getUser(oldPassword);
+			user = userDao.getUser(oldPassword);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Something went wrong. We could not find the user.");
@@ -170,7 +171,7 @@ public class AuthenticationServlet extends HttpServlet {
 
 		// update password
 		try {
-			result = UserDao.updatePassword(user.getUser_id(), newPassword);
+			result = userDao.updatePassword(user.getUser_id(), newPassword);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

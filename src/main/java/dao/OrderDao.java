@@ -23,7 +23,7 @@ import models.Order;
 import models.Product;
 
 public class OrderDao {
-	public static String createOrder(int user_id, ArrayList<Product> products, String shipping_address)
+	public String createOrder(int user_id, ArrayList<Product> products, String shipping_address)
 			throws ClassNotFoundException, SQLException {
 		String CREATE_ORDER = "INSERT INTO `order` (shipping_address, user_id)\n" + "VALUES (?, ?);";
 		int order_id = 0;
@@ -189,7 +189,7 @@ public class OrderDao {
 		return OrderDao.getAllOrders(FETCH_ORDERS_WITH_PRODUCTS, 0);
 	}
 
-	public static Order getOrder(int order_id)
+	public Order getOrder(int order_id)
 			throws ClassNotFoundException, SQLException, JsonMappingException, JsonProcessingException {
 		String FETCH_ORDER_BY_ID = "SELECT\n" + "    COALESCE(u.user_id, 'unknown') AS user_id,\n" + "    o.order_id,\n"
 				+ "    JSON_GROUP_ARRAY(\n" + "        JSON_OBJECT(\n" + "            'sku', p.sku,\n"
@@ -297,9 +297,9 @@ public class OrderDao {
 		return orders;
 	}
 
-	public static int updateOrder(HttpServletResponse response, int order_id, int user_id)
-			throws SQLException, IOException {
+	public int updateOrder(HttpServletResponse response, int order_id, int user_id) throws SQLException, IOException {
 		String UPDATE_ORDER = "UPDATE `order` SET user_id = (?) WHERE `order_id` = (?);";
+		OrderDao orderDao = new OrderDao();
 
 		int result = 0;
 
@@ -308,7 +308,7 @@ public class OrderDao {
 		Order order = null;
 
 		try {
-			order = OrderDao.getOrder(order_id);
+			order = orderDao.getOrder(order_id);
 		} catch (ClassNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Class not found");
