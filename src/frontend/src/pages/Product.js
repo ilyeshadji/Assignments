@@ -1,14 +1,14 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from 'styled-components';
+import { cartApi, productApi } from "../api";
 import PageContainer from "../components/UI/PageContainer";
-import {FormContainer, FormTitle} from "./CreateProduct";
 import TextInput from "../components/UI/TextInput";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {cartApi, productApi} from "../api";
-import {showBackendError} from "../utils/utils";
 import Toaster from "../plugin/Toaster";
-import {useSelector} from "react-redux";
-import {selectIsLoggedIn, selectUser, selectUserRole} from "../store/selectors";
+import { selectIsLoggedIn, selectUser, selectUserRole } from "../store/selectors";
+import { showBackendError } from "../utils/utils";
+import { FormContainer, FormTitle } from "./CreateProduct";
 
 function Product() {
     const location = useLocation();
@@ -76,7 +76,7 @@ function Product() {
             navigate('/products')
         } else {
             try {
-                await productApi.updateProduct({sku, name, description, vendor, url, price}, sku);
+                await productApi.updateProduct({ sku, name, description, vendor, url, price });
                 setNavigateToProductList(true);
                 Toaster.success('Product successfully updated!');
             } catch (e) {
@@ -86,7 +86,7 @@ function Product() {
     }
 
     return (
-        <PageContainer style={{justifyContent: 'center'}}>
+        <PageContainer style={{ justifyContent: 'center' }}>
             <FormContainer>
                 <FormTitle>Product attributes</FormTitle>
                 <TextInput
@@ -165,7 +165,7 @@ function Product() {
                                 fontSize={'15px'}
                                 line
                                 width={'10px'}
-                                inputStyle={{textAlign: 'center'}}
+                                inputStyle={{ textAlign: 'center' }}
                                 onChange={(e) => setQuantity(e.target.value)}
                             />
                         </InputContainer>

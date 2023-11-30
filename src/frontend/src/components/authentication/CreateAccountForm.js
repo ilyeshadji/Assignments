@@ -10,7 +10,7 @@ import { selectUserRole } from '../../store/selectors';
 import { isPasswordValid, showBackendError } from "../../utils/utils";
 import TextInput from "../UI/TextInput";
 
-function CreateAccountForm({ setCreateAccount }) {
+function CreateAccountForm({ setCreateAccount = () => { } }) {
     const role = useSelector(selectUserRole)
 
     const [password, setPassword] = useState('');
