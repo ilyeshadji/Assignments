@@ -8,8 +8,6 @@ Frontend - runs on port 3000
 
 Backend - runs on port 8080
 
-MySQL - runs on port 3306
-
 You can access the first staff account with these credentials:
 
 `password`: secret
@@ -56,8 +54,8 @@ Building the project
 ##### 4. Run the server
 
 -   Right click on the project in the `Project Explorer`
-- 	Hover over `Run As...`
--	Click on `Run on Server`
+-   Hover over `Run As...`
+-   Click on `Run on Server`
 -   Open the `Apache` menu
 -   Select `Tomcat v10.0 Server`
 -   Click on `Next`
@@ -68,7 +66,7 @@ Building the project
 
 ##### 5. Environment configurations
 
-**NB:** Before doing this, you'll need to have installed the Apache server. You can find how to do so on the 5th step. Otherwise, you might get errors such as NullPointerException, since you won't have the right configurations for the database or for the authentication process.
+**NB:** Before doing this, you'll need to have installed the Apache server. You can find how to do so on the 4th step. Otherwise, you might get errors such as NullPointerException, since you won't have the right configurations for the authentication process.
 
 -   Add the variable `SRC_PATH` to your environment files. This should be the path to the `src` folder of this project.
     e.g. `C:\Users\Ilyes\Documents\Repos\Assignments\src` or `/Users/ilyeshadji/Documents/Repos/Assignments/src`
@@ -122,3 +120,14 @@ Then, to start the server, run
 ```bash
 npm start
 ```
+### Run the Tests
+
+##### 1. Right click on the project in the `Project Explorer`
+
+##### 2. Hover over `Run as...`
+
+##### 3. Click on `Maven test`
+
+Alternatively, when you build the project, make sure to uncheck the option `Skip Tests` and you will run the tests at the same time that you are building the application.
+
+That's it!
